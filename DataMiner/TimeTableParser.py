@@ -34,22 +34,19 @@ class Parser:
             json.dump(self.json_data['this_week'], fp, indent='\t')
         with open(self.file_name['next_week'], 'w') as fp:
             json.dump(self.json_data['next_week'], fp, indent='\t')
-
-        
-        response.encoding = 'utf-8'
-
-        self.json_data = json.loads(response.text.split('\n')[0])
     
     def getTimeTableData(self, week, grade, _class, week_index, time):
         try:
-            n = self.json_data['자료81'][grade][_class][week_index][time]
+            if week == 0:
+                tmp_json = self.json_data['this_week']
+                n = tmp_json['자료81'][grade][_class][week_index][time]
+            else:
+                tmp_json = self.json_data['next_week']
+                n = tmp_json['자료81'][grade][_class][week_index][time]
         except Exception:
-            return False
-
-        if grade <= 0 or _class <= 0 or week_index <= 0 or time <= 0:
             return False
 
         teacher_index = n // 100
         subject_index = n % 100
 
-        return [self.json_data['자료46'][teacher_index], self.json_data['긴자료92'][subject_index]]
+        return [tmp_json['자료46'][teacher_index], self.json_data['긴자료92'][subject_index]]
