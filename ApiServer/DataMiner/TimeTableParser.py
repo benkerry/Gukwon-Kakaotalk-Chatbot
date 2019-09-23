@@ -25,6 +25,8 @@ def Run():
 
     with open(file_name['next_week'], 'w') as fp:
         json.dump(json_data['next_week'], fp, indent='\t')
+    
+    print("Timetable Data Parsing Complete")
 
 if __name__ == "__main__":
     Run()
