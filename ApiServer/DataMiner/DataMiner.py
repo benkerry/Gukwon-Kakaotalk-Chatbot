@@ -2,7 +2,7 @@ import json
 import os
 import TimeTableParser
 
-def GetTimeTableData(self, week, grade, _class, week_index, time):
+def GetTimeTableData(week, grade, _class, week_index, time):
     file_name = {'this_week':'data/ThisWeekTimeTable.dat', 'next_week':'data/NextWeekTimeTable.dat'}
     json_data = {'this_week':'', 'next_week':''}
 
