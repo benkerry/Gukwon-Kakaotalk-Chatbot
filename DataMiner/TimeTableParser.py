@@ -27,11 +27,17 @@ class Parser:
         response['next_week'] = requests.get("http://112.186.146.81:4081/98372?MzQ3MzlfMzExNTRfMF8y")
         response['next_week'].encoding = 'utf-8'
 
+        if len(response['next_week'].text) < 50:
+            self.nextweek_timetable_exists = False
+        else:
+            self.nextweek_timetable_exists = True
+
         self.json_data['this_week'] = json.loads(responsep['this_week'].text.split('\n')[0])
         self.json_data['next_week'] = json.loads(responsep['next_week'].text.split('\n')[0])
 
         with open(self.file_name['this_week'], 'w') as fp:
             json.dump(self.json_data['this_week'], fp, indent='\t')
+        
         with open(self.file_name['next_week'], 'w') as fp:
             json.dump(self.json_data['next_week'], fp, indent='\t')
     
@@ -44,6 +50,9 @@ class Parser:
                 tmp_json = self.json_data['next_week']
                 n = tmp_json['자료81'][grade][_class][week_index][time]
         except Exception:
+            return False
+
+        if not self.nextweek_timetable_exists:
             return False
 
         teacher_index = n // 100
