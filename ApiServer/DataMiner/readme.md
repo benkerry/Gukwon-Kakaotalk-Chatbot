@@ -2,7 +2,7 @@
 * 학사일정, 시간표, 급식 정보는 DataMiner.py를 import하여 얻어올 수 있습니다.
 #
 ## DataMiner.py
-   ### class AutoParser : 일정 시간마다 파싱을 다시 수행하도록 하는 클래스
+   ### class AutoParser : 일정 시간마다 파싱을 반복 수행하도록 하는 클래스
      def Run()  
      : 기능을 켭니다.  
        
