@@ -9,7 +9,7 @@
      def Stop()  
      : 기능을 끕니다.  
 
-   ### class DataManager : 바로 사용 가능한 형태의 데이터를 불러오는 클래스
+   ### class DataManager : 바로 사용 가능한 형태의 데이터를 불러오는 클래스, 생성자에 ServerLogger.Logger의 인스턴스를 넘겨주세요.
      def GetTimeTableData(week, grade, _class, week_index, time)  
      : Parameter로 어떤 시간표를 얻어올 것인지 지정해주면 ['교사 이름', '과목 이름']을 반환합니다. 만약 존재하지 않는 시간표를 요청하면 False를 반환합니다.
        1. week: 0은 이번 주를, 1은 다음 주를 뜻합니다.  
