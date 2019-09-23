@@ -19,6 +19,7 @@ class AutoParser:
 class DataManager:
     def __init__(self, logger):
         self.logger = logger
+
     def GetTimeTableData(self, week, grade, _class, week_index, time):
         # 변수 초기화!
         file_name = {'this_week':'data/ThisWeekTimeTable.dat', 'next_week':'data/NextWeekTimeTable.dat'}
@@ -53,6 +54,12 @@ class DataManager:
         subject_index = n % 100
 
         if week == 0:
-            return [json_data['this_week']['자료46'][teacher_index], json_data['this_week']['긴자료92'][subject_index]]
+            if json_data['this_week']['긴자료92'][subject_index] != '':
+                return [json_data['this_week']['자료46'][teacher_index], json_data['this_week']['긴자료92'][subject_index]]
+            else:
+                return False
         else:
-            return [json_data['next_week']['자료46'][teacher_index], json_data['next_week']['긴자료92'][subject_index]]
+            if json_data['next_week']['긴자료92'][subject_index] != '':
+                return [json_data['next_week']['자료46'][teacher_index], json_data['next_week']['긴자료92'][subject_index]]
+            else:
+                return False
