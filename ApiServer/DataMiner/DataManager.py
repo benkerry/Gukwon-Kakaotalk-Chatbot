@@ -48,18 +48,16 @@ class DataManager:
         # 다음 주 시간표를 읽으려는데, 다음 주 시간표가 아직 안 나온 경우
         if len(json_data['next_week']) < 50 and week = 1:
             return False
+        
+        # 수업이 없는 경우
+        if n == 0:
+            return -1
 
         # 선생님 코드와 과목 코드를 구한다.
         teacher_index = n // 100
         subject_index = n % 100
 
         if week == 0:
-            if json_data['this_week']['긴자료92'][subject_index] != '':
-                return [json_data['this_week']['자료46'][teacher_index], json_data['this_week']['긴자료92'][subject_index]]
-            else:
-                return False
+            return [json_data['this_week']['자료46'][teacher_index], json_data['this_week']['긴자료92'][subject_index]]
         else:
-            if json_data['next_week']['긴자료92'][subject_index] != '':
-                return [json_data['next_week']['자료46'][teacher_index], json_data['next_week']['긴자료92'][subject_index]]
-            else:
-                return False
+            return [json_data['next_week']['자료46'][teacher_index], json_data['next_week']['긴자료92'][subject_index]]
