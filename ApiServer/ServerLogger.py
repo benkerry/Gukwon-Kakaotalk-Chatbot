@@ -8,5 +8,10 @@ class Logger:
     self.log_fp = open(log_filename, 'a')
 
   def Log(self, message):
-    datetime_string = datetime.datetime.today().strftime("[%y.%m.%d, %X]")
-    print(datetime_string + message)
+    log_string = datetime.datetime.today().strftime("[%y.%m.%d, %X] ") + message
+    print(log_string)
+    self.log_fp.write(log_string)
+    self.log_fp.flush()
+  
+  def Close(self):
+    self.log_fp.close()
