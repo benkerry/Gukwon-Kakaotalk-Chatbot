@@ -39,10 +39,6 @@ class Parser:
         response.encoding = 'utf-8'
 
         self.json_data = json.loads(response.text.split('\n')[0])
-
-        with open(self.file_name['next_week'], 'w') as fp:
-            json.dump(response_json, fp, indent='\t')
-    
     
     def getTimeTableData(self, week, grade, _class, week_index, time):
         try:
