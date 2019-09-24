@@ -19,6 +19,10 @@ class AutoParser:
 class DataManager:
     def __init__(self, logger):
         self.logger = logger
+        
+        # 읽어온 데이터를 저장할 디렉터리가 없을 때 실행
+        if os.path.isdir('data') == False:
+            os.mkdir('data')
 
     def GetTimeTableData(self, week, grade, _class, week_index, time):
         # 변수 초기화!

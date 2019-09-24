@@ -8,11 +8,6 @@ def Run(logger):
     json_data = {'this_week':'', 'next_week':''}
     response = {'this_week':'', 'next_week':''}
 
-    # 읽어온 데이터를 저장할 디렉터리가 없을 때 실행
-    if os.path.isdir('data') == False:
-        os.mkdir('data')
-
-    
     # 서버에 이번 주 시간표 데이터를 요청한다.
     response['this_week'] = requests.get("http://112.186.146.81:4081/98372?MzQ3MzlfMzExNTRfMF8x")
     response['this_week'].encoding = 'utf-8'
