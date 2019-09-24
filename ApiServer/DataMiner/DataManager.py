@@ -1,6 +1,10 @@
 import json
 import os
+
 import TimeTableParser
+import MealServiceParser
+import NoticeParser
+import ScheduleTableParser
 
 class AutoParser:
     # 일정 시간마다 파싱 반복하는 클래스
