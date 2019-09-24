@@ -4,4 +4,4 @@
 # 이러한 기능을 하는 코드를 run()이라는 이름의 함수로 만들기 바란다.
 
 # 새 Branch를 생성하고, 새 Branch에서 develop/DataManager를 Merge한 후 코딩을 시작하면 된다.
-# 예시: git checkout -b feature/DataManager/MealServiceParse --> git merge develop/DataManager
+# 예시: git checkout -b feature/DataManager/MealServiceParser --> git merge develop/DataManager
