@@ -11,7 +11,7 @@
      def Close()
      : 로깅을 위해 만들어진 FileStream을 닫습니다.
 
-### JSON Return Format 정의
+## JSON Return Format 정의
 #### TestDDay_Query에 대한 Return Format
       {
           version: [현재 스킬서버의 버전]
