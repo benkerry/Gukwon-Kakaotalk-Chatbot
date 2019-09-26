@@ -1,9 +1,9 @@
 # ApiServer
-
+  
 ## main.py
    이 파일을 실행하면 서버가 시작됩니다.
- 
-
+  
+  
 ## ServerLogger.py
 ### class Logger : 서버 로그를 남깁니다. 이 클래스의 인스턴스는 하나만 생성할 수 있습니다.
      def Log(message)  
@@ -11,8 +11,8 @@
 
      def Close()
      : 로깅을 위해 만들어진 FileStream을 닫습니다.
-
-
+  
+  
 ## JSON Return Format 정의
 #### TestDDay_Query에 대한 Return Format
       {
@@ -23,8 +23,8 @@
               left_days: [남은 날짜]
           }
       }
-
-
+  
+  
 #### MealService_Query에 대한 Return Format
       {
           "version": "[현재 스킬서버의 버전(ex. 2.0)]",
@@ -33,8 +33,8 @@
               "result_string": "[메뉴 리스트(Escape Sequence 포함)(ex. '밥\n요구르트...')]"
           }
       }
-
-
+  
+  
 #### TimeTable_Query에 대한 Return Format
       {
           "version": "[현재 스킬서버의 버전(ex. 2.0)]",
@@ -44,8 +44,8 @@
               "result_string": "[시간표 리스트(Escape Sequence 포함)(ex. '1교시: 국어\n...')]"        
           }
       }
-
-
+  
+  
 #### Notice_Query에 대한 Return Format
       {
           "version": "[현재 스킬서버의 버전(ex. 2.0)]",
@@ -73,8 +73,8 @@
               }
           }
       }
-
-
+  
+  
 #### ScheduleTable_Query에 대한 Return Format
       {
          "version": "[현재 스킬서버의 버전(ex. 2.0)]",
@@ -88,6 +88,6 @@
               ]
           }
       }
-
-
+  
+  
 ##### 이외의 블록에 대한 Format은 추후 결정하여 커밋하겠음.
