@@ -19,3 +19,4 @@
 ### 사용된 Python pip 모듈
 >- requests
 >- json
+>- BeautifulSoup4
