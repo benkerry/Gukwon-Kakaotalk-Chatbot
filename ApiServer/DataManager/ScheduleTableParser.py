@@ -2,20 +2,26 @@ import requests
 from bs4 import BeautifulSoup
 import json
 
-response = requests.get('http://school.cbe.go.kr/gukwon-h/M010607/list')
+response = requests.get('http://school.cbe.go.kr/gukwon-h/M010607/list?y=2019&m=9')
 html = response.text
 
 soup = BeautifulSoup(html, 'html.parser')
 data = {}
 
-for i in soup.select('dt'):   
+for i in soup.select('dt'):
+    a = i.text
     for j in soup.select('div[class = tch-tit-wrap]'):
-        
-        data.setdefault(i.text, j.text)
+        b = j.text
+        if('~' in a):
+            for k in range(str(a[6,7]), str(a[15, 16])):
+                c = a[0, 7] + k
+                print(c)
+    
 
-json_data = json.dumps(data)
+#json_data = json.dumps(data)
 
-print(json_data)
+#print(json_data)
+
 
 # 학교 홈페이지에서 올해 3월~내년 2월까지의 학사일정 데이터를 Parsing하여
 # 그것을 날짜(string):일정의 이름(string) 형태의 Key-Value를 가진 Dictionary로 변환한다.
@@ -31,6 +37,7 @@ print(json_data)
 # 그리고 그것을 json 형태로 data/ 디렉터리에 저장한다.(확장자는 .dat)
 
 # 이러한 기능을 하는 코드를 run()이라는 이름의 함수로 만들기 바란다.
+
 
 # 새 Branch를 생성하고, 새 Branch에서 develop/DataManager를 Merge한 후 코딩을 시작하면 된다.
 # 예시: git checkout -b feature/DataManager/ScheduleTableParser --> git merge develop/DataManager
