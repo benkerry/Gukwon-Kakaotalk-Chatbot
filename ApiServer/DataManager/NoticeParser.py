@@ -1,45 +1,14 @@
 import requests
 from bs4 import BeautifulSoup
-from datetime import datetime
-
-def run():
-    str_url = "http://school.cbe.go.kr/gukwon-h/M010301/list?s_idx="
-    year = int(datetime.now().strftime('%Y')[1:])
-    month = int(datetime.now().strftime('%m'))
-    day = int(datetime.now().strftime('%d'))
-
-    lst_result = []
-    is_break = False
-
-    for i in range(1, 10):
-        response = requests.get(str_url + str(i))
-        soup = BeautifulSoup(response.text, 'html.parser')
-
-        lst_post = soup.select('table.usm-brd-lst tbody tr')
+#주소 따고
+response = requests.get("http://school.cbe.go.kr/gukwon-h/M010301/")
+html = response.text
+#담아 와서
+soup = BeautifulSoup(html, 'html.parser')
+#이렇게 한다면?...
+for i in soup.select('tbody td.tch-tit'):
+    print(i.text.strip())
+    for k in soup.select('tbody td.tch-nme'):
+        print(k.text)
         
-        for k in lst_post:
-            lst_datetime = k.select_one('td.tch-dte').text.split('.')
-            lst_element = []
-
-            diff_day = ((int(lst_datetime[0])  * 365) + (int(lst_datetime[1]) * 30) + int(lst_datetime[2])) - ((year * 365) + (month * 30) + day)
-
-            if diff_day <= 30:
-                last_tag = k.select_one('td.tch-tit a')
-                lst_element.append(last_tag.text)
-                lst_element.append(last_tag['href'])
-
-                lst_result.append(lst_element)
-            else:
-                is_break = True
-                break
-
-        if is_break:
-            break
-
-    with open("data/Notice.dat", 'w') as fp:
-        fp.write(len(lst_result))
-        
-        for i in lst_result:
-            fp.write(i[0])
-            fp.write(i[1])
-    
+#으악 이게뭐야...
