@@ -36,10 +36,9 @@ def run():
         if is_break:
             break
 
-    with open("data/Notice.dat", 'w') as fp:
-        fp.write(len(lst_result))
+    with open("data/Notice.dat", 'w', encoding='utf-8') as fp:
+        fp.write(str(len(lst_result)))
         
-        for i in lst_result:
-            fp.write(i[0])
-            fp.write(i[1])
-    
+       for i in lst_result:
+            fp.write(i[0] + '\n')
+            fp.write(i[1] + '\n')
