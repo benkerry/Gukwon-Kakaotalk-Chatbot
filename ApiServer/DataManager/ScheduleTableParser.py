@@ -1,21 +1,35 @@
 import requests
 from bs4 import BeautifulSoup
 import json
+import re
+import datetime
 
 response = requests.get('http://school.cbe.go.kr/gukwon-h/M010607/list?y=2019&m=9')
 html = response.text
 
 soup = BeautifulSoup(html, 'html.parser')
 data = {}
+f = 1
 
 for i in soup.select('dt'):
-    a = i.text
+    c = i.text
+    a = re.split('\W+', c)
+    e = "".join(a)
+    dttime = datetime.date(e)
+    
     for j in soup.select('div[class = tch-tit-wrap]'):
-        b = j.text
-        if('~' in a):
-            for k in range(str(a[6,7]), str(a[15, 16])):
-                c = a[0, 7] + k
-                print(c)
+        d = j.text
+        b = list(j)
+        if(len(a) >  3):
+            endtime = datetime.date(a[3], a[4], a[5])
+            oneday = datetime.timedelta(days = 1)
+            while(dttime != datatime):
+                data.setdefault(dttime, d)
+                dttime = dttime + oneday
+            
+        else:
+            data.setdefault(e, d)
+            print(data)
     
 
 #json_data = json.dumps(data)
