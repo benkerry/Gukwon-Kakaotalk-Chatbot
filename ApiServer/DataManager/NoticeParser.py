@@ -1,7 +1,45 @@
-# 학교 홈페이지에서 최근 한달간의 공지사항을 Parsing하여 List에 다음과 같이 저장한다.
-# [["공지사항 1", "공지사항 1의 링크"], ["공지사항 2", "공지사항 2의 링크"]]
-# 마지막으로 이것을 적절한 방법으로 data/ 디렉터리에 저장한다.(확장자는 .dat)
-# 이러한 기능을 하는 함수를 run()이라는 이름으로 작성하기 바란다.
+import requests
+from bs4 import BeautifulSoup
+from datetime import datetime
 
-# 새 Branch를 생성하고, 새 Branch에서 develop/DataManager를 Merge한 후 코딩을 시작하면 된다.
-# 예시: git checkout -b feature/DataManager/NoticeParser --> git merge develop/DataManager
+def run():
+    str_url = "http://school.cbe.go.kr/gukwon-h/M010301/list?s_idx="
+    year = int(datetime.now().strftime('%Y')[1:])
+    month = int(datetime.now().strftime('%m'))
+    day = int(datetime.now().strftime('%d'))
+
+    lst_result = []
+    is_break = False
+
+    for i in range(1, 10):
+        response = requests.get(str_url + str(i))
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        lst_post = soup.select('table.usm-brd-lst tbody tr')
+        
+        for k in lst_post:
+            lst_datetime = k.select_one('td.tch-dte').text.split('.')
+            lst_element = []
+
+            diff_day = ((int(lst_datetime[0])  * 365) + (int(lst_datetime[1]) * 30) + int(lst_datetime[2])) - ((year * 365) + (month * 30) + day)
+
+            if diff_day <= 30:
+                last_tag = k.select_one('td.tch-tit a')
+                lst_element.append(last_tag.text)
+                lst_element.append(last_tag['href'])
+
+                lst_result.append(lst_element)
+            else:
+                is_break = True
+                break
+
+        if is_break:
+            break
+
+    with open("data/Notice.dat", 'w') as fp:
+        fp.write(len(lst_result))
+        
+        for i in lst_result:
+            fp.write(i[0])
+            fp.write(i[1])
+    
