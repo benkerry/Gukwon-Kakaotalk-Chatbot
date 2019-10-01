@@ -9,34 +9,34 @@ html = response.text
 
 soup = BeautifulSoup(html, 'html.parser')
 data = {}
-f = 1
+datelotation = 1
 
 
 for i in soup.select('dt'):
-    c = i.text
-    a = re.split('\W+', c)
-    e = "".join(a)
-    if(len(a) > 3):
-        date1 = e[0:6]
-        date2 = e[6:12]
+    eventdate = i.text
+    lstdate = re.split('\W+', eventdate)
+    strdate = "".join(lstevent)
+    if(len(lstdate) > 3):
+        date1 = strdate[0:6]
+        date2 = strdate[6:12]
         dateevent2 = datetime.datetime.strptime(date1, '%y%m%d')
         dateevent3 = datetime.datetime.strptime(date2, '%y%m%d')
     else:
-        dateevent = datetime.datetime.strptime(e, '%y%m%d')
+        dateevent = datetime.datetime.strptime(strdate, '%y%m%d')
     for j in soup.select('div[class = tch-tit-wrap]'):
-        d = j.text
-        q = re.split('\W+', d)
-        b = "".join(q)
-        if(len(a) > 3):
+        event = j.text
+        lstevent = re.split('\W+', event)
+        strevent = "".join(lstevent)
+        if(len(lstdate) > 3):
             while(dateevent2 != dateevent3):
                 date = str(dateevent2)
-                event = "%s + %d 일차" %(b, f)
-                data.setdefault(date, event)
-                f = f + 1
+                eventmessage = "%s + %d 일차" %(event, datelotation)
+                data.setdefault(date, eventmessage)
+                datelotation = datelotation + 1
                 dateevent2 = dateevent2 - datetime.timedelta(days = 1)
                 print(data)  
         else:
-            data.setdefault(e, d)
+            data.setdefault(strdate, event)
             print(data)
     
 
