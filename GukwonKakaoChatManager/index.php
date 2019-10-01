@@ -1,6 +1,7 @@
 <html>
     <head>
         <meta charset="utf-8"/>
+        <title>국원고등학교 챗봇 관리자 페이지</title>
     </head>
     <body>
         <div class="login_form">

@@ -1,8 +1,7 @@
 <?php
-    include('dbconn.php');
+    include($_SERVER['DOCUMENT_ROOT']."/functions/dbconn.php");
 
     $sql = "SELECT * FROM sign_info WHERE id = '".$_POST['id']."'";
-    echo $sql;
     $result = mysqli_fetch_assoc(mysqli_query($conn, $sql));
     $is_authed = false;
 
@@ -17,7 +16,8 @@
     }
 
     if(!$is_authed){
-        echo "<script>alert('로그인 정보가 틀립니다.');location.href=\"../index.php\";</script>";
+        echo $conn;
+        //echo "<script>alert('로그인 정보가 틀립니다.');location.href=\"../index.php\";</script>";
     }
     else{
         header("Location:../GenerateAuthCode.php");

@@ -1,4 +1,4 @@
 <?php
     session_destroy();
-    header('../index.php');
+    header($_SERVER['DOCUMENT_ROOT']."/index.php");
 ?>
