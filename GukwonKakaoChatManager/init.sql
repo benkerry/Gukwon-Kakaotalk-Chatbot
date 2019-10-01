@@ -5,7 +5,7 @@ CREATE TABLE auth_code(
     auth_code TEXT NOT NULL
 );
 
-CREATE TABLE authed_users(
+CREATE TABLE authed_user(
     user_num INT NOT NULL
 );
 
@@ -16,10 +16,10 @@ CREATE TABLE sign_info(
 
 CREATE TABLE bamboo(
     user_num INT NOT NULL,
-    bamboo_description TEXT NOT NULL
+    description TEXT NOT NULL
 );
 
 CREATE TABLE suggestion(
     user_num INT NOT NULL,
-    suggestion_description TEXT NOT NULL    
+    description TEXT NOT NULL    
 );
