@@ -11,22 +11,30 @@ soup = BeautifulSoup(html, 'html.parser')
 data = {}
 f = 1
 
+
 for i in soup.select('dt'):
     c = i.text
     a = re.split('\W+', c)
     e = "".join(a)
-    dttime = datetime.date(e)
-    
+    if(len(a) > 3):
+        date1 = e[0:6]
+        date2 = e[6:12]
+        dateevent2 = datetime.datetime.strptime(date1, '%y%m%d')
+        dateevent3 = datetime.datetime.strptime(date2, '%y%m%d')
+    else:
+        dateevent = datetime.datetime.strptime(e, '%y%m%d')
     for j in soup.select('div[class = tch-tit-wrap]'):
         d = j.text
-        b = list(j)
-        if(len(a) >  3):
-            endtime = datetime.date(a[3], a[4], a[5])
-            oneday = datetime.timedelta(days = 1)
-            while(dttime != datatime):
-                data.setdefault(dttime, d)
-                dttime = dttime + oneday
-            
+        q = re.split('\W+', d)
+        b = "".join(q)
+        if(len(a) > 3):
+            while(dateevent2 != dateevent3):
+                date = str(dateevent2)
+                event = "%s + %d 일차" %(b, f)
+                data.setdefault(date, event)
+                f = f + 1
+                dateevent2 = dateevent2 - datetime.timedelta(days = 1)
+                print(data)  
         else:
             data.setdefault(e, d)
             print(data)
