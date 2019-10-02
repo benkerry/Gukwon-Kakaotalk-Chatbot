@@ -36,8 +36,6 @@ def run():
             break
 
     with open("data/Notice.dat", 'w', encoding='utf-8') as fp:
-        fp.write(str(len(lst_result)) + '\n')
-        
         for i in lst_result:
             fp.write(i[0] + '\n')
             fp.write('http://school.cbe.go.kr' + i[1] + '\n')
