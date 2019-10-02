@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-def run():
+def run(logger):
     str_url = "http://school.cbe.go.kr/gukwon-h/M010301/list?s_idx="
     
     now_datetime = datetime.now()
@@ -39,3 +39,5 @@ def run():
         for i in lst_result:
             fp.write(i[0] + '\n')
             fp.write('http://school.cbe.go.kr' + i[1] + '\n')
+
+    logger.log("Notice Parsing Complete.")

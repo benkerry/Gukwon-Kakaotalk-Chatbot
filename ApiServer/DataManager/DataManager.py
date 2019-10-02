@@ -1,28 +1,51 @@
 import json
 import os
+import threading
 
 import TimeTableParser
-import MealServiceParser
 import NoticeParser
+import MealServiceParser
 import ScheduleTableParser
 
 class AutoParser:
     # 일정 시간마다 파싱 반복하는 클래스: Thread에 물려줘야 함
-    def __init__(self):
-        self.Enabled = False
+    def __init__(self, logger):
+        self.logger = logger
+
+        self.tr_10m = threading.Timer(600, self.parse_10m)
+        self.tr_24h = threading.Timer(86400, self.parse_24h)
 
         # 읽어온 데이터를 저장할 디렉터리가 없을 때 실행
         if os.path.isdir('data') == False:
             os.mkdir('data')
 
-    def Run(self, timetable_interval):
-        # 시작!
-        self.Enabled = True
-        return 1
+    def parse_10m(self):
+        try:
+            TimeTableParser.run(self.logger)
+            NoticeParser.run(self.logger)
+        except:
+            pass
 
-    def Stop(self):
-        # 정지!
-        self.Enabled = False
+    def parse_24h(self):
+        try:
+            MealServiceParser.run(self.logger)
+            ScheduleTableParser.run(self.logger)
+        except:
+            pass
+
+    def run(self):
+        if not self.tr_10m.is_alive():
+            self.tr_10m.start()
+            
+        if not self.tr_24h.is_alive():
+            self.tr_24h.start()
+
+    def stop(self):
+        if self.tr_10m.is_alive():
+            self.tr_10m.cancel()
+
+        if self.tr_24h.is_alive():
+            self.tr_24h.cancel()
 
 class DataManager:
     def __init__(self, logger):

@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-def run():
+def run(logger):
     # [이달의 식단 관리] 페이지 Get & Soup Instance 생성
     response = requests.get("http://school.cbe.go.kr/gukwon-h/M01061201/list")
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -39,3 +39,5 @@ def run():
     # 파일에 저장
     with open('data/MenuTable.dat','w')as fp:
         json.dump(dict_meal_menu, fp)
+
+    logger.log("Meal Menu Parsing Complete.")
