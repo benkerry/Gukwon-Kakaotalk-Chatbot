@@ -51,12 +51,12 @@ for i in range(left_month):
             for str_key in lst_interval_datetimes:
                 dict_result[str_key] = []
                 for j in k.select('div.tch-tit-wrap'):
-                    dict_result[str_key].append(j.text[3:-6])
+                    dict_result['20' + str_key].append(j.text[3:-6])
 
         # 물결표가 없을 때의 처리
         else:    
             lst_datetime = str_schedule_date.split('.')
-            str_key = lst_datetime[0] + lst_datetime[1] + lst_datetime[2]
+            str_key = '20' + lst_datetime[0] + lst_datetime[1] + lst_datetime[2]
             dict_result[str_key] = []
 
             # 불필요한 문자 제거, 딕셔너리에 추가
