@@ -28,7 +28,7 @@ def run():
                 for j in k.select('li'):
                     dict_meal_menu[str_key].append(j.text)
 
-    # 메뉴명의 3번째 자리 뒤에 오는 숫자(알레르기 유발식품 번호 제거 목적) 제거
+    # 메뉴명의 3번째 자리 뒤에 오는 숫자(알레르기 유발식품 번호) 제거
     for i in dict_meal_menu.keys():
         for k in range(len(dict_meal_menu[i])):
             for j in range(len(dict_meal_menu[i][k])):
