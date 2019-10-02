@@ -7,6 +7,9 @@ import NoticeParser
 import MealServiceParser
 import ScheduleTableParser
 
+# TODO1: 메모리에 항상 필요한 데이터가 적재되어 있도록 수정
+# TODO2: 파싱 재실행시마다 메모리에 있는 데이터가 Overwrite되도록 수정
+
 class AutoParser:
     # 일정 시간마다 파싱 반복하는 클래스: Thread에 물려줘야 함
     def __init__(self, logger):
@@ -93,13 +96,12 @@ class DataManager:
 
     def get_meal(self, str_date, str_mealtime):
         dict_data = {}
-        lst_result = []
 
         with open('data/MenuTable.dat', 'r') as fp:
             dict_data = json.load(fp)
 
         # 메뉴 List를 반환
-        return dict_data[str_date + str_mealtime]
+        return dict_data[str_date + '-' + str_mealtime]
 
     def get_notice(self):
         lst_rdr = []

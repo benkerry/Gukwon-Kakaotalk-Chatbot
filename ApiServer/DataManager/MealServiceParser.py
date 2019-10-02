@@ -32,7 +32,7 @@ def run(logger):
     for i in dict_meal_menu.keys():
         for k in range(len(dict_meal_menu[i])):
             for j in range(len(dict_meal_menu[i][k])):
-                if dict_meal_menu[i][k][j].isdecimal() and j >2:
+                if dict_meal_menu[i][k][j].isdecimal() and j > 1:
                     dict_meal_menu[i][k] = dict_meal_menu[i][k][:j]
                     break   
 
