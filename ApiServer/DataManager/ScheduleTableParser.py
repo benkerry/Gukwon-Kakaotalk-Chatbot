@@ -59,7 +59,7 @@ for i in range(left_month):
             str_key = lst_datetime[0] + lst_datetime[1] + lst_datetime[2]
             dict_result[str_key] = []
 
-            # 불필요한 문자 제거하여 딕셔너리에 추가
+            # 불필요한 문자 제거, 딕셔너리에 추가
             for j in k.select('div.tch-tit-wrap'):
                 dict_result[str_key].append(j.text[3:-6])
 
