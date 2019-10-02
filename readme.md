@@ -1,6 +1,7 @@
 # Gukwon Highschool Kakaotalk Bot
-  
+
 ## 구현 예정 기능 목록
+
 >- 급식 안내
 >- 수능/중간/기말고사 D-Day 안내
 >- 시험 시간표 안내
@@ -11,12 +12,12 @@
 >- 건의함
 >- 익명제보
   
-  
 ## 구현 완료 기능 목록
+
 >- 인사
   
-  
 ### 사용된 Python pip 모듈
+
 >- requests
 >- json
 >- BeautifulSoup4
