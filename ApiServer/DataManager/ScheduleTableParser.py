@@ -1,6 +1,6 @@
 import json
 import requests
-from dateutil.rrule import *
+from dateutil.rrule import rrule, MONTHLY
 from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 
