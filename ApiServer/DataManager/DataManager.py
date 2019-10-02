@@ -63,7 +63,7 @@ class DataManager:
                     str_result_date = i
                     str_result_schedule = k
 
-                    # [YYYYMMDD, [Schedules]] 형태로 반환
+                    # [YYYYMMDD, [Schedules]] 형태 반환
                     return [str_result_date, [str_result_schedule]]
 
         return []
