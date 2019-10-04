@@ -10,7 +10,7 @@ class Logger:
 
   def log(self, message):
     str_log = datetime.datetime.today().strftime("[%y.%m.%d, %X] ") + message
-    #print(str_log) # 콘솔에 출력
+    print(str_log) # 콘솔에 출력
 
     self.log_fp.write(str_log + '\n') # 파일에 출력
     self.log_fp.flush()
