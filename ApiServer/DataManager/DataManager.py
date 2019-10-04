@@ -9,16 +9,33 @@ import ScheduleTableParser
 
 class AutoParser:
     # 일정 시간마다 파싱 반복하는 클래스: Thread에 물려줘야 함
-    def __init__(self, logger, manager):
-        self.logger = logger
+    def __init__(self, manager, logger):
         self.manager = manager
-
-        self.tr_10m = threading.Timer(600, self.parse_10m)
-        self.tr_24h = threading.Timer(86400, self.parse_24h)
+        self.logger = logger
 
         # 읽어온 데이터를 저장할 디렉터리가 없을 때 실행
         if os.path.isdir('data') == False:
             os.mkdir('data')
+
+        self.parse_10m()
+        self.parse_24h()
+
+    def run(self):
+        self.tr_10m = threading.Timer(10, self.parse_10m)
+        self.tr_24h = threading.Timer(30, self.parse_24h)
+
+        if not self.tr_10m.is_alive():
+            self.tr_10m.start()
+            
+        if not self.tr_24h.is_alive():
+            self.tr_24h.start()
+
+    def stop(self):
+        if self.tr_10m.is_alive():
+            self.tr_10m.cancel()
+
+        if self.tr_24h.is_alive():
+            self.tr_24h.cancel()
 
     def parse_10m(self):
         try:
@@ -34,24 +51,8 @@ class AutoParser:
         except:
             pass
 
-    def run(self):
-        if not self.tr_10m.is_alive():
-            self.tr_10m.start()
-            
-        if not self.tr_24h.is_alive():
-            self.tr_24h.start()
-
-    def stop(self):
-        if self.tr_10m.is_alive():
-            self.tr_10m.cancel()
-
-        if self.tr_24h.is_alive():
-            self.tr_24h.cancel()
-
 class DataManager:
-    def __init__(self, logger):
-        self.logger = logger
-        
+    def __init__(self):
         self.dict_schedule = {}
         self.dict_menu = {}
         self.lst_notice = []
