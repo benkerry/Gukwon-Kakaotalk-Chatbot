@@ -9,10 +9,10 @@ class Logger:
     self.log_fp = open(log_filename, 'a')
 
   def log(self, message):
-    str_log = datetime.datetime.today().strftime("[%y.%m.%d, %X] ") + message # [19.09.23, 22:20:13] + 메시지가 된다! 
+    str_log = datetime.datetime.today().strftime("[%y.%m.%d, %X] ") + message
     print(str_log) # 콘솔에 출력
 
-    self.log_fp.write(str_log) # 파일에 출력
+    self.log_fp.write(str_log + '\n') # 파일에 출력
     self.log_fp.flush()
   
   def close(self):
