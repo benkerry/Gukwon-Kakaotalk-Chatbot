@@ -20,8 +20,7 @@ def run(logger):
         lst_raw_meal_data = soup.select_one('a[href=\"{0}\"]'.format(str_href + str_date))
 
         if type(lst_raw_meal_data) != type(None):
-
-            for k in lst_raw_meal_data('d1'):
+            for k in lst_raw_meal_data('dl'):
                 str_key = str_date + '-' + k.select_one('dt').text[0]
                 dict_meal_menu[str_key] = []
 

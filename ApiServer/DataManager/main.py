@@ -132,23 +132,30 @@ class Manager:
 
     # 스케줄명 검색으로 스케줄 얻기
     def get_schedule_by_name(self, schedule_name):
-        str_result_date = ''
-        str_result_schedule = ''
+        lst_result = []
+        lst_schedule = []
 
         for i in self.dict_schedule.keys():
             for k in self.dict_schedule[i]:
                 if schedule_name in k:
-                    str_result_date = i
-                    str_result_schedule = k
-
-                    # [YYYYMMDD, [Schedules]] 형태 반환
-                    return [str_result_date, [str_result_schedule]]
-
-        return []
+                    lst_schedule.append(k)
+            if len(lst_schedule) > 0:
+                lst_result.append([i, lst_schedule])
+                lst_schedule = []
+                
+        if len(lst_result) > 0:
+            return lst_result
+        else:
+            return []
 
     def get_meal(self, str_date, str_mealtime):
-        # 메뉴 List를 반환
-        return self.dict_menu[str_date + '-' + str_mealtime]
+        str_key = str_date + '-' + str_mealtime
+
+        # Key에 해당하는 메뉴의 List를 반환
+        if not (str_key in self.dict_menu.keys()):
+            return []
+        else:
+            return self.dict_menu[str_key]
 
     def get_notice(self):
         return self.lst_notice
