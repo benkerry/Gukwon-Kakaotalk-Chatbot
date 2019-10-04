@@ -7,13 +7,11 @@ import NoticeParser
 import MealServiceParser
 import ScheduleTableParser
 
-# TODO1: 메모리에 항상 필요한 데이터가 적재되어 있도록 수정
-# TODO2: 파싱 재실행시마다 메모리에 있는 데이터가 Overwrite되도록 수정
-
 class AutoParser:
     # 일정 시간마다 파싱 반복하는 클래스: Thread에 물려줘야 함
-    def __init__(self, logger):
+    def __init__(self, logger, manager):
         self.logger = logger
+        self.manager = manager
 
         self.tr_10m = threading.Timer(600, self.parse_10m)
         self.tr_24h = threading.Timer(86400, self.parse_24h)
@@ -53,59 +51,25 @@ class AutoParser:
 class DataManager:
     def __init__(self, logger):
         self.logger = logger
-
-    # 날짜(YYYYMMDD)로 스케줄 얻기
-    def get_schedule_by_date(self, str_date):
-        dict_data = {}
-        lst_result = []
-
-        with open('data/ScheduleTable.dat', 'r') as fp:
-            dict_data = json.load(fp)
-
-        for i in dict_data.keys():
-            if i == str_date:
-                for k in dict_data[i]:
-                    lst_result.append(k)
-
-        # [YYYYMMDD, [Schedules]] 형태로 반환
-        if len(lst_result) > 0:
-            return [str_date, lst_result]
-        else:
-            return []
-
-    # 스케줄명 검색으로 스케줄 얻기
-    def get_schedule_by_name(self, schedule_name):
-        dict_data = {}
-
-        str_result_date = ''
-        str_result_schedule = ''
         
+        self.dict_schedule = {}
+        self.dict_menu = {}
+        self.lst_notice = []
+        self.dict_timetable = {}
+
+        self.load_data()
+
+    def load_data(self):
+        # 학사일정 꺼내오기
         with open('data/ScheduleTable.dat', 'r') as fp:
-            dict_data = json.load(fp)
+            self.dict_schedule = json.load(fp)
 
-        for i in dict_data.keys():
-            for k in dict_data[i]:
-                if schedule_name in k:
-                    str_result_date = i
-                    str_result_schedule = k
-
-                    # [YYYYMMDD, [Schedules]] 형태 반환
-                    return [str_result_date, [str_result_schedule]]
-
-        return []
-
-    def get_meal(self, str_date, str_mealtime):
-        dict_data = {}
-
+        # 급식 꺼내오기
         with open('data/MenuTable.dat', 'r') as fp:
-            dict_data = json.load(fp)
-
-        # 메뉴 List를 반환
-        return dict_data[str_date + '-' + str_mealtime]
-
-    def get_notice(self):
-        lst_rdr = []
-        lst_result = []
+            self.dict_menu = json.load(fp)
+        
+        # 공지사항 파일에서 꺼내오기
+        self.lst_notice = []
 
         with open("date/Notice.dat", 'r') as fp:
             lst_rdr = fp.readlines()
@@ -119,39 +83,66 @@ class DataManager:
             lst_appender.append(lst_rdr[i])
 
             if i % 2 == 1:
-                lst_result.append(lst_appender)
+                self.lst_notice.append(lst_appender)
                 lst_appender = []
 
-        return lst_result
+        # 시간표 꺼내오기
+        with open('data/ThisWeekTimeTable.dat', 'r') as fp:
+            self.dict_timetable['this_week'] = json.load(fp)
 
+        with open('data/NextWeekTimeTable.dat', 'r') as fp:
+            self.dict_timetable['next_week'] = json.load(fp)
+
+    # 날짜(YYYYMMDD)로 스케줄 얻기
+    def get_schedule_by_date(self, str_date):
+        lst_result = []
+
+        for i in self.dict_schedule.keys():
+            if i == str_date:
+                for k in self.dict_schedule[i]:
+                    lst_result.append(k)
+
+        # [YYYYMMDD, [Schedules]] 형태로 반환
+        if len(lst_result) > 0:
+            return [str_date, lst_result]
+        else:
+            return []
+
+    # 스케줄명 검색으로 스케줄 얻기
+    def get_schedule_by_name(self, schedule_name):
+        str_result_date = ''
+        str_result_schedule = ''
+
+        for i in self.dict_schedule.keys():
+            for k in self.dict_schedule[i]:
+                if schedule_name in k:
+                    str_result_date = i
+                    str_result_schedule = k
+
+                    # [YYYYMMDD, [Schedules]] 형태 반환
+                    return [str_result_date, [str_result_schedule]]
+
+        return []
+
+    def get_meal(self, str_date, str_mealtime):
+        # 메뉴 List를 반환
+        return self.dict_menu[str_date + '-' + str_mealtime]
+
+    def get_notice(self):
+        return self.lst_notice
 
     def get_timetable(self, week, grade, _class, week_index, time):
-        # 변수 초기화!
-        dict_filename = {'this_week':'data/ThisWeekTimeTable.dat', 'next_week':'data/NextWeekTimeTable.dat'}
-        dict_json = {'this_week':'', 'next_week':''}
-
-        # 한 번도 데이터를 파싱한 적이 없을 때 실행
-        if os.path.isfile(dict_filename['this_week']) == False:
-            TimeTableParser.run(self.logger)
-
-        # 저장된 JSON 파일을 읽는다.
-        with open(dict_filename['this_week'], 'r') as fp:
-            dict_json['this_week'] = json.load(fp)
-
-        with open(dict_filename['next_week'], 'r') as fp:
-            dict_json['next_week'] = json.load(fp)
-
         # JSON에서 (교사 번호)*100 + 과목코드로 되어있는 시간표 한 칸에 해당하는 값을 가져온다.
         try:
             if week == 0:
-                n = dict_json['this_week']['자료81'][grade][_class][week_index][time]
+                n = self.dict_timetable['this_week']['자료81'][grade][_class][week_index][time]
             else:
-                n = dict_json['next_week']['자료81'][grade][_class][week_index][time]
+                n = self.dict_timetable['next_week']['자료81'][grade][_class][week_index][time]
         except Exception:
             return False
 
         # 다음 주 시간표를 읽으려는데, 다음 주 시간표가 아직 안 나온 경우
-        if len(dict_json['next_week']) < 50 and week == 1:
+        if len(self.dict_timetable['next_week']) < 50 and week == 1:
             return False
         
         # 수업이 없는 경우
@@ -163,6 +154,6 @@ class DataManager:
         subject_index = n % 100
 
         if week == 0:
-            return [dict_json['this_week']['자료46'][teacher_index], dict_json['this_week']['긴자료92'][subject_index]]
+            return [self.dict_timetable['this_week']['자료46'][teacher_index], self.dict_timetable['this_week']['긴자료92'][subject_index]]
         else:
-            return [dict_json['next_week']['자료46'][teacher_index], dict_json['next_week']['긴자료92'][subject_index]]
+            return [self.dict_timetable['next_week']['자료46'][teacher_index], self.dict_timetable['next_week']['긴자료92'][subject_index]]
