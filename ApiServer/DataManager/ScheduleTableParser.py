@@ -44,15 +44,16 @@ def run(logger):
 
                 # 물결표(~) 앞의 날짜와 뒤의 날짜 사이에 무슨 날짜들이 있는지 구해서 lst_ineterval_datetime에 추가
                 while tmp_iterater[foo] != end_datetime:
-                    lst_interval_datetimes.append(tmp_iterater[foo].strftime('%Y%m%d'))
+                    lst_interval_datetimes.append('20' + tmp_iterater[foo].strftime('%Y%m%d'))
                     foo += 1
                 del(foo)
 
                 # lst_interval_datetimes의 내용을 key로 하여 Dictionary에 내용을 추가
                 for str_key in lst_interval_datetimes:
                     dict_result[str_key] = []
+                    
                     for j in k.select('div.tch-tit-wrap'):
-                        dict_result['20' + str_key].append(j.text[3:-6])
+                        dict_result[str_key].append(j.text[3:-6])
 
             # 물결표가 없을 때의 처리
             else:    

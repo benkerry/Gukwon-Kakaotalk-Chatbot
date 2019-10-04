@@ -17,7 +17,7 @@ def run(logger):
     # 한달 치 식단 데이터를 dict_meal_menu에 저장
     for i in range(1,30):
         str_date = str(year_n_month + i)
-        lst_raw_meal_data = soup.select_one('a[href="{0}"]').format(str_href + str_date)
+        lst_raw_meal_data = soup.select_one('a[href=\"{0}\"]'.format(str_href + str_date))
 
         if type(lst_raw_meal_data) != type(None):
 

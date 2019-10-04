@@ -28,4 +28,4 @@ def run(logger):
         json.dump(dict_json['next_week'], fp, indent='\t')
     
     # 로그 남기기
-    logger.Log("Data Parsing Completed.")
+    logger.log("Data Parsing Completed.")
