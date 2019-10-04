@@ -1,5 +1,5 @@
 CREATE DATABASE  chatbot_manager_web;
-USE chatbot_manage;
+USE chatbot_manager_web;
 
 CREATE TABLE auth_code(
     auth_code TEXT NOT NULL
@@ -14,12 +14,8 @@ CREATE TABLE sign_info(
     pwd TEXT NOT NULL
 );
 
-CREATE TABLE bamboo(
-    user_num INT NOT NULL,
-    description TEXT NOT NULL
-);
-
 CREATE TABLE suggestion(
     user_num INT NOT NULL,
-    description TEXT NOT NULL    
+    description TEXT NOT NULL,
+    authed INT NOT NULL    
 );

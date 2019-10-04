@@ -21,3 +21,4 @@
 >- requests
 >- json
 >- BeautifulSoup4
+>- mysql-connector
