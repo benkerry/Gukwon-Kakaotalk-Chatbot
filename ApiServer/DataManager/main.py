@@ -35,6 +35,9 @@ class AutoParser:
             self.tr_24h.cancel()
 
     def parse_10m(self):
+        if self.tr_10m != None and self.tr_10m.is_alive():
+            self.tr_10m.cancel()
+
         try:
             TimeTableParser.run(self.logger)
             NoticeParser.run(self.logger)
@@ -50,6 +53,9 @@ class AutoParser:
         
 
     def parse_24h(self):
+        if self.tr_24h != None and self.tr_24h.is_alive():
+            self.tr_24h.cancel()
+
         try:
             MealServiceParser.run(self.logger)
             ScheduleTableParser.run(self.logger)
