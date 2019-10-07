@@ -22,3 +22,4 @@
 >- json
 >- BeautifulSoup4
 >- mysql-connector
+>- openpyxl

@@ -1,12 +1,29 @@
-import mysql.connector as mysql
+import sys
 import random
+import openpyxl
+import mysql.connector as mysql
 
-n = 100
-str_charpool = "abcdefghijklmnopqrstuvwxyz!@#$%^&*+=?~"
+truncate = int(sys.argv[1])
+n = int(sys.argv[2])
+
+conn = mysql.connect(
+    host="localhost",
+    user="root",
+    passwd="test",
+    database="chatbot_manager_web"
+)
+
+cursor = conn.cursor()
 
 lst_authcode = []
-i = 0
 
+str_sql = ""
+str_charpool = "abcdefghijklmnopqrstuvwxyz!@#$%^&*+=?~"
+
+if truncate == 1:
+    cursor.execute("TRUNCATE auth_code;")
+
+i = 0
 while i < n:
     str_authcode = ''
     
@@ -14,7 +31,17 @@ while i < n:
         str_authcode += random.choice(str_charpool)
 
     if not (str_authcode in lst_authcode):
-        lst_authcode.append(str_authcode)
+        cursor.execute("INSERT INTO auth_code VALUES(\'{0}\');".format(str_authcode))
         i += 1
 
-print(lst_authcode)
+conn.commit()
+
+wb = openpyxl.Workbook()
+ws = wb.active
+
+cursor.execute("SELECT * FROM auth_code")
+
+for i in range(cursor.rowcount):
+    ws.cell(1, i).value = cursor[i][0]
+
+wb.save("authcodes.xlsx")
