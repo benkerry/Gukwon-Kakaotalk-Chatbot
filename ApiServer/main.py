@@ -21,9 +21,14 @@ def meal_notice_service():
 @app.route("/TimeTableNoticeService", methods=["POST"])
 def timetable_notice_service():
     # 시간표 알림 요청을 처리
-    retun ""
+    return ""
 
 @app.route("/ScheduleNoticeService", methods=["POST"])
 def schedule_notice_service():
     # 학사일정 알림 요청을 처리
+    return ""
+
+@app.route("/SuggestionService", methods=["POST"])
+def suggestion_service():
+    # 건의 요청을 처리(박형진 담당)
     return ""
