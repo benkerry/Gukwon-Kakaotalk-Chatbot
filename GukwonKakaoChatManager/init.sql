@@ -10,12 +10,14 @@ CREATE TABLE authed_user(
 );
 
 CREATE TABLE sign_info(
-    id TEXT NOT NULL,
-    pwd TEXT NOT NULL
+    id VARCHAR(30) NOT NULL,
+    pwd TEXT NOT NULL,
+    root INT NOT NULL
 );
 
 CREATE TABLE suggestion(
     user_num INT NOT NULL,
     description TEXT NOT NULL,
-    authed INT NOT NULL    
+    proc_result TEXT,
+    result_exists INT NOT NULL
 );
