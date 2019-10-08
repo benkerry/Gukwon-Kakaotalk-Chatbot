@@ -10,16 +10,14 @@ CREATE TABLE authed_user(
 );
 
 CREATE TABLE sign_info(
-    id TEXT NOT NULL,
-    pwd TEXT NOT NULL
-);
-
-CREATE TABLE bamboo(
-    user_num INT NOT NULL,
-    description TEXT NOT NULL
+    id VARCHAR(30) NOT NULL,
+    pwd TEXT NOT NULL,
+    root INT NOT NULL
 );
 
 CREATE TABLE suggestion(
     user_num INT NOT NULL,
-    description TEXT NOT NULL    
+    description TEXT NOT NULL,
+    proc_result TEXT,
+    result_exists INT NOT NULL
 );
