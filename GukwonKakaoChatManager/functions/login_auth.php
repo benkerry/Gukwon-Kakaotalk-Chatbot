@@ -1,6 +1,9 @@
 <?php
     include($_SERVER['DOCUMENT_ROOT']."/functions/dbconn.php");
 
+    $_POST['id'] = htmlspecialchars($_POST['id']);
+    $_POST['pwd'] = htmlspecialchars($_POST['pwd']);
+
     $sql = "SELECT * FROM sign_info WHERE id = '".$_POST['id']."'";
     $result = mysqli_fetch_assoc(mysqli_query($conn, $sql));
     $is_authed = false;

@@ -10,6 +10,7 @@
     <body>
         <?php echo file_get_contents($_SERVER['DOCUMENT_ROOT']."/templates/top_nav.html"); ?>
         <div class='description'>
+            <table> <!-- JS로 Open/Close 바꿀까? 아님 그냥 링크로? -->
             <?php
                 $sql = "SELECT * FROM ";
 
@@ -24,6 +25,7 @@
                 }
               }
             ?>
+            </table>
         </div>
     </body>
 </html>
