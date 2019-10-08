@@ -23,3 +23,4 @@
 >- BeautifulSoup4
 >- mysql-connector
 >- openpyxl
+>- Flask
