@@ -1,6 +1,8 @@
 import json
 import os
+import traceback
 import threading
+from multiprocessing import Process, Queue
 
 import DataManager.MealServiceParser as MealServiceParser
 import DataManager.NoticeParser as NoticeParser
@@ -25,7 +27,6 @@ class AutoParser:
     def run(self):
         self.parse_10m()
         self.parse_24h()
-        
 
     def stop(self):
         if self.tr_10m.is_alive():
@@ -41,16 +42,15 @@ class AutoParser:
         try:
             TimeTableParser.run(self.logger)
             NoticeParser.run(self.logger)
+
             self.manager.load_data()
 
             self.tr_10m = threading.Timer(600, self.parse_10m)
             self.tr_10m.start()
-            self.logger.log('[AutoParser]Thread: tr_10m Started.')
-        except Exception as e:
-            self.logger.log('[AutoParser]Exception Catched on parse_10m, DataManager/Main.py')
-            self.logger.log(e)
-
-        
+            self.logger.log('[AutoParser] Thread: tr_10m Started.')
+        except:
+            self.logger.log('[AutoParser] Exception Catched on parse_10m, DataManager/Main.py')
+            self.logger.log(traceback.format_exc())
 
     def parse_24h(self):
         if self.tr_24h != None and self.tr_24h.is_alive():
@@ -59,14 +59,15 @@ class AutoParser:
         try:
             MealServiceParser.run(self.logger)
             ScheduleTableParser.run(self.logger)
+
             self.manager.load_data()
             
             self.tr_24h = threading.Timer(86400, self.parse_24h)
             self.tr_24h.start()
-            self.logger.log('[AutoParser]Thread: tr_24h Started.')
-        except Exception as e:
-            self.logger.log('[AutoParser]Exception Catched on parse_24h, DataManager/Main.py')
-            self.logger.log(e)
+            self.logger.log('[AutoParser] Thread: tr_24h Started.')
+        except:
+            self.logger.log('[AutoParser] Exception Catched on parse_24h, DataManager/Main.py')
+            self.logger.log(traceback.format_exc())
 
 class Manager:
     def __init__(self, logger):
