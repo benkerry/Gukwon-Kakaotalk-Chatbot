@@ -18,8 +18,7 @@
                 <input type="submit" value="발급"><br>
             </form>
             <?php
-                echo "현재 DB에 남아있는 인증번호는 ".(string)(mysqli_num_rows($result))."개 입니다.<br>";
-                echo "<a href='functions/GenerateAuthCodeXls.php'>인증번호 엑셀로 내려받기</a>";
+                echo "현재 미사용 인증번호는 ".(string)(mysqli_num_rows($result))."개 입니다.<br>";
             ?>
         </div>
     </body>

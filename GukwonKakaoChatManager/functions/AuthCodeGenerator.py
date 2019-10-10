@@ -22,6 +22,11 @@ str_charpool = "abcdefghijklmnopqrstuvwxyz!@#$%^&*+=?~"
 
 if truncate == 1:
     cursor.execute("TRUNCATE auth_code;")
+else:
+    cursor.execute("SELECT * FROM auth_code;")
+    
+    for i in range(cursor.rowcount()):
+        lst_authcode.append(cursor[i][0])
 
 i = 0
 while i < n:
@@ -31,7 +36,8 @@ while i < n:
         str_authcode += random.choice(str_charpool)
 
     if not (str_authcode in lst_authcode):
-        cursor.execute("INSERT INTO auth_code VALUES(\'{0}\');".format(str_authcode))
+        lst_authcode.append(str_authcode)
+        cursor.execute("INSERT INTO staged_auth_code VALUES(\'{0}\', 0);".format(str_authcode))
         i += 1
 
 conn.commit()
@@ -39,9 +45,16 @@ conn.commit()
 wb = openpyxl.Workbook()
 ws = wb.active
 
-cursor.execute("SELECT * FROM auth_code")
+cursor.execute("SELECT * FROM auth_code WHERE pushed = 0;")
+conn.commit()
 
-for i in range(cursor.rowcount):
+for i in range(cursor.rowcount()):
     ws.cell(1, i).value = cursor[i][0]
 
 wb.save("authcodes.xlsx")
+
+cursor.execute("UPDATE FROM auth_code SET pushed = 1 WHERE pushed = 0")
+conn.commit()
+
+cursor.close()
+conn.close()

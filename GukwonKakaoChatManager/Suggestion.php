@@ -5,27 +5,99 @@
         <?php
             include($_SERVER['DOCUMENT_ROOT']."/functions/session.php");
             include($_SERVER['DOCUMENT_ROOT']."/functions/dbconn.php");
+
+            $result['open'] = mysqli_query($conn, "SELECT * FROM suggestion WHERE closed = 0");
+            $result['closed'] = mysqli_query($conn, "SELECT * FROM suggestion WHERE closed = 1");
         ?>
+        <script>
+            function setOpen(){
+                document.getElementById('btnOpen').style.display = 'none';
+                document.getElementById('btnClosed').style.display = '';
+
+                document.getElementById('divOpen').style.display = '';
+                document.getElementById('divClosed').style.display = 'none';
+            }
+
+            function setClosed(){
+                document.getElementById('btnOpen').style.display = '';
+                document.getElementById('btnClosed').style.display = 'none';
+
+                document.getElementById('divOpen').style.display = 'none';
+                document.getElementById('divClosed').style.display = '';
+            }
+        </script>
     </head>
     <body>
         <?php echo file_get_contents($_SERVER['DOCUMENT_ROOT']."/templates/top_nav.html"); ?>
         <div class='description'>
-            <table> <!-- JS로 Open/Close 바꿀까? 아님 그냥 링크로? -->
-            <?php
-                $sql = "SELECT * FROM ";
+            <button id='btnOpen' onclick='setOpen()' style='display:none;'>열린 제안</button>
+            <button id='btnClosed' onclick='setClosed()' style='display:;'>닫힌 제안</button>
+            <div id='divOpen' style='display:;'>
+                <!-- Open Issues -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>내용 미리보기</th>
+                            <th>등록일</th>
+                            <th>건의 권한 박탈</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $title = "";
 
-            // 하: Migrate 필요
-            while( $row = mysqli_fetch_assoc($result)){
-                $date = $row['dat'];
-                echo '<tr><td>'.htmlspecialchars($row['idx']).'</td>';
-                echo '<td><a href="http://localhost/tmps/grill/notice.php?id='.$row['idx'].'">'.htmlspecialchars($row['title']).'</a></td>';
-                echo '<td>'.$date[2].$date[3].'.'.$date[5].$date[6].'.'.$date[8].$date[9].'. '.$date[11].$date[12].':'.$date[14].$date[15].':'.$date[17].$date[18].'</td>';
-                if($_SESSION['level'] == '*C4E74DDDC9CC9E2FDCDB7F63B127FB638831262E' || $_SESSION['level'] == '*12033B78389744F3F39AC4CE4CCFCAD6960D8EA0'){
-                    echo '<td>삭제</td></tr>';
-                }
-              }
-            ?>
-            </table>
+                            while(($row = mysqli_fetch_assoc($result['open']))){        
+                                if(strlen($row['description']) >= 30){
+                                    $title = substr($row['description'], 0, 24)."......";
+                                }
+                                else{
+                                    $title = $row['description'];
+                                }
+
+                                echo "<tr>";
+                                echo "<td>".$row['idx']."</td>";
+                                echo "<td><a href='SuggestionViewer.php?idx=".$row['idx']."'>".$title."[".$row['num_comments']."]</a></td>";
+                                echo "<td>".$row['open_datetime']."</td>";
+                                echo "<td><a href='/functions/deprive.php?user_val=".$row['user_val']."'>권한 박탈하기</a></td>";
+                                echo "</tr>";
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+            <div id='divClosed' style='display:none;'>
+                <!-- Closed Issues -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>내용 미리보기</th>
+                            <th>등록일</th>
+                            <th>닫힌 날짜</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            while(($row = mysqli_fetch_assoc($result['closed']))){
+                                if(strlen($row['description']) >= 30){
+                                    $title = substr($row['description'], 0, 24)."......";
+                                }
+                                else{
+                                    $title = $row['description'];
+                                }
+
+                                echo "<tr>";
+                                echo "<td>".$row['idx']."</td>";
+                                echo "<td><a href='SuggestionViewer.php?idx=".$row['idx']."'>".$title."[".$row['num_comments']."]</a></td>";
+                                echo "<td>".$row['open_datetime']."</td>";
+                                echo "<td>".$row['close_datetime']."</td>";
+                                echo "</tr>";
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </body>
 </html>
