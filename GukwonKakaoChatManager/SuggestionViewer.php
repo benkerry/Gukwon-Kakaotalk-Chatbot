@@ -52,13 +52,13 @@
                     }
                 ?>
                 <br>
-                <form action="functions/suggestion_comment.php" method="GET">
-                    <?php echo "<input type='hidden' name='sug_idx' value='".$_GET['idx']."'>"; ?>
-                    <input type="hidden" name="handle" value="0">
-                    <textarea name="comment" wrap="hard" cols="30" rows="10" placeholder="답글 남기기"></textarea>
-                    <input type="submit" value="전송">
-                </form>
             </div>
+            <form action="functions/suggestion_comment.php" method="GET">
+                <?php echo "<input type='hidden' name='sug_idx' value='".$_GET['idx']."'>"; ?>
+                <input type="hidden" name="handle" value="0">
+                <textarea name="comment" wrap="hard" cols="30" rows="10" placeholder="답글 남기기"></textarea>
+                <input type="submit" value="전송">
+            </form>
         </div>
     </body>
 </html>
