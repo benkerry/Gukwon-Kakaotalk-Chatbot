@@ -2,8 +2,7 @@ CREATE DATABASE  chatbot_manager_web;
 USE chatbot_manager_web;
 
 CREATE TABLE auth_code(
-    auth_code TEXT NOT NULL,
-    pushed INT NOT NULL
+    auth_code TEXT NOT NULL
 );
 
 CREATE TABLE authed_user(
@@ -27,7 +26,7 @@ CREATE TABLE suggestion(
 );
 
 CREATE TABLE suggestion_comments(
-    idx INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    idx INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     sug_idx INT NOT NULL,
     description TEXT NOT NULL,
     commit_datetime TEXT NOT NULL

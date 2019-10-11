@@ -40,7 +40,6 @@
                             <th>번호</th>
                             <th>내용 미리보기</th>
                             <th>등록일</th>
-                            <th>건의 권한 박탈</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,7 +58,6 @@
                                 echo "<td>".$row['idx']."</td>";
                                 echo "<td><a href='SuggestionViewer.php?idx=".$row['idx']."'>".$title."[".$row['num_comments']."]</a></td>";
                                 echo "<td>".$row['open_datetime']."</td>";
-                                echo "<td><a href='/functions/deprive.php?user_val=".$row['user_val']."'>권한 박탈하기</a></td>";
                                 echo "</tr>";
                             }
                         ?>

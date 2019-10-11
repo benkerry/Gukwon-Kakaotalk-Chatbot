@@ -16,6 +16,7 @@ conn = mysql.connect(
 cursor = conn.cursor()
 
 lst_authcode = []
+lst_print_authcode = []
 
 str_sql = ""
 str_charpool = "abcdefghijklmnopqrstuvwxyz!@#$%^&*+=?~"
@@ -37,6 +38,7 @@ while i < n:
 
     if not (str_authcode in lst_authcode):
         lst_authcode.append(str_authcode)
+        lst_print_authcode.append(str_authcode)
         cursor.execute("INSERT INTO staged_auth_code VALUES(\'{0}\', 0);".format(str_authcode))
         i += 1
 
@@ -45,16 +47,8 @@ conn.commit()
 wb = openpyxl.Workbook()
 ws = wb.active
 
-cursor.execute("SELECT * FROM auth_code WHERE pushed = 0;")
-conn.commit()
-
-for i in range(cursor.rowcount()):
-    ws.cell(1, i).value = cursor[i][0]
+############### 여기부터 작성
+for i in range(len(lst_print_authcode)):
+    ws.cell(1, i).value = lst_print_authcode[i]
 
 wb.save("authcodes.xlsx")
-
-cursor.execute("UPDATE FROM auth_code SET pushed = 1 WHERE pushed = 0")
-conn.commit()
-
-cursor.close()
-conn.close()

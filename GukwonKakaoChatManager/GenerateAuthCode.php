@@ -6,7 +6,7 @@
             include($_SERVER['DOCUMENT_ROOT']."/functions/session.php");
             include($_SERVER['DOCUMENT_ROOT']."/functions/dbconn.php");
 
-            $result = mysqli_query($conn, "SELECT * FROM auth_code");
+            $result = mysqli_query($conn, "SELECT COUNT(*) FROM auth_code");
         ?>
     </head>
     <body>
@@ -18,7 +18,10 @@
                 <input type="submit" value="발급"><br>
             </form>
             <?php
-                echo "현재 미사용 인증번호는 ".(string)(mysqli_num_rows($result))."개 입니다.<br>";
+                $sql = "SELECT COUNT(*) FROM auth_code";
+                $num_rows = mysqli_fetch_array(mysqli_query($conn, $sql))[0];
+
+                echo "현재 미사용 인증번호는 ".$num_rows."개 입니다.<br>";
             ?>
         </div>
     </body>

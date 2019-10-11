@@ -16,27 +16,46 @@
         <div class='description'>
             <div class='suggestion'>
                 <?php
-                    echo "<h3>등록일: ".$result['suggestion']['open_datetime']."</h3>";
-                    if(((int)$result['suggestion']['closed']) == 0){
-                        echo "<h3>닫힌 날짜: ".$result['suggestion']['close_datetime']."</h3>";
+                    echo "<h4>등록일: ".$result['suggestion']['open_datetime']."</h4>";
+                    if(((int)$result['suggestion']['closed']) == 1){
+                        echo "<h4>닫힌 날짜: ".$result['suggestion']['close_datetime']."</h4>";
+                        echo "<button onclick='location.href=\"functions/ToggleIssueStatus.php?handle=Open&idx=".$_GET['idx']."\";'>건의 열기</button>";
                     }
+                    else{
+                        echo "<button onclick='location.href=\"functions/ToggleIssueStatus.php?handle=Close&idx=".$_GET['idx']."\";'>건의 닫기</button>";
+                    }
+
+                    echo "<br>";
+
+                    $sql = "SELECT COUNT(*) FROM authed_user WHERE user_val = '".$result['suggestion']['user_val']."'";
+
+                    if(((int)(mysqli_fetch_array(mysqli_query($conn, $sql))[0])) > 0){
+                        echo "<button action='functions/deprive.php?user_val=".$result['suggestion']['user_val']."'>건의 권한 박탈하기</button>";
+                    }
+                    else{
+                        echo "<strong>건의 권한이 박탈된 사용자가 남긴 건의입니다.</strong>";
+                    }
+
                     echo "<br><br>";
                     echo $result['suggestion']['description'];
                 ?>
             </div>
+            <br>
             <div class="comments">
                 <?php
                     $raw_result = mysqli_query($conn, "SELECT * FROM suggestion_comments WHERE sug_idx = ".$_GET['idx']);
                     
                     while(($row = mysqli_fetch_assoc($raw_result))){
                         echo "<div class='comment'>";
-                        echo "[".$row['commit_datetime']."]".$row['description'];
+                        echo "[".$row['commit_datetime']."] ".$row['description']."-<a href='functions/suggestion_comment.php?handle=1&idx=".$row['idx']."'>삭제</a>";
                         echo "</div>";
                     }
                 ?>
-                <form action="functions/suggestion_comment.php" method="POST">
+                <br>
+                <form action="functions/suggestion_comment.php" method="GET">
                     <?php echo "<input type='hidden' name='sug_idx' value='".$_GET['idx']."'>"; ?>
-                    <textarea name="comment_description" wrap="hard" cols="30" rows="10" placeholder="답글 남기기"></textarea>
+                    <input type="hidden" name="handle" value="0">
+                    <textarea name="comment" wrap="hard" cols="30" rows="10" placeholder="답글 남기기"></textarea>
                     <input type="submit" value="전송">
                 </form>
             </div>
