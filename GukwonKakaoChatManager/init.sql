@@ -29,5 +29,6 @@ CREATE TABLE suggestion(
 CREATE TABLE suggestion_comments(
     idx INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     sug_idx INT NOT NULL,
-    description TEXT NOT NULL
+    description TEXT NOT NULL,
+    commit_datetime TEXT NOT NULL
 );
