@@ -26,4 +26,4 @@ def collector():
     return make_response({"test":"테스트용 스킬입니다."})
 
 if __name__ == "__main__":
-    app.run(port=80)
+    app.run()
