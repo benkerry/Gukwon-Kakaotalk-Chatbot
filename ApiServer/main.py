@@ -8,6 +8,8 @@ class ApiServer:
     app = Flask(__name__)
 
     def __init__(self):
+        self.app.config['JSON_AS_ASCII'] = False
+
         self.logger = ServerLogger.Logger()
         self.data_manager = DataManager.Manager(self.logger)
         self.auto_parser = DataManager.AutoParser(self.data_manager, self.logger)
