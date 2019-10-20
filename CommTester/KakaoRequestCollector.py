@@ -1,15 +1,16 @@
 import os
 import json
 import random
-from flask import Flask, request, make_response
+from flask import Flask, request, jsonify
 
 str_charpool = "abcdefghijklmnopqrstuwxyz"
 
 app = Flask(__name__)
+app.config['JSON_AS_ASCII'] = True
 
-@app.route("/")
+@app.route("/", methods=["POST", "GET"])
 def collector():
-    str_fname = ""
+    str_fname = "data/"
 
     while True:
         for i in range(6):
@@ -20,10 +21,10 @@ def collector():
         if not os.path.isfile(str_fname):
             break
 
-    with open(str_fname, 'w') as fp:
-        json.dump(request.get_json(), fp, sort_keys=True, indent=4, ensure_ascii=False)
+    with open(str_fname, 'w', encoding="UTF-8") as fp:
+        json.dump(request.get_json(), fp, ensure_ascii=False, sort_keys=True, indent=4)
     
-    return make_response({"test":"테스트용 스킬입니다."})
+    return jsonify("{'hi':'안뇽'}")
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0", debug=True)
