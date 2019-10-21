@@ -44,7 +44,7 @@ def run(logger):
 
                 # 물결표(~) 앞의 날짜와 뒤의 날짜 사이에 무슨 날짜들이 있는지 구해서 lst_ineterval_datetime에 추가
                 while tmp_iterater[foo] != end_datetime:
-                    lst_interval_datetimes.append('20' + tmp_iterater[foo].strftime('%Y%m%d'))
+                    lst_interval_datetimes.append(tmp_iterater[foo].strftime('%Y-%m-%d'))
                     foo += 1
                 del(foo)
 
@@ -58,7 +58,7 @@ def run(logger):
             # 물결표가 없을 때의 처리
             else:    
                 lst_datetime = str_schedule_date.split('.')
-                str_key = '20' + lst_datetime[0] + lst_datetime[1] + lst_datetime[2]
+                str_key = '20' + lst_datetime[0] + '-' + lst_datetime[1] + '-' + lst_datetime[2]
                 dict_result[str_key] = []
 
                 # 불필요한 문자 제거, 딕셔너리에 추가

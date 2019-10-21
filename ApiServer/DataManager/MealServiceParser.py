@@ -21,7 +21,7 @@ def run(logger):
 
         if type(lst_raw_meal_data) != type(None):
             for k in lst_raw_meal_data('dl'):
-                str_key = '20' + str_date[:2] + '-' + str_date[2:4] + '-' + str_date[4:6] + '-' +  ':' + k.select_one('dt').text[0]
+                str_key = str_date[:2] + '-' + str_date[2:4] + '-' + str_date[4:6] + ':' + k.select_one('dt').text[0]
                 dict_meal_menu[str_key] = []
 
                 for j in k.select('li'):
