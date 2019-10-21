@@ -71,7 +71,7 @@ def run(logger):
                     pass
 
     # 처리 완료된 데이터 저장
-    with open("TimeTable.dat", "w", encoding="UTF-8") as fp:
+    with open("data/TimeTable.dat", "w", encoding="UTF-8") as fp:
         json.dump(dict_result, fp, ensure_ascii=False, sort_keys=True, indent=4)
     
     # 로그 남기기
