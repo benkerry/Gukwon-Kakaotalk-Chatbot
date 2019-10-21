@@ -75,4 +75,4 @@ def run(logger):
         json.dump(dict_result, fp, ensure_ascii=False, sort_keys=True, indent=4)
     
     # 로그 남기기
-    logger.log("Data Parsing Completed.")
+    logger.log("Timetable Data Parsing Completed.")
