@@ -19,27 +19,27 @@ class ApiServer:
         # HealthCheck 응답
         return ""
 
-    @app.route("/NoticeService", methods=["POST"])
+    @app.route("/notice-service", methods=["POST"])
     def notice_service(self):
         # 공지사항 요청을 처리
         return ""
 
-    @app.route("/MealNoticeService", methods=["POST"])
+    @app.route("/meal-notice-service", methods=["POST"])
     def meal_notice_service(self):
         # 급식 알림 요청을 처리
         return ""
 
-    @app.route("/TimeTableNoticeService", methods=["POST"])
+    @app.route("/timetable-notice-service", methods=["POST"])
     def timetable_notice_service(self):
         # 시간표 알림 요청을 처리
         return ""
 
-    @app.route("/ScheduleNoticeService", methods=["POST"])
+    @app.route("/schedule-notice-service", methods=["POST"])
     def schedule_notice_service(self):
         # 학사일정 알림 요청을 처리
         return ""
 
-    @app.route("/SuggestionService", methods=["POST"])
+    @app.route("/suggestion-service", methods=["POST"])
     def suggestion_service(self):
         # 건의 요청을 처리(박형진 담당)
         return ""
