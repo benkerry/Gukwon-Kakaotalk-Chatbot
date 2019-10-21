@@ -46,4 +46,4 @@ class ApiServer:
 
 if __name__ == "__main__":
     server = ApiServer()
-    server.app.run()
+    server.app.run(host="0.0.0.0", debug=True)
