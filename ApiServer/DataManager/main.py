@@ -111,13 +111,10 @@ class Manager:
                     self.lst_notice.append(lst_appender)
                     lst_appender = []
 
-        # 시간표 꺼내오기
-        if os.path.isfile('data/ThisWeekTimeTable.dat') and os.path.isfile('data/NextWeekTimeTable.dat'):
-            with open('data/ThisWeekTimeTable.dat', 'r') as fp:
-                self.dict_timetable['this_week'] = json.load(fp)
-
-            with open('data/NextWeekTimeTable.dat', 'r') as fp:
-                self.dict_timetable['next_week'] = json.load(fp)
+        # 시간표 꺼내오기 # 기수정
+        if os.path.isfile('data/TimeTable.dat'):
+            with open('data/TimeTable.dat', 'r') as fp:
+                self.dict_timetable = json.load(fp)
 
         self.logger.log('[Manager] Data Reloaded.')
 
@@ -166,7 +163,7 @@ class Manager:
     def get_notice(self):
         return self.lst_notice
 
-    def get_timetable(self, week, grade, _class, week_index, time):
+    def get_timetable(self, datetime, grade, _class, idx):
         # JSON에서 (교사 번호)*100 + 과목코드로 되어있는 시간표 한 칸에 해당하는 값을 가져온다.
         try:
             if week == 0:
