@@ -1,0 +1,52 @@
+{
+    "action": {
+        "clientExtra": null,
+        "detailParams": {
+            "test_type": {
+                "groupName": "",
+                "origin": "시험",
+                "value": "시험"
+            }
+        },
+        "id": "5dac40abffa7480001db2eac",
+        "name": "Test",
+        "params": {
+            "test_type": "시험"
+        }
+    },
+    "bot": {
+        "id": "5d78668e8192ac00011f94ac!",
+        "name": "GukwonChatBot"
+    },
+    "contexts": [],
+    "intent": {
+        "extra": {
+            "reason": {
+                "code": 1,
+                "message": "OK"
+            }
+        },
+        "id": "5d7895ae92690d0001815b9f",
+        "name": "TestDDay_Query"
+    },
+    "userRequest": {
+        "block": {
+            "id": "5d7895ae92690d0001815b9f",
+            "name": "TestDDay_Query"
+        },
+        "lang": "kr",
+        "params": {
+            "ignoreMe": "true",
+            "surface": "BuilderBotTest"
+        },
+        "timezone": "Asia/Seoul",
+        "user": {
+            "id": "d749ad2e1cd5a8f88dafa7ed8c7c277bbe29284a42e0aefe9e264c58c957986309",
+            "properties": {
+                "botUserKey": "d749ad2e1cd5a8f88dafa7ed8c7c277bbe29284a42e0aefe9e264c58c957986309"
+            },
+            "type": "botUserKey"
+        },
+        "utterance": "시험 언제야?\n"
+    }
+}
