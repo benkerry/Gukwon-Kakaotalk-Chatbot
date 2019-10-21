@@ -85,19 +85,19 @@ class Manager:
     def load_data(self):
         # 학사일정 꺼내오기
         if os.path.isfile('data/ScheduleTable.dat'):
-            with open('data/ScheduleTable.dat', 'r') as fp:
+            with open('data/ScheduleTable.dat', 'r', encoding="UTF-8") as fp:
                 self.dict_schedule = json.load(fp)
 
         # 급식 꺼내오기
         if os.path.isfile('data/MenuTable.dat'):
-            with open('data/MenuTable.dat', 'r') as fp:
+            with open('data/MenuTable.dat', 'r', encoding="UTF-8") as fp:
                 self.dict_menu = json.load(fp)
         
         # 공지사항 파일에서 꺼내오기
         if os.path.isfile('date/Notice.dat'):
             self.lst_notice = []
 
-            with open('date/Notice.dat', 'r') as fp:
+            with open('date/Notice.dat', 'r', encoding="UTF-8") as fp:
                 lst_rdr = fp.readlines()
 
                 if len(lst_rdr) % 2 != 0 or len(lst_rdr) == 0:
@@ -112,13 +112,10 @@ class Manager:
                     self.lst_notice.append(lst_appender)
                     lst_appender = []
 
-        # 시간표 꺼내오기
-        if os.path.isfile('data/ThisWeekTimeTable.dat') and os.path.isfile('data/NextWeekTimeTable.dat'):
-            with open('data/ThisWeekTimeTable.dat', 'r') as fp:
-                self.dict_timetable['this_week'] = json.load(fp)
-
-            with open('data/NextWeekTimeTable.dat', 'r') as fp:
-                self.dict_timetable['next_week'] = json.load(fp)
+        # 시간표 꺼내오기 # 기수정
+        if os.path.isfile('data/TimeTable.dat'):
+            with open('data/TimeTable.dat', 'r') as fp:
+                self.dict_timetable = json.load(fp)
 
         self.logger.log('[Manager] Data Reloaded.')
 
@@ -167,29 +164,6 @@ class Manager:
     def get_notice(self):
         return self.lst_notice
 
-    def get_timetable(self, week, grade, _class, week_index, time):
-        # JSON에서 (교사 번호)*100 + 과목코드로 되어있는 시간표 한 칸에 해당하는 값을 가져온다.
-        try:
-            if week == 0:
-                n = self.dict_timetable['this_week']['자료81'][grade][_class][week_index][time]
-            else:
-                n = self.dict_timetable['next_week']['자료81'][grade][_class][week_index][time]
-        except Exception:
-            return False
-
-        # 다음 주 시간표를 읽으려는데, 다음 주 시간표가 아직 안 나온 경우
-        if len(self.dict_timetable['next_week']) < 50 and week == 1:
-            return False
-        
-        # 수업이 없는 경우
-        if n == 0:
-            return -1
-
-        # 선생님 코드와 과목 코드를 구한다.
-        teacher_index = n // 100
-        subject_index = n % 100
-
-        if week == 0:
-            return [self.dict_timetable['this_week']['자료46'][teacher_index], self.dict_timetable['this_week']['긴자료92'][subject_index]]
-        else:
-            return [self.dict_timetable['next_week']['자료46'][teacher_index], self.dict_timetable['next_week']['긴자료92'][subject_index]]
+    def get_timetable(self, datetime, grade_class):
+        # 해당일/해당 반의 하루치 시간표를 가져온다.
+        return self.dict_timetable[datetime][grade_class]

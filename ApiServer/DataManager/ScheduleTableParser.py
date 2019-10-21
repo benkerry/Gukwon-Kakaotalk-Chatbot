@@ -66,7 +66,7 @@ def run(logger):
                     dict_result[str_key].append(j.text[3:-6])
 
     # 파일에 저장
-    with open('data/ScheduleTable.dat', 'w') as fp:
-        json.dump(dict_result, fp)
+    with open('data/ScheduleTable.dat', 'w', encoding="UTF-8") as fp:
+        json.dump(dict_result, fp, ensure_ascii=False, sort_keys=True, indent=4)
 
     logger.log("Schedule Parsing Complete.")
