@@ -37,30 +37,38 @@ def run(logger):
     str_key = {}
 
     for week_index in range(1, 15):
-        str_key['datetime'] = "20" + datetime_iterater[week_index].strftime("%Y-%m-%d")
+        str_key['datetime'] = datetime_iterater[week_index-1].strftime("%Y-%m-%d")
         dict_result[str_key['datetime']] = {}
         
         for grade in range(1, 4):
             for _class in range(1, 13):
                 str_key['grade-class'] = str(grade) + '-' + str(_class)
-                dict_result[str_key['datetime']][str_key['grade_class']] = []
+                dict_result[str_key['datetime']][str_key['grade-class']] = []
                 try:
                     if week_index < 8:
-                        for i in range(len(dict_json['this_week']['자료81'][grade][_class])):
-                            teacher_index = dict_json['this_week']['자료81'][grade][_class][i] // 100
-                            subject_index = dict_json['this_week']['자료81'][grade][_class][i] % 100
+                        for i in range(1, len(dict_json['this_week']['자료81'][grade][_class][week_index])):
+                            teacher_index = dict_json['this_week']['자료81'][grade][_class][week_index][i] // 100
+                            subject_index = dict_json['this_week']['자료81'][grade][_class][week_index][i] % 100
 
-                            dict_result[str_key['datetime']][str_key['grade_class']].append(
-                                [dict_result['this_week']['자료46'][teacher_index], dict_result['this_week']['긴자료92'][subject_index]])
+                            if not teacher_index and not subject_index:
+                                dict_result[str_key['datetime']][str_key['grade-class']].append([])
+                                continue
+
+                            dict_result[str_key['datetime']][str_key['grade-class']].append(
+                                [dict_json['this_week']['자료46'][teacher_index], dict_json['this_week']['긴자료92'][subject_index]])
                     else:
-                        for i in range(len(dict_json['next_week']['자료81'][grade][_class])):
-                            teacher_index = dict_json['next_week']['자료81'][grade][_class][i] // 100
-                            subject_index = dict_json['next_week']['자료81'][grade][_class][i] % 100
+                        for i in range(1, len(dict_json['next_week']['자료81'][grade][_class][week_index])):
+                            teacher_index = dict_json['next_week']['자료81'][grade][_class][week_index][i] // 100
+                            subject_index = dict_json['next_week']['자료81'][grade][_class][week_index][i] % 100
 
-                            dict_result[str_key['datetime']][str_key['grade_class']].append(
-                                [dict_result['next_week']['자료46'][teacher_index], dict_result['next_week']['긴자료92'][subject_index]])
+                            if not teacher_index and not subject_index:
+                                dict_result[str_key['datetime']][str_key['grade-class']].append([])
+                                continue
+
+                            dict_result[str_key['datetime']][str_key['grade-class']].append(
+                                [dict_json['next_week']['자료46'][teacher_index], dict_json['next_week']['긴자료92'][subject_index]])
                 except:
-                    break
+                    pass
 
     # 처리 완료된 데이터 저장
     with open("TimeTable.dat", "w", encoding="UTF-8") as fp:
