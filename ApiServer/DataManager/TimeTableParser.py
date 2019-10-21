@@ -21,11 +21,11 @@ def run(logger):
     dict_json['next_week'] = json.loads(dict_response['next_week'].text.split('\n')[0])
 
     # JSON으로 파일에 저장!
-    with open(dict_filename['this_week'], 'w') as fp:
-        json.dump(dict_json['this_week'], fp, indent='\t')
+    with open(dict_filename['this_week'], 'w', encoding="UTF-8") as fp:
+        json.dump(dict_json['this_week'], fp, ensure_ascii=False, sort_keys=True, indent=4)
 
-    with open(dict_filename['next_week'], 'w') as fp:
-        json.dump(dict_json['next_week'], fp, indent='\t')
+    with open(dict_filename['next_week'], 'w', encoding="UTF-8") as fp:
+        json.dump(dict_json['next_week'], fp, ensure_ascii=False, sort_keys=True, indent=4)
     
     # 로그 남기기
     logger.log("Data Parsing Completed.")

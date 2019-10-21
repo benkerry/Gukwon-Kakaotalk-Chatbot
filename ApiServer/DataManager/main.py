@@ -84,19 +84,19 @@ class Manager:
     def load_data(self):
         # 학사일정 꺼내오기
         if os.path.isfile('data/ScheduleTable.dat'):
-            with open('data/ScheduleTable.dat', 'r') as fp:
+            with open('data/ScheduleTable.dat', 'r', encoding="UTF-8") as fp:
                 self.dict_schedule = json.load(fp)
 
         # 급식 꺼내오기
         if os.path.isfile('data/MenuTable.dat'):
-            with open('data/MenuTable.dat', 'r') as fp:
+            with open('data/MenuTable.dat', 'r', encoding="UTF-8") as fp:
                 self.dict_menu = json.load(fp)
         
         # 공지사항 파일에서 꺼내오기
         if os.path.isfile('date/Notice.dat'):
             self.lst_notice = []
 
-            with open('date/Notice.dat', 'r') as fp:
+            with open('date/Notice.dat', 'r', encoding="UTF-8") as fp:
                 lst_rdr = fp.readlines()
 
                 if len(lst_rdr) % 2 != 0 or len(lst_rdr) == 0:
