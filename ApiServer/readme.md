@@ -15,3 +15,5 @@
 ### DataManager : 챗봇 운용에 필요한 데이터를 관리하는 클래스와 모듈들이 포함되어 있습니다.
   
 ### Processors : 사용자의 요청을 실질적으로 처리하고 결과를 반환하는 모듈들이 포함되어 있습니다.
+
+### Processors/ResponseGenerator : 카카오톡 응답 메시지를 Format에 맞춰 생성하는 패키지입니다.
