@@ -1,17 +1,36 @@
-# ApiServer
+# Processors
+* 요청을 실제로 처리하는 코드들이 포함되어 있습니다.
+* data_manager : DataManager.Manager 객체를 넘겨줍니다.
+* request : Flask.request를 그대로 넘겨줍니다.
   
-## main.py
-   이 파일을 실행하면 서버가 시작됩니다.
+## AuthService.py
+      def process(requests)
+      : 구성원 인증 요청을 처리하고 처리 결과 응답 메시지를 생성해 반환합니다.
   
+## HealthCheck.py
+      def process()
+      : HealthCheck 결과를 응답 메시지로 생성해 반환합니다.
   
-## ServerLogger.py
-### class Logger : 서버 로그를 남깁니다. 이 클래스의 인스턴스는 하나만 생성해야 합니다.
-     def Log(message)  
-     : Parameter로 로그 메시지를 남기면, 해당 로그가 콘솔에 출력된 후 파일에 저장됩니다.
-
-     def Close()
-     : 로깅을 위해 만들어진 FileStream을 닫습니다.
-
-### DataManager : 챗봇 운용에 필요한 데이터를 관리하는 클래스와 모듈들이 포함되어 있습니다.
+## MealNoticeService.py
+      def process(data_manager, request)
+      : 급식 알림 요청을 처리하고 처리 결과 응답 메시지를 생성해 반환합니다.
   
-### Processors : 사용자의 요청을 실질적으로 처리하고 결과를 반환하는 모듈들이 포함되어 있습니다.
+## NoticeService.py
+      def process(data_manager)
+      : 공지사항 알림 요청을 처리하고 처리 결과 응답 메시지를 생성해 반환합니다.
+  
+## ScheduleNoticeService.py
+      def process(data_manager, request)
+      : 학사일정 알림 요청을 처리하고 처리 결과 응답 메시지를 생성해 반환합니다.
+  
+## SuggestionService.py
+      def process(reqeust)
+      : 건의사항 요청을 처리하고 처리 결과 응답 메시지를 생성해 반환합니다.
+  
+## TestDDayService.py
+      def process(data_manager, request)
+      : 시험 디데이 요청을 처리하고 처리 결과 응답 메시지를 생성해 반환합니다.
+  
+## TimeTableNoticeService.py
+      def process()
+      : 시간표 요청을 처리하고 처리 결과 응답 메시지를 생성해 반환합니다.
