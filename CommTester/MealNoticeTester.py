@@ -28,6 +28,8 @@ def run_test():
     rsp_2 = requests.post("http://127.0.0.1:5000/meal-notice-service", json=json_2)
     rsp_3 = requests.post("http://127.0.0.1:5000/meal-notice-service", json=json_3)
     rsp_4 = requests.post("http://127.0.0.1:5000/meal-notice-service", json=json_4)
+    
+    # 아무 데이터도 안 넘겨주는 경우도 테스트 해볼 것
     rsp_5 = requests.post("http://127.0.0.1:5000/meal-notice-service", text="^^7")
 
     print("10월 25일 조식 요청에 대한 응답:\n", rsp_0.text)

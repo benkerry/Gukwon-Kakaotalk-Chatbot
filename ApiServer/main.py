@@ -23,6 +23,12 @@ def meal_notice_service():
     global data_manager
     return "급식 알림 요청을 처리"
 
+@app.route("/test-dday-service", methods=["POST"])
+def test_dday_service():
+    # 시험 디데이 요청을 처리
+    global data_manager
+    return "시험 디데이 요청을 처리"
+
 @app.route("/timetable-notice-service", methods=["POST"])
 def timetable_notice_service():
     # 시간표 알림 요청을 처리
