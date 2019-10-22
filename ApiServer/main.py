@@ -1,6 +1,14 @@
 import json
 import ServerLogger
-import DataManager.main as DataManager
+import DataManager.main as DataManager 
+
+import Processors.NoticeService as Notice
+import Processors.HealthCheck as HealthCheck
+import Processors.TestDDayService as TestDDay
+import Processors.SuggestionService as Suggestion
+import Processors.MealNoticeService as MealNotice
+import Processors.ScheduleNoticeService as ScheduleNotice
+import Processors.TimeTableNoticeService as TimeTableNotice
 
 from flask import Flask, request
 
@@ -8,44 +16,44 @@ app = Flask(__name__)
 
 @app.route("/")
 def healthcheck():
-    # HealthCheck 응답
-    return "Fine Working!"
+    return HealthCheck.process()
 
 @app.route("/notice-service", methods=["POST"])
 def notice_service():
-    # 공지사항 요청을 처리
     global data_manager
-    return "공지사항 요청을 처리"
+    return Notice.process(data_manager, request)
 
 @app.route("/meal-notice-service", methods=["POST"])
 def meal_notice_service():
-    # 급식 알림 요청을 처리
     global data_manager
-    return "급식 알림 요청을 처리"
+    return MealNotice.process(data_manager, request)
 
 @app.route("/test-dday-service", methods=["POST"])
 def test_dday_service():
-    # 시험 디데이 요청을 처리
     global data_manager
-    return "시험 디데이 요청을 처리"
+    return TestDDay.process(data_manager, request)
 
 @app.route("/timetable-notice-service", methods=["POST"])
 def timetable_notice_service():
-    # 시간표 알림 요청을 처리
     global data_manager
-    return "시간표 알림 요청을 처리"
+    return TimeTableNotice.process(data_manager, request)
 
 @app.route("/schedule-notice-service", methods=["POST"])
 def schedule_notice_service():
-    # 학사일정 알림 요청을 처리
     global data_manager
-    return "학사일정 알림 요청을 처리"
+    return TimeTableNotice.process(data_manager, request)
+
+@app.route("/auth-service", methods=["POST"])
+def suggestion_service():
+    # 구성원 인증 요청을 처리(박형진 담당)
+    # 오류 발생시 오류 메시지 보낼 것
+    return "구성원 인증 요청을 처리"
 
 @app.route("/suggestion-service", methods=["POST"])
 def suggestion_service():
     # 건의 요청을 처리(박형진 담당)
-    global data_manager
-    return "건의 요청을 처리"
+    # 오류 발생시 오류 메시지 보낼 것
+    return Suggestion.process()
 
 app.config['JSON_AS_ASCII'] = False
 
