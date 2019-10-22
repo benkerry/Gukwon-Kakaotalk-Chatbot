@@ -2,7 +2,6 @@ import json
 import os
 import traceback
 import threading
-from multiprocessing import Process, Queue
 
 import DataManager.MealServiceParser as MealServiceParser
 import DataManager.NoticeParser as NoticeParser
@@ -119,12 +118,12 @@ class Manager:
 
         self.logger.log('[Manager] Data Reloaded.')
 
-    # 날짜(str_date, "YYYY-MM-DD")로 스케줄 얻기
+    # 날짜(str_date, "YYYY-MM")으로 한달 치 스케줄 얻기
     def get_schedule_by_date(self, str_date):
         lst_result = []
 
         for i in self.dict_schedule.keys():
-            if i == str_date:
+            if str_date in i:
                 for k in self.dict_schedule[i]:
                     lst_result.append(k)
 
@@ -151,10 +150,15 @@ class Manager:
             return lst_result
         else:
             return []
+    
+    # 날짜(str_date, "YYYY-MM-DD"), 소속(grade_class, "GRADE-CLASS")
+    def get_timetable(self, str_date, grade_class):
+        # 해당일/해당 반의 하루치 시간표를 가져온다.
+        return self.dict_timetable[str_date][grade_class]
 
-    # 날짜(str_date, "YYYY-MM-DD"), 식사 선택(str_mealtime, '조' or '중' or '석')으로 스케줄 얻기
+    # 날짜(str_date, "YYYY-MM-DD"), 식사 선택(str_mealtime, '조식' or '중식' or '석식')으로 식단 얻기
     def get_meal(self, str_date, str_mealtime):
-        str_key = str_date + ':' + str_mealtime
+        str_key = str_date + ':' + str_mealtime[0]
 
         # Key에 해당하는 메뉴의 List를 반환
         if not (str_key in self.dict_menu.keys()):
@@ -164,8 +168,3 @@ class Manager:
 
     def get_notice(self):
         return self.lst_notice
-
-    # 날짜(str_date, "YYYY-MM-DD"), 소속(grade_class, "GRADE-CLASS")
-    def get_timetable(self, datetime, grade_class):
-        # 해당일/해당 반의 하루치 시간표를 가져온다.
-        return self.dict_timetable[datetime][grade_class]
