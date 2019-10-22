@@ -1,5 +1,5 @@
 class ListCard:
-    def listcard_item_generator(self, str_title, str_description, str_img_url, str_url):
+    def generate_listcard_item(self, str_title, str_description, str_img_url, str_url):
         dict_item = {}
         dict_item['title'] = str_title
         dict_item['description'] = str_description
