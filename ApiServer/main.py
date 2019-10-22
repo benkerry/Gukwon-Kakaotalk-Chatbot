@@ -2,6 +2,7 @@ import json
 import ServerLogger
 import DataManager.main as DataManager 
 
+import Processors.AuthService as Auth
 import Processors.NoticeService as Notice
 import Processors.HealthCheck as HealthCheck
 import Processors.TestDDayService as TestDDay
@@ -21,7 +22,7 @@ def healthcheck():
 @app.route("/notice-service", methods=["POST"])
 def notice_service():
     global data_manager
-    return Notice.process(data_manager, request)
+    return Notice.process(data_manager)
 
 @app.route("/meal-notice-service", methods=["POST"])
 def meal_notice_service():
@@ -44,16 +45,16 @@ def schedule_notice_service():
     return TimeTableNotice.process(data_manager, request)
 
 @app.route("/auth-service", methods=["POST"])
-def suggestion_service():
+def auth_service():
     # 구성원 인증 요청을 처리(박형진 담당)
     # 오류 발생시 오류 메시지 보낼 것
-    return "구성원 인증 요청을 처리"
+    return Auth.process(request)
 
 @app.route("/suggestion-service", methods=["POST"])
 def suggestion_service():
     # 건의 요청을 처리(박형진 담당)
     # 오류 발생시 오류 메시지 보낼 것
-    return Suggestion.process()
+    return Suggestion.process(request)
 
 app.config['JSON_AS_ASCII'] = False
 
