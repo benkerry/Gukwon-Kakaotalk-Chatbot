@@ -17,33 +17,33 @@ class ApiServer:
     @app.route("/")
     def healthcheck(self):
         # HealthCheck 응답
-        return ""
+        return "Fine Working!"
 
     @app.route("/notice-service", methods=["POST"])
     def notice_service(self):
         # 공지사항 요청을 처리
-        return ""
+        return "공지사항 요청을 처리"
 
     @app.route("/meal-notice-service", methods=["POST"])
     def meal_notice_service(self):
         # 급식 알림 요청을 처리
-        return ""
+        return "급식 알림 요청을 처리"
 
     @app.route("/timetable-notice-service", methods=["POST"])
     def timetable_notice_service(self):
         # 시간표 알림 요청을 처리
-        return ""
+        return "시간표 알림 요청을 처리"
 
     @app.route("/schedule-notice-service", methods=["POST"])
     def schedule_notice_service(self):
         # 학사일정 알림 요청을 처리
-        return ""
+        return "학사일정 알림 요청을 처리"
 
     @app.route("/suggestion-service", methods=["POST"])
     def suggestion_service(self):
         # 건의 요청을 처리(박형진 담당)
-        return ""
+        return "건의 요청을 처리"
 
 if __name__ == "__main__":
     server = ApiServer()
-    server.app.run(host="0.0.0.0", debug=True)
+    server.app.run(host="0.0.0.0", debug=False)

@@ -9,19 +9,19 @@ def run(logger):
     soup = BeautifulSoup(response.text, 'html.parser')
     str_href = '/gukwon-h/M01061201/list?ymd='
     
-    # YYMM00 형태의 숫자열 생성됨
+    # YYYYMM00 형태의 숫자열 생성됨
     year_n_month = int(datetime.today().strftime("%Y%m")) * 100
 
     dict_meal_menu = {}
 
     # 한달 치 식단 데이터를 dict_meal_menu에 저장
-    for i in range(1,30):
+    for i in range(1, 32):
         str_date = str(year_n_month + i)
         lst_raw_meal_data = soup.select_one('a[href=\"{0}\"]'.format(str_href + str_date))
 
         if type(lst_raw_meal_data) != type(None):
             for k in lst_raw_meal_data('dl'):
-                str_key = str_date[:2] + '-' + str_date[2:4] + '-' + str_date[4:6] + ':' + k.select_one('dt').text[0]
+                str_key = str_date[:4] + '-' + str_date[4:6] + '-' + str_date[6:8] + ':' + k.select_one('dt').text[0]
                 dict_meal_menu[str_key] = []
 
                 for j in k.select('li'):
