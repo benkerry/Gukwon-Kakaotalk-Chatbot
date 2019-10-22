@@ -1,7 +1,7 @@
-def listcard_item_generator(str_title, str_uploaddate, str_img_url, str_url):
+def listcard_item_generator(str_title, str_description, str_img_url, str_url):
     dict_item = {}
     dict_item['title'] = str_title
-    dict_item['description'] = str_uploaddate
+    dict_item['description'] = str_description
     dict_item['imageUrl'] = str_img_url
     dict_item['link'] = {'web':str_url}
 
