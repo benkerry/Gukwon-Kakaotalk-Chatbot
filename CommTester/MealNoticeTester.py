@@ -6,31 +6,30 @@ def run_test():
     json_1 = {}
     json_2 = {}
     json_3 = {}
-    json_4 = {}
 
+    # 특정일 조식을 요청
     with open("test_data/MealNotice/Breakfast.json", encoding="UTF-8") as fp:
         json_0 = json.load(fp)
 
+    # 특정일 중식을 요청
     with open("test_data/MealNotice/Dinner.json", encoding="UTF-8") as fp:
         json_1 = json.load(fp)
 
+    # 그냥 밥 알려달라고 요청
     with open("test_data/MealNotice/JustMeal.json", encoding="UTF-8") as fp:
         json_2 = json.load(fp)
 
+    # 특정일 석식을 요청
     with open("test_data/MealNotice/Lunch.json", encoding="UTF-8") as fp:
         json_3 = json.load(fp)
-
-    with open("test_data/MealNotice/Invalid.json", encoding="UTF-8") as fp:
-        json_4 = json.load(fp)
 
     rsp_0 = requests.post("http://127.0.0.1:5000/meal-notice-service", json=json_0)
     rsp_1 = requests.post("http://127.0.0.1:5000/meal-notice-service", json=json_1)
     rsp_2 = requests.post("http://127.0.0.1:5000/meal-notice-service", json=json_2)
     rsp_3 = requests.post("http://127.0.0.1:5000/meal-notice-service", json=json_3)
-    rsp_4 = requests.post("http://127.0.0.1:5000/meal-notice-service", json=json_4)
-    
+
     # 아무 데이터도 안 넘겨주는 경우도 테스트 해볼 것
-    rsp_5 = requests.post("http://127.0.0.1:5000/meal-notice-service", text="^^7")
+    rsp_4 = requests.post("http://127.0.0.1:5000/meal-notice-service", text="^^7")
 
     print("10월 25일 조식 요청에 대한 응답:\n", rsp_0.text)
     print("\n\n\n")
@@ -40,9 +39,7 @@ def run_test():
     print("\n\n\n")
     print("11월 18일 점심 요청에 대한 응답:\n", rsp_3.text)
     print("\n\n\n")
-    print("일부 원소가 누락된 요청에 대한 응답:\n", rsp_4.text)
-    print("\n\n\n")
-    print("여러모로 맛이 간 요청에 대한 응답:\n", rsp_5.text)
+    print("여러모로 맛이 간 요청에 대한 응답:\n", rsp_4.text)
 
 def custom_test():
     month = input("월 입력(format:MM)>> ")

@@ -4,18 +4,23 @@ import requests
 lst_json = []
 lst_rsp = []
 
+# 진로체험 날짜 요청
 with open("test_data/Schedule/JobExp.json", encoding="UTF-8") as fp:
     lst_json.append(json.load(fp))
 
+# 그냥 방학 언제냐고 물어봄
 with open("test_data/Schedule/JustVacation.json", encoding="UTF-8") as fp:
     lst_json.append(json.load(fp))
 
+# 다음 달 학사일정 물어봄
 with open("test_data/Schedule/NextMonthSchedule_Query.json", encoding="UTF-8") as fp:
     lst_json.append(json.load(fp))
 
+# 그냥 개학 언제냐고 물어봄
 with open("test_data/Schedule/SemesterOpen.json", encoding="UTF-8") as fp:
     lst_json.append(json.load(fp))
 
+# 여름방학 언제냐고 물어봄
 with open("test_data/Schedule/SummerVacation.json", encoding="UTF-8") as fp:
     lst_json.append(json.load(fp))
 

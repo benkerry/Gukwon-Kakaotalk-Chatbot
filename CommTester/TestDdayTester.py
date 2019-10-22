@@ -4,18 +4,23 @@ import requests
 lst_json = []
 lst_rsp = []
 
+# 기말 언제냐고 물어봄
 with open("test_data/Tests/FinalTest.json", encoding="UTF-8") as fp:
     lst_json.append(json.load(fp))
 
+# 그냥 시험 언제냐고 물어봄
 with open("test_data/Tests/JustTest.json", encoding="UTF-8") as fp:
     lst_json.append(json.load(fp))
 
+# 듣기평가 언제냐고 물어봄
 with open("test_data/Tests/ListeningTest.json", encoding="UTF-8") as fp:
     lst_json.append(json.load(fp))
 
+# 중간고사 언제냐고 물어봄
 with open("test_data/Tests/MiddleTest.json", encoding="UTF-8") as fp:
     lst_json.append(json.load(fp))
 
+# 수능 언제냐고 물어봄
 with open("test_data/Tests/SAT.json", encoding="UTF-8") as fp:
     lst_json.append(json.load(fp))
 

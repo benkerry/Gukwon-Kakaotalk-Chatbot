@@ -4,13 +4,16 @@ import requests
 lst_json = []
 lst_rsp = []
 
+# '학년-반' 형태의 반 정보와 함께, 해당 반의 2교시를 요청
 with open("test_data/TimeTable/ReqWithNotSplitedGradeClass_2Time.json", encoding="UTF-8") as fp:
     lst_json.append(json.load(fp))
 
+# '학년-반' 형태의 반 정보와 함께, 해당 반의 전체 시간표를 요청
 with open("test_data/TimeTable/ReqWithNotSplitedGradeClass_All.json", encoding="UTF-8") as fp:
     lst_json.append(json.load(fp))
 
-with open("test_data/TimeTable/ReqWithNotSplitedGradeClass_All.json", encoding="UTF-8") as fp:
+# 학년, 반 정보를 별도로 전달하며 해당 반의 전체 시간표를 요청
+with open("test_data/TimeTable/ReqWithSplitedGradeClass_All.json", encoding="UTF-8") as fp:
     lst_json.append(json.load(fp))
 
 for i in lst_json:

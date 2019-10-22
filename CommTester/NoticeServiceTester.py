@@ -4,6 +4,7 @@ import requests
 json_0 = {}
 json_1 = {}
 
+# 특별할 거 없는 요청 두 개
 with open("test_data/Notice/1.json", encoding="UTF-8") as fp:
     json_0 = json.load(fp)
 
