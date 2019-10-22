@@ -36,7 +36,7 @@ def run(logger):
                     break   
 
     # 파일에 저장
-    with open('data/MenuTable.dat','w', encoding="UTF-8")as fp:
-        json.dump(dict_meal_menu, fp, ensure_ascii=False, sort_keys=True, indent=4)
+    with open('data/MenuTable.dat','w', encoding="UTF-8") as fp:
+        json.dump(dict_meal_menu, fp, ensure_ascii=False, indent=4)
 
     logger.log("Meal Menu Parsing Complete.")
