@@ -48,14 +48,14 @@ def timetable_notice_service():
 def schedule_notice_service():
     global logger
     global data_manager
-    return TimeTableNotice.process(data_manager, request, logger)
+    return ScheduleNotice.process(data_manager, request, logger)
 
 @app.route("/auth-service", methods=["POST"])
 def auth_service():
     # 구성원 인증 요청을 처리(박형진 담당)
     # 오류 발생시 오류 메시지 보낼 것
     global logger
-    return Auth.process(request)
+    return Auth.process(request, logger)
 
 @app.route("/suggestion-service", methods=["POST"])
 def suggestion_service():
