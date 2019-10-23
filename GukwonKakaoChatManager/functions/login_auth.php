@@ -19,7 +19,7 @@
     }
 
     if(!$is_authed){
-        //echo "<script>alert('로그인 정보가 틀립니다.');location.href=\"../index.php\";</script>";
+        echo "<script>alert('로그인 정보가 틀립니다.');location.href=\"../index.php\";</script>";
     }
     else{
         header("Location:../GenerateAuthCode.php");

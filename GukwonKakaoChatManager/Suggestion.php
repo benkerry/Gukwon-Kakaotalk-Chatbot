@@ -6,17 +6,22 @@
             include($_SERVER['DOCUMENT_ROOT']."/functions/session.php");
             include($_SERVER['DOCUMENT_ROOT']."/functions/dbconn.php");
 
-            $result['req_review'] = mysqli_query($conn, "SELECT * FROM suggestion WHERE status = 0");
-            $result['open'] = mysqli_query($conn, "SELECT * FROM suggestion WHERE status = 1");
-            $result['closed'] = mysqli_query($conn, "SELECT * FROM suggestion WHERE status = 2");
+            $result['open'] = mysqli_query($conn, "SELECT * FROM suggestion WHERE closed = 0");
+            $result['closed'] = mysqli_query($conn, "SELECT * FROM suggestion WHERE closed = 1");
         ?>
         <script>
             function setOpen(){
+                document.getElementById('btnOpen').style.display = 'none';
+                document.getElementById('btnClosed').style.display = '';
+
                 document.getElementById('divOpen').style.display = '';
                 document.getElementById('divClosed').style.display = 'none';
             }
 
             function setClosed(){
+                document.getElementById('btnOpen').style.display = '';
+                document.getElementById('btnClosed').style.display = 'none';
+
                 document.getElementById('divOpen').style.display = 'none';
                 document.getElementById('divClosed').style.display = '';
             }
@@ -25,42 +30,8 @@
     <body>
         <?php echo file_get_contents($_SERVER['DOCUMENT_ROOT']."/templates/top_nav.html"); ?>
         <div class='description'>
-            <input type="radio" name="issue_status"> 등록 대기중인 제안 
-            <input type="radio" name="issue_status"> 열린 제안
-            <input type="radio" name="issue_status"> 닫힌 제안
+            <button id='btnOpen' onclick='setOpen()' style='display:none;'>열린 제안</button>
             <button id='btnClosed' onclick='setClosed()' style='display:;'>닫힌 제안</button>
-            <div id='divOpen' style='display:;'>
-                <!-- Wating Issues -->
-                <table>
-                    <thead>
-                        <tr>
-                            <th>번호</th>
-                            <th>내용 미리보기</th>
-                            <th>등록일</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                            $title = "";
-
-                            while(($row = mysqli_fetch_assoc($result['req_review']))){        
-                                if(strlen($row['description']) >= 30){
-                                    $title = substr($row['description'], 0, 24)."......";
-                                }
-                                else{
-                                    $title = $row['description'];
-                                }
-
-                                echo "<tr>";
-                                echo "<td>".$row['idx']."</td>";
-                                echo "<td><a href='SuggestionViewer.php?idx=".$row['idx']."'>".$title."[".$row['num_signs']."]</a></td>";
-                                echo "<td>".$row['open_datetime']."</td>";
-                                echo "</tr>";
-                            }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
             <div id='divOpen' style='display:;'>
                 <!-- Open Issues -->
                 <table>
@@ -85,7 +56,7 @@
 
                                 echo "<tr>";
                                 echo "<td>".$row['idx']."</td>";
-                                echo "<td><a href='SuggestionViewer.php?idx=".$row['idx']."'>".$title."[".$row['num_signs']."]</a></td>";
+                                echo "<td><a href='SuggestionViewer.php?idx=".$row['idx']."'>".$title."[".$row['num_comments']."]</a></td>";
                                 echo "<td>".$row['open_datetime']."</td>";
                                 echo "</tr>";
                             }
@@ -101,6 +72,7 @@
                             <th>번호</th>
                             <th>내용 미리보기</th>
                             <th>등록일</th>
+                            <th>닫힌 날짜</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -115,8 +87,9 @@
 
                                 echo "<tr>";
                                 echo "<td>".$row['idx']."</td>";
-                                echo "<td><a href='SuggestionViewer.php?idx=".$row['idx']."'>".$title."[".$row['num_signs']."]</a></td>";
+                                echo "<td><a href='SuggestionViewer.php?idx=".$row['idx']."'>".$title."[".$row['num_comments']."]</a></td>";
                                 echo "<td>".$row['open_datetime']."</td>";
+                                echo "<td>".$row['close_datetime']."</td>";
                                 echo "</tr>";
                             }
                         ?>
