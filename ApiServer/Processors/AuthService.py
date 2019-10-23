@@ -1,5 +1,37 @@
 import flask
 
+from MysqlConn import Conn
+from ResponseGenerator.OutputsPacker import pack_outputs
+from ResponseGenerator.GenerateOutput import ListCard, SimpleText
+
 def process(request:flask.Request) -> dict:
-    # 구성원 인증 요청을 처리
-    pass
+    dict_json = request.json
+
+    str_userval = dict_json['userRequest']['user']['id']
+    str_utterance = dict_json['userRequest']['utterance']
+
+    if ('[' in str_utterance) and (']' in str_utterance):
+        str_authcode = str_utterance.split('[')[1].split(']')[0]
+        
+        if len(str_authcode) == 6:
+            connector = Conn()
+            connector.cursor.execute("SELECT COUNT(*) AS cnt FROM auth_code WHERE auth_code='{0}'".format(str_authcode))
+            result_cnt = connector.cursor.fetchone()[0]
+
+            if result_cnt == 1:
+                connector.cursor.execute("DELETE FROM auth_code WHERE auth_code='{0}'".format(str_authcode))
+                connector.cursor.execute("INSERT INTO authed_user VALUES('{0}', '')".format(str_userval))
+                connector.conn.commit()
+                connector.conn.close()
+
+                str_out = "인증 성공!"
+                return pack_outputs([SimpleText.generate_simpletext(str_out)])
+            else:
+                str_error = "인증 번호가 틀렸거나 입력 형식이 잘못되었습니다.\n\n(입력 예시: \"[123456] 인증해줘.\")"
+                return pack_outputs([SimpleText.generate_simpletext(str_error)])
+        else:
+            str_error = "인증 번호가 틀렸거나 입력 형식이 잘못되었습니다.\n\n(입력 예시: \"[123456] 인증해줘.\")"
+            return pack_outputs([SimpleText.generate_simpletext(str_error)])
+    else:
+        str_error = "입력 형식이 잘못되었습니다.\n\n(입력 예시: \"[123456] 인증해줘.\")"
+        return pack_outputs([SimpleText.generate_simpletext(str_error)])
