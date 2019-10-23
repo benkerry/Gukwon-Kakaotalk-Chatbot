@@ -8,7 +8,7 @@ class Logger:
     # 인스턴스 생성과 동시에 Log.txt라는 파일을 만들거나 연다.
     self.log_fp = open(log_filename, 'a')
 
-  def log(self, message):
+  def log(self, message:str):
     str_log = datetime.datetime.today().strftime("[%y.%m.%d, %X] ") + message
     print(str_log) # 콘솔에 출력
 

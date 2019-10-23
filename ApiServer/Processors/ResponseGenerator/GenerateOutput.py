@@ -1,5 +1,5 @@
 class ListCard:
-    def generate_listcard_item(self, str_title, str_description, str_img_url, str_url):
+    def generate_listcard_item(self, str_title:str, str_description:str, str_img_url:str, str_url:str) -> dict:
         dict_item = {}
         dict_item['title'] = str_title
         dict_item['description'] = str_description
@@ -8,7 +8,7 @@ class ListCard:
 
         return dict_item
 
-    def generate_listcard(self, str_header_title, str_img_url, lst_items):
+    def generate_listcard(self, str_header_title:str, str_img_url:str, lst_items:str) -> dict:
         dict_output = {}
         dict_output['listCard'] = {}
         dict_output['listCard']['header'] = {'title':str_header_title, 'imageUrl':str_img_url}
@@ -20,7 +20,7 @@ class ListCard:
         return dict_output
 
 class SimpleText:
-    def generate_simpletext(self, str_msg):
+    def generate_simpletext(self, str_msg:str) -> dict:
         dict_output = {}
         dict_output['simpleText'] = {}
         dict_output['simpleText']['text'] = str_msg

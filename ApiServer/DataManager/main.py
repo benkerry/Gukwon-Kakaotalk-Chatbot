@@ -119,7 +119,7 @@ class Manager:
         self.logger.log('[Manager] Data Reloaded.')
 
     # 날짜(str_date, "YYYY-MM")으로 한달 치 스케줄 얻기
-    def get_schedule_by_date(self, str_date):
+    def get_schedule_by_date(self, str_date:str) -> list:
         lst_result = []
 
         for i in self.dict_schedule.keys():
@@ -134,7 +134,7 @@ class Manager:
             return []
 
     # 스케줄명 검색으로 스케줄 얻기
-    def get_schedule_by_name(self, schedule_name):
+    def get_schedule_by_name(self, schedule_name:str) -> list:
         lst_result = []
         lst_schedule = []
 
@@ -152,12 +152,12 @@ class Manager:
             return []
     
     # 날짜(str_date, "YYYY-MM-DD"), 소속(grade_class, "GRADE-CLASS")
-    def get_timetable(self, str_date, grade_class):
+    def get_timetable(self, str_date:str, grade_class:str):
         # 해당일/해당 반의 하루치 시간표를 가져온다.
         return self.dict_timetable[str_date][grade_class]
 
     # 날짜(str_date, "YYYY-MM-DD"), 식사 선택(str_mealtime, '조식' or '중식' or '석식')으로 식단 얻기
-    def get_meal(self, str_date, str_mealtime):
+    def get_meal(self, str_date:str, str_mealtime:str) -> list:
         str_key = str_date + ':' + str_mealtime[0]
 
         # Key에 해당하는 메뉴의 List를 반환
@@ -166,5 +166,5 @@ class Manager:
         else:
             return self.dict_menu[str_key]
 
-    def get_notice(self):
+    def get_notice(self) -> list:
         return self.lst_notice

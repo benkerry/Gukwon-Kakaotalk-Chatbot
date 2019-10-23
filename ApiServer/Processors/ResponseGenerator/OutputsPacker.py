@@ -1,4 +1,4 @@
-def pack_outputs(lst_outputs):
+def pack_outputs(lst_outputs:list) -> dict:
     dict_result = {}
 
     dict_result['version'] = 1.0
