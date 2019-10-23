@@ -6,7 +6,8 @@ CREATE TABLE auth_code(
 );
 
 CREATE TABLE authed_user(
-    user_val TEXT NOT NULL
+    user_val TEXT NOT NULL,
+    signed_suggestion TEXT
 );
 
 CREATE TABLE sign_info(
@@ -19,13 +20,12 @@ CREATE TABLE suggestion(
     idx INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     user_val TEXT NOT NULL,
     description TEXT NOT NULL,
-    closed INT NOT NULL,
-    open_datetime TEXT NOT NULL,
-    close_datetime TEXT,
-    num_comments INT NOT NULL
+    status INT NOT NULL,
+    num_signs INT NOT NULL,
+    open_datetime TEXT NOT NULL
 );
 
-CREATE TABLE suggestion_comments(
+CREATE TABLE suggestion_comment(
     idx INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     sug_idx INT NOT NULL,
     description TEXT NOT NULL,

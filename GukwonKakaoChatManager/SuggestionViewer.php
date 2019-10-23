@@ -43,22 +43,16 @@
             <br>
             <div class="comments">
                 <?php
-                    $raw_result = mysqli_query($conn, "SELECT * FROM suggestion_comments WHERE sug_idx = ".$_GET['idx']);
+                    $raw_result = mysqli_query($conn, "SELECT * FROM suggestion_comment WHERE sug_idx = ".$_GET['idx']);
                     
                     while(($row = mysqli_fetch_assoc($raw_result))){
                         echo "<div class='comment'>";
-                        echo "[".$row['commit_datetime']."] ".$row['description']."-<a href='functions/suggestion_comment.php?handle=1&idx=".$row['idx']."'>삭제</a>";
+                        echo "[".$row['commit_datetime']."]\n\n\n".$row['description']."<a href='functions/suggestion_comment.php?handle=1&idx=".$row['idx']."'>-삭제-</a>";
                         echo "</div>";
                     }
                 ?>
                 <br>
             </div>
-            <form action="functions/suggestion_comment.php" method="GET">
-                <?php echo "<input type='hidden' name='sug_idx' value='".$_GET['idx']."'>"; ?>
-                <input type="hidden" name="handle" value="0">
-                <textarea name="comment" wrap="hard" cols="30" rows="10" placeholder="답글 남기기"></textarea>
-                <input type="submit" value="전송">
-            </form>
         </div>
     </body>
 </html>
