@@ -1,11 +1,21 @@
 import flask
+import traceback
 
 from MysqlConn import Conn
 from ResponseGenerator.OutputsPacker import pack_outputs
 from ResponseGenerator.GenerateOutput import ListCard, SimpleText
 
-def process(request:flask.Request) -> dict:
-    dict_json = request.json
+def process(request:flask.Request, logger) -> dict:
+    dict_json = {}
+
+    try:
+        dict_json = request.json
+    except:
+        logger.log('[AuthService] Exception Catched.')
+        logger.log(traceback.format_exc())
+        
+        str_error = "서버 오류가 발생하였습니다."
+        return pack_outputs([SimpleText.generate_simpletext(str_error)])
 
     str_userval = dict_json['userRequest']['user']['id']
     str_utterance = dict_json['userRequest']['utterance']
@@ -14,7 +24,12 @@ def process(request:flask.Request) -> dict:
         str_authcode = str_utterance.split('[')[1].split(']')[0]
         
         if len(str_authcode) == 6:
-            connector = Conn()
+            try:
+                connector = Conn()
+            except:
+                str_error = "서버 오류가 발생하였습니다."
+                return pack_outputs([SimpleText.generate_simpletext(str_error)])
+
             connector.cursor.execute("SELECT COUNT(*) AS cnt FROM auth_code WHERE auth_code='{0}'".format(str_authcode))
             result_cnt = connector.cursor.fetchone()[0]
 

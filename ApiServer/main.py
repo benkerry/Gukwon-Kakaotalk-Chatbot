@@ -17,44 +17,52 @@ app = Flask(__name__)
 
 @app.route("/")
 def healthcheck():
-    return HealthCheck.process()
+    global logger
+    return HealthCheck.process(logger)
 
 @app.route("/notice-service", methods=["POST"])
 def notice_service():
+    global logger
     global data_manager
-    return Notice.process(data_manager)
+    return Notice.process(data_manager, logger)
 
 @app.route("/meal-notice-service", methods=["POST"])
 def meal_notice_service():
+    global logger
     global data_manager
-    return MealNotice.process(data_manager, request)
+    return MealNotice.process(data_manager, request, logger)
 
 @app.route("/test-dday-service", methods=["POST"])
 def test_dday_service():
+    global logger
     global data_manager
-    return TestDDay.process(data_manager, request)
+    return TestDDay.process(data_manager, request, logger)
 
 @app.route("/timetable-notice-service", methods=["POST"])
 def timetable_notice_service():
+    global logger
     global data_manager
-    return TimeTableNotice.process(data_manager, request)
+    return TimeTableNotice.process(data_manager, request, logger)
 
 @app.route("/schedule-notice-service", methods=["POST"])
 def schedule_notice_service():
+    global logger
     global data_manager
-    return TimeTableNotice.process(data_manager, request)
+    return TimeTableNotice.process(data_manager, request, logger)
 
 @app.route("/auth-service", methods=["POST"])
 def auth_service():
     # 구성원 인증 요청을 처리(박형진 담당)
     # 오류 발생시 오류 메시지 보낼 것
+    global logger
     return Auth.process(request)
 
 @app.route("/suggestion-service", methods=["POST"])
 def suggestion_service():
     # 건의 요청을 처리(박형진 담당)
     # 오류 발생시 오류 메시지 보낼 것
-    return Suggestion.process(request)
+    global logger
+    return Suggestion.process(request, logger)
 
 app.config['JSON_AS_ASCII'] = False
 
