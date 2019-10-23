@@ -47,7 +47,6 @@ conn.commit()
 wb = openpyxl.Workbook()
 ws = wb.active
 
-############### 여기부터 작성
 for i in range(len(lst_print_authcode)):
     ws.cell(1, i).value = lst_print_authcode[i]
 
