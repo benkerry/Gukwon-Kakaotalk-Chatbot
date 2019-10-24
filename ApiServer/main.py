@@ -15,6 +15,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
+# 로그는 여기서
 @app.route("/")
 def healthcheck():
     global logger

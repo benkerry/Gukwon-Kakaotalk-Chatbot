@@ -29,3 +29,13 @@ class SimpleText:
         dict_output['simpleText']['text'] = str_msg
 
         return dict_output
+
+class SimpleImage:
+    @staticmethod
+    def generate_simpleimage(str_url:str, str_alttext:str) -> dict:
+        dict_output = {}
+        dict_output['simpleImage'] = {}
+        dict_output['simpleImage']['imageUrl'] = str_url
+        dict_output['simpleImage']['altText'] = str_alttext
+
+        return dict_output
