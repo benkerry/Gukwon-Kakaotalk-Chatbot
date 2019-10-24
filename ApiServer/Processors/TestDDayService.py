@@ -16,7 +16,7 @@ def process(data_manager, request:flask.Request, logger) -> dict:
     try:
         dict_json = request.json
         
-        str_testtype = dict_json['action']['params']['date']
+        str_testtype = dict_json['action']['params']['test_type']
         
         if '1학기' in dict_json['userRequest']['utterance']:
             str_semester = "1학기"

@@ -163,8 +163,11 @@ class Manager:
         else:
             return []
     
-    def get_timetable(self, str_date:str, grade_class:str):
-        return self.dict_timetable[str_date][grade_class]
+    def get_timetable(self, str_date:str, grade_class:str) -> list:
+        if str_date in self.dict_timetable.keys() and grade_class in self.dict_timetable[str_date].keys():
+            return self.dict_timetable[str_date][grade_class]
+        else:
+            return []
 
     def get_meal(self, str_date:str, str_mealtime:str) -> list:
         str_key = str_date + ':' + str_mealtime
