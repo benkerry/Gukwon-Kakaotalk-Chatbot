@@ -1,18 +1,15 @@
 import flask
 import traceback
 
-from MysqlConn import Conn
-from ResponseGenerator.OutputsPacker import pack_outputs
-from ResponseGenerator.GenerateOutput import ListCard, SimpleText
+from Processors.MysqlConn import Conn
+from Processors.ResponseGenerator.OutputsPacker import pack_outputs
+from Processors.ResponseGenerator.GenerateOutput import ListCard, SimpleText
 
-def process(request:flask.Request, logger) -> dict:
-    dict_json = None
+def process(logger, dict_json:dict) -> dict:
     str_userval = None
     str_utterance = None
 
     try:
-        dict_json = request.json
-
         str_userval = dict_json['userRequest']['user']['id']
         str_utterance = dict_json['userRequest']['utterance']
     except:

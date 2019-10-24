@@ -4,17 +4,14 @@ import traceback
 
 from datetime import datetime, timedelta
 
-from ResponseGenerator.GenerateOutput import SimpleText
-from ResponseGenerator.OutputsPacker import pack_outputs
+from Processors.ResponseGenerator.GenerateOutput import SimpleText
+from Processors.ResponseGenerator.OutputsPacker import pack_outputs
 
-def process(data_manager, request:flask.Request, logger) -> dict:
-    dict_json = None
+def process(data_manager, logger, dict_json:dict) -> dict:
     str_date = None
     str_mealtime = None
 
     try:
-        dict_json = request.json
-
         str_date = dict_json['action']['params']['date']
         str_mealtime = dict_json['action']['params']['meal_time']
     except:
@@ -33,11 +30,11 @@ def process(data_manager, request:flask.Request, logger) -> dict:
         dict_tmp = json.loads(str_date)
         
         str_date = dict_tmp['date']
-        lst_date_elemnets = str_date.split('-')
+        lst_date_elements = str_date.split('-')
 
-        req_datetime = datetime(int(lst_date_elemnets[0]), int(lst_date_elemnets[1], int(lst_date_elemnets[2])))
+        req_datetime = datetime(int(lst_date_elements[0]), int(lst_date_elements[1]), int(lst_date_elements[2]))
 
-        is_strdate_today = (cur_datetime - req_datetime).day == 0    
+        is_strdate_today = (cur_datetime - req_datetime).days == 0    
 
     if is_strdate_today and is_strmealtime_justmeal: # 급식 알려줘 or 오늘 급식 알려줘
         str_time = cur_datetime.strftime("%H%M")
@@ -56,10 +53,10 @@ def process(data_manager, request:flask.Request, logger) -> dict:
         else:
             return pack_outputs([SimpleText.generate_simpletext("오늘 배식은 종료되었어요.")])
 
-        str_date = cur_datetime.strftime("%y-%m-%d")
+        str_date = "20" + cur_datetime.strftime("%y-%m-%d")
     elif is_strdate_today: # 오늘 (조식, 중식, 석식) 알려줘 or (조식, 중식, 석식) 알려줘
         if not is_date_setted:
-            str_date = cur_datetime.strftime("%y-%m-%d")
+            str_date = "20" + cur_datetime.strftime("%y-%m-%d")
     elif is_strmealtime_justmeal: # 언제언제 급식 알려줘
         str_mealtime = "중식"
 
@@ -69,8 +66,8 @@ def process(data_manager, request:flask.Request, logger) -> dict:
     if len(lst_meal) == 0:
         str_output = "해당일의 급식 정보가 없어요."
     else:
-        str_output = "오늘의 메뉴는 다음과 같습니다.\n\n"
+        str_output = "{0}일 {1} 메뉴는 다음과 같아요.\n\n".format(str_date, str_mealtime)
         for i in lst_meal:
             str_output += "- {0}\n".format(i)
 
-    return pack_outputs([str_output])
+    return pack_outputs([SimpleText.generate_simpletext(str_output)])

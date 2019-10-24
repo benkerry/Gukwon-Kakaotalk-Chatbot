@@ -4,19 +4,16 @@ import traceback
 
 from datetime import datetime, timedelta
 
-from ResponseGenerator.GenerateOutput import SimpleText
-from ResponseGenerator.OutputsPacker import pack_outputs
+from Processors.ResponseGenerator.GenerateOutput import SimpleText
+from Processors.ResponseGenerator.OutputsPacker import pack_outputs
 
-def process(data_manager, request:flask.Request, logger) -> dict:
-    dict_json = None
+def process(data_manager, logger, dict_json:dict) -> dict:
     str_date = None
     str_class = None
     time_column = None
 
     try:
-        dict_json = request.json
         lst_params = dict_json['action']['params'].keys()
-
         str_date = dict_json['action']['params']['date']
 
         if "grade-class" in lst_params:
@@ -46,7 +43,9 @@ def process(data_manager, request:flask.Request, logger) -> dict:
         if now_time > 1700:
             today += timedelta(1)
 
-        str_date = today.strftime("%y-%m-%d")
+        str_date =  "20" + today.strftime("%y-%m-%d")
+    else:
+        str_date = json.loads(str_date)['date']
 
     lst_timetable = data_manager.get_timetable(str_date, str_class)
     str_output = "해당일 수업 정보가 없습니다."
@@ -55,10 +54,9 @@ def process(data_manager, request:flask.Request, logger) -> dict:
         str_output = "{0} 학급의 시간표는 다음과 같습니다.\n\n".format(str_class)
             
         for i in range(len(lst_timetable)):
-            for k in lst_timetable[i]:
-                if len(k) == 0:
-                    str_output += "{0}교시: 없음".format(i)
-                else:
-                    str_output += "{0}교시: {1} 선생님의 {2}".format(i, k[0], k[1])
+            if len(lst_timetable[i]) == 0:
+                str_output += "{0}교시: 없음\n".format(i + 1)
+            else:
+                str_output += "{0}교시: {1} 선생님의 {2}\n".format(i + 1, lst_timetable[i][0], lst_timetable[i][1])
 
     return pack_outputs([SimpleText.generate_simpletext(str_output)])

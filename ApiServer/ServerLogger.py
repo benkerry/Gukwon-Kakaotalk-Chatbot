@@ -14,7 +14,7 @@ class Logger:
 
     self.lst_logbuf.append(str_log)
 
-    if len(self.lst_logbuf) > 100:
+    if len(self.lst_logbuf) > 5:
       self.write_log()
 
   def write_log(self):

@@ -18,9 +18,9 @@
 ### 사용된 Python pip 모듈
 
 >- requests
->- json
 >- BeautifulSoup4
 >- mysql-connector
 >- openpyxl
 >- Flask
 >- psutil
+>- python-dateutil

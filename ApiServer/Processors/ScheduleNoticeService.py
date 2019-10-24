@@ -4,21 +4,17 @@ import traceback
 
 from datetime import datetime, timedelta
 
-from ResponseGenerator.GenerateOutput import SimpleText
-from ResponseGenerator.OutputsPacker import pack_outputs
+from Processors.ResponseGenerator.GenerateOutput import SimpleText
+from Processors.ResponseGenerator.OutputsPacker import pack_outputs
 
 # 작성중
-def process(data_manager, request:flask.Request, logger) -> dict:
-    dict_json = None
-
+def process(data_manager, logger, dict_json:dict) -> dict:
     str_major_event = None
     str_period = None
 
     dict_period = None
 
     try:
-        dict_json = request.json
-
         str_major_event = dict_json['action']['params']['major_event']
         str_period = dict_json['action']['params']['sys_date_period']
     except:

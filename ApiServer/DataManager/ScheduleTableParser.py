@@ -5,12 +5,12 @@ from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 
 def run(logger):
-    now_datetime = datetime.now() - timedelta(days = 50)
-    nextyear_datetime = datetime(int(now_datetime.strftime('%Y')) + 1, 4, 1)
+    cur_datetime = datetime(2000 + int(datetime.today().strftime("%y")), 1, 1)
+    nextyear_datetime = datetime(int(cur_datetime.strftime('%Y')) + 1, 4, 1)
 
-    datetime_iterater = rrule(MONTHLY, dtstart=now_datetime, bymonthday=1)
+    datetime_iterater = rrule(MONTHLY, dtstart=cur_datetime, bymonthday=1)
 
-    left_month = ((nextyear_datetime - now_datetime).days // 30)
+    left_month = ((nextyear_datetime - cur_datetime).days // 30)
 
     dict_result = {}
 

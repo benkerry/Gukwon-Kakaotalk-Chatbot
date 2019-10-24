@@ -1,5 +1,5 @@
-from ResponseGenerator.OutputsPacker import pack_outputs
-from ResponseGenerator.GenerateOutput import SimpleImage, SimpleText, ListCard
+from Processors.ResponseGenerator.OutputsPacker import pack_outputs
+from Processors.ResponseGenerator.GenerateOutput import SimpleImage, SimpleText, ListCard
 
 def process(data_manager, logger) -> dict:
     lst_data = data_manager.get_notice()

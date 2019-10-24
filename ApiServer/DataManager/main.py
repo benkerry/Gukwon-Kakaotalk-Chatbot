@@ -73,10 +73,10 @@ class Manager:
 
         self.logger = logger
 
-        self.dict_schedule = {}
-        self.dict_menu = {}
+        self.dict_schedule = None
+        self.dict_menu = None
         self.lst_notice = []
-        self.dict_timetable = {}
+        self.dict_timetable = None
 
     def load_data(self):
         if os.path.isfile('data/ScheduleTable.dat'):
@@ -85,13 +85,13 @@ class Manager:
 
         cnt = 0
         for i in self.dict_schedule.keys():
-            for k in len(self.dict_schedule[i][1]):
-                if (("중간고사" in self.dict_schedule[i][1][k]) or ("기말고사" in self.dict_schedule[i][1][k])):
-                    if not "학기" in self.dict_schedule[i][1][k]:
+            for k in range(len(self.dict_schedule[i])):
+                if (("중간고사" in self.dict_schedule[i][k]) or ("기말고사" in self.dict_schedule[i][k])):
+                    if not "학기" in self.dict_schedule[i][k]:
                         if cnt == 0 or cnt == 1:
-                            self.dict_schedule[i][1][k] = "1학기 " + self.dict_schedule[i][1][k]
+                            self.dict_schedule[i][k] = "1학기 " + self.dict_schedule[i][k]
                         else:
-                            self.dict_schedule[i][1][k] = "2학기 " + self.dict_schedule[i][1][k]
+                            self.dict_schedule[i][k] = "2학기 " + self.dict_schedule[i][k]
                     cnt += 1
 
         if os.path.isfile('data/MenuTable.dat'):
