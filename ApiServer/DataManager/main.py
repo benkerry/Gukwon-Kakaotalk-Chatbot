@@ -7,6 +7,7 @@ import DataManager.MealServiceParser as MealServiceParser
 import DataManager.NoticeParser as NoticeParser
 import DataManager.ScheduleTableParser as ScheduleTableParser
 import DataManager.TimeTableParser as TimeTableParser
+import DataManager.NewsletterParser as NewsletterParser
 
 class AutoParser:
     def __init__(self, manager, logger):
@@ -39,6 +40,7 @@ class AutoParser:
         try:
             TimeTableParser.run(self.logger)
             NoticeParser.run(self.logger)
+            NewsletterParser.run(self.logger)
 
             self.manager.load_data()
 
@@ -76,6 +78,7 @@ class Manager:
         self.dict_schedule = None
         self.dict_menu = None
         self.lst_notice = []
+        self.lst_newsletter = []
         self.dict_timetable = None
 
     def load_data(self):
@@ -98,12 +101,12 @@ class Manager:
             with open('data/MenuTable.dat', 'r', encoding="UTF-8") as fp:
                 self.dict_menu = json.load(fp)
         
-        if os.path.isfile('date/Notice.dat'):
+        if os.path.isfile('data/Notice.dat'):
             self.lst_notice = []
 
             lst_rdr = []
 
-            with open('date/Notice.dat', 'r', encoding="UTF-8") as fp:
+            with open('data/Notice.dat', 'r', encoding="UTF-8") as fp:
                 lst_rdr = fp.readlines()
         
             lst_appender = []
@@ -111,9 +114,26 @@ class Manager:
             for i in range(len(lst_rdr)):
                 lst_appender.append(lst_rdr[i])
 
-                if i % 3 == 2:
+                if (i + 1) % 3 == 0:
                     self.lst_notice.append(lst_appender)
-                    lst_appender.clear()
+                    lst_appender = []
+
+        if os.path.isfile('data/Newsletter.dat'):
+            self.lst_newsletter = []
+
+            lst_rdr = []
+
+            with open('data/Newsletter.dat', 'r', encoding="UTF-8") as fp:
+                lst_rdr = fp.readlines()
+        
+            lst_appender = []
+
+            for i in range(len(lst_rdr)):
+                lst_appender.append(lst_rdr[i][:-1])
+
+                if (i + 1) % 3 == 0:
+                    self.lst_newsletter.append(lst_appender)
+                    lst_appender = []
 
         if os.path.isfile('data/TimeTable.dat'):
             with open('data/TimeTable.dat', 'r', encoding="UTF-8") as fp:
@@ -129,17 +149,12 @@ class Manager:
             return []
 
     # 월간(str_date, "YYYY-MM") 검색으로 스케줄 얻기
-    def get_schedult_monthly(self, str_date:str) -> list:
+    def get_schedule_monthly(self, str_date:str) -> list:
         lst_result = []
 
         for i in self.dict_schedule.keys():
             if str_date in i:
-                lst_sub = []
-                
-                for k in self.dict_schedule[i]:
-                    lst_sub.append(k)
-                
-                lst_result.append([i, lst_sub])
+                lst_result.append([i, self.dict_schedule[i]])
 
         if len(lst_result) > 0:
             return lst_result
@@ -179,3 +194,6 @@ class Manager:
 
     def get_notice(self) -> list:
         return self.lst_notice
+
+    def get_newsletter(self) -> list:
+        return self.lst_newsletter

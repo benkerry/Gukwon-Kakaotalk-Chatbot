@@ -7,6 +7,7 @@ import Processors.AuthService as Auth
 import Processors.NoticeService as Notice
 import Processors.HealthCheck as HealthCheck
 import Processors.TestDDayService as TestDDay
+import Processors.NewsletterService as Newsletter
 import Processors.SuggestionService as Suggestion
 import Processors.MealNoticeService as MealNotice
 import Processors.ScheduleNoticeService as ScheduleNotice
@@ -44,12 +45,14 @@ def main():
       return TimeTableNotice.process(data_manager, logger, dict_json)
     elif str_reqtype == "Notice_Query":
       return Notice.process(data_manager, logger)
+    elif str_reqtype == "Newsletter_Query":
+      return Newsletter.process(data_manager, logger)
     elif str_reqtype == "ScheduleTable_Query":
       return ScheduleNotice.process(data_manager, logger, dict_json)
     elif str_reqtype == "Authentication_Query":
-      return Auth.process(logger, dict_json)
+      return Auth.process(logger, dict_json) # 2차 개발 목표
     elif str_reqtype == "Suggestion_Query":
-      return Suggestion.process(logger, dict_json)
+      return Suggestion.process(logger, dict_json) # 2차 개발 목표
     else:
       return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
 
