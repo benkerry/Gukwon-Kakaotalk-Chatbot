@@ -32,8 +32,7 @@ def process(data_manager, request:flask.Request, logger) -> dict:
     lst_schedules = []
 
     if str_major_event != 0:
-        pass
-
+        lst_schedules = data_manager.get_schedule_by_name(str_major_event)
     elif is_thismonth:
         str_period = datetime.today().strftime("%y-%m")
         lst_schedules = data_manager.get_schedule_monthly(str_period)

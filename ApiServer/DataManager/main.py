@@ -131,11 +131,8 @@ class Manager:
 
     # 날짜(str_date, "YYYY-MM-DD") 검색으로 스케줄 하나 얻기
     def get_schedule_daily(self, str_date:str) -> list:
-        lst_result = []
-        lst_keys = self.dict_schedule.keys()
-
         if str_date in self.dict_schedule.keys():
-            return [str_date, self.dict_schedule['i']]
+            return [str_date, self.dict_schedule[str_date]]
         else:
             return []
 
