@@ -23,3 +23,4 @@
 >- mysql-connector
 >- openpyxl
 >- Flask
+>- psutil

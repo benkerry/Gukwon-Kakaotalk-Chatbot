@@ -158,7 +158,7 @@ class Manager:
 
     # 날짜(str_date, "YYYY-MM-DD"), 식사 선택(str_mealtime, '조식' or '중식' or '석식')으로 식단 얻기
     def get_meal(self, str_date:str, str_mealtime:str) -> list:
-        str_key = str_date + ':' + str_mealtime[0]
+        str_key = str_date + ':' + str_mealtime
 
         # Key에 해당하는 메뉴의 List를 반환
         if not (str_key in self.dict_menu.keys()):

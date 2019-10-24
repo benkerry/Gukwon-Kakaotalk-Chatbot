@@ -5,15 +5,26 @@ log_filename = "Log.txt"
 
 class Logger:
   def __init__(self):
-    # 인스턴스 생성과 동시에 Log.txt라는 파일을 만들거나 연다.
     self.log_fp = open(log_filename, 'a')
+    self.lst_logbuf = []
 
   def log(self, message:str):
-    str_log = datetime.datetime.today().strftime("[%y.%m.%d, %X] ") + message
-    print(str_log) # 콘솔에 출력
+    str_log = datetime.datetime.today().strftime("[%y.%m.%d, %X] ") + message + '\n'
+    print(str_log)
 
-    self.log_fp.write(str_log + '\n') # 파일에 출력
-    self.log_fp.flush()
+    self.lst_logbuf.append(str_log)
+
+    if len(self.lst_logbuf) > 100:
+      self.write_log()
+
+  def write_log(self):
+    for i in self.lst_logbuf:
+      self.log_fp.write(i)
+    self.lst_logbuf.clear()
   
   def close(self):
-    self.log_fp.close() # 파일스트림을 닫는다.
+    for i in self.lst_logbuf:
+      self.log_fp.write(i)
+
+    del(self.lst_logbuf)
+    self.log_fp.close() # 파일 스트림을 닫는다.
