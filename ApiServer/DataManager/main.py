@@ -107,20 +107,19 @@ class Manager:
         if os.path.isfile('date/Notice.dat'):
             self.lst_notice = []
 
+            lst_rdr = []
+
             with open('date/Notice.dat', 'r', encoding="UTF-8") as fp:
                 lst_rdr = fp.readlines()
-
-                if len(lst_rdr) % 2 != 0 or len(lst_rdr) == 0:
-                    return []
         
             lst_appender = []
 
             for i in range(len(lst_rdr)):
                 lst_appender.append(lst_rdr[i])
 
-                if i % 2 == 1:
+                if i % 3 == 2:
                     self.lst_notice.append(lst_appender)
-                    lst_appender = []
+                    lst_appender.clear()
 
         # 시간표 꺼내오기
         if os.path.isfile('data/TimeTable.dat'):
