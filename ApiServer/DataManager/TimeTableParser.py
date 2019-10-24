@@ -5,23 +5,18 @@ from dateutil.rrule import rrule, DAILY
 from datetime import datetime, timedelta
 
 def run(logger):
-    # 변수 초기화
     dict_json = {}
     dict_response = {}
 
-    # 서버에 이번 주 시간표 데이터를 요청한다.
     dict_response['this_week'] = requests.get("http://112.186.146.81:4081/98372?MzQ3MzlfMzExNTRfMF8x")
     dict_response['this_week'].encoding = 'utf-8'
 
-    # 서버에 다음 주 시간표 데이터를 요청한다.
     dict_response['next_week'] = requests.get("http://112.186.146.81:4081/98372?MzQ3MzlfMzExNTRfMF8y")
     dict_response['next_week'].encoding = 'utf-8'
 
-    # 이번 주 시간표 데이터, 다음 주 시간표 데이터를 Dictionary로 변환한다.
     dict_json['this_week'] = json.loads(dict_response['this_week'].text.split('\n')[0])
     dict_json['next_week'] = json.loads(dict_response['next_week'].text.split('\n')[0])
 
-    # YYYY-MM-DD:Class-Grade 형식 키로 데이터 탐색 가능하도록 처리
     datetime_cur = datetime.now()
     timedelta_oneday = timedelta(1)
     
@@ -70,9 +65,7 @@ def run(logger):
                 except:
                     pass
 
-    # 처리 완료된 데이터 저장
     with open("data/TimeTable.dat", "w", encoding="UTF-8") as fp:
         json.dump(dict_result, fp, ensure_ascii=False, indent=4)
     
-    # 로그 남기기
     logger.log("Timetable Data Parsing Completed.")

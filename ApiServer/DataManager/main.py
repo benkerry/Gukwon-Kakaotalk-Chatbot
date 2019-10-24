@@ -9,7 +9,6 @@ import DataManager.ScheduleTableParser as ScheduleTableParser
 import DataManager.TimeTableParser as TimeTableParser
 
 class AutoParser:
-    # 일정 시간마다 파싱 반복하는 클래스: Thread에 물려줘야 함
     def __init__(self, manager, logger):
         self.manager = manager
         self.logger = logger
@@ -17,7 +16,6 @@ class AutoParser:
         self.tr_10m = None
         self.tr_24h = None
 
-        # 읽어온 데이터를 저장할 디렉터리가 없을 때 실행
         if os.path.isdir('data') == False:
             os.mkdir('data')
 
@@ -70,7 +68,6 @@ class AutoParser:
 
 class Manager:
     def __init__(self, logger):
-        # 읽어온 데이터를 저장할 디렉터리가 없을 때 실행
         if os.path.isdir('data') == False:
             os.mkdir('data')
 
@@ -82,7 +79,6 @@ class Manager:
         self.dict_timetable = {}
 
     def load_data(self):
-        # 학사일정 꺼내오기
         if os.path.isfile('data/ScheduleTable.dat'):
             with open('data/ScheduleTable.dat', 'r', encoding="UTF-8") as fp:
                 self.dict_schedule = json.load(fp)
@@ -98,12 +94,10 @@ class Manager:
                             self.dict_schedule[i][1][k] = "2학기 " + self.dict_schedule[i][1][k]
                     cnt += 1
 
-        # 급식 꺼내오기
         if os.path.isfile('data/MenuTable.dat'):
             with open('data/MenuTable.dat', 'r', encoding="UTF-8") as fp:
                 self.dict_menu = json.load(fp)
         
-        # 공지사항 파일에서 꺼내오기
         if os.path.isfile('date/Notice.dat'):
             self.lst_notice = []
 
@@ -121,7 +115,6 @@ class Manager:
                     self.lst_notice.append(lst_appender)
                     lst_appender.clear()
 
-        # 시간표 꺼내오기
         if os.path.isfile('data/TimeTable.dat'):
             with open('data/TimeTable.dat', 'r', encoding="UTF-8") as fp:
                 self.dict_timetable = json.load(fp)
@@ -153,7 +146,6 @@ class Manager:
         else:
             return []
 
-    # 스케줄명 검색으로 스케줄 얻기
     def get_schedule_by_name(self, schedule_name:str) -> list:
         lst_result = []
         lst_schedule = []
@@ -171,16 +163,12 @@ class Manager:
         else:
             return []
     
-    # 날짜(str_date, "YYYY-MM-DD"), 소속(grade_class, "GRADE-CLASS")
     def get_timetable(self, str_date:str, grade_class:str):
-        # 해당일/해당 반의 하루치 시간표를 가져온다.
         return self.dict_timetable[str_date][grade_class]
 
-    # 날짜(str_date, "YYYY-MM-DD"), 식사 선택(str_mealtime, '조식' or '중식' or '석식')으로 식단 얻기
     def get_meal(self, str_date:str, str_mealtime:str) -> list:
         str_key = str_date + ':' + str_mealtime
 
-        # Key에 해당하는 메뉴의 List를 반환
         if not (str_key in self.dict_menu.keys()):
             return []
         else:

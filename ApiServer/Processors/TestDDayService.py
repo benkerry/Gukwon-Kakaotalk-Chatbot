@@ -71,5 +71,5 @@ def process(data_manager, request:flask.Request, logger) -> dict:
         return pack_outputs([SimpleText.generate_simpletext("아직 시험 일정이 없어요.")])
     else:
         left_days = (schedule_day - today).days
-        str_output = "{0}: {1}일에 시행되며, {2}일 남았습니다.".format(str_testname, schedule_day.strftime(), left_days)
+        str_output = "{0}: {1}일에 시행되며, {2}일 남았습니다.".format(str_testname, str_testdate, left_days)
         return pack_outputs([SimpleText.generate_simpletext(str_output)])
