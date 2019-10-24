@@ -39,7 +39,6 @@ def process(data_manager, request:flask.Request, logger) -> dict:
 
         is_strdate_today = (cur_datetime - req_datetime).day == 0    
 
-
     if is_strdate_today and is_strmealtime_justmeal: # 급식 알려줘 or 오늘 급식 알려줘
         str_time = cur_datetime.strftime("%H%M")
 
@@ -58,11 +57,9 @@ def process(data_manager, request:flask.Request, logger) -> dict:
             return pack_outputs([SimpleText.generate_simpletext("오늘 배식은 종료되었어요.")])
 
         str_date = cur_datetime.strftime("%y-%m-%d")
-
     elif is_strdate_today: # 오늘 (조식, 중식, 석식) 알려줘 or (조식, 중식, 석식) 알려줘
         if not is_date_setted:
             str_date = cur_datetime.strftime("%y-%m-%d")
-
     elif is_strmealtime_justmeal: # 언제언제 급식 알려줘
         str_mealtime = "중식"
 

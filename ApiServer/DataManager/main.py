@@ -87,6 +87,17 @@ class Manager:
             with open('data/ScheduleTable.dat', 'r', encoding="UTF-8") as fp:
                 self.dict_schedule = json.load(fp)
 
+        cnt = 0
+        for i in self.dict_schedule.keys():
+            for k in len(self.dict_schedule[i][1]):
+                if (("중간고사" in self.dict_schedule[i][1][k]) or ("기말고사" in self.dict_schedule[i][1][k])):
+                    if not "학기" in self.dict_schedule[i][1][k]:
+                        if cnt == 0 or cnt == 1:
+                            self.dict_schedule[i][1][k] = "1학기 " + self.dict_schedule[i][1][k]
+                        else:
+                            self.dict_schedule[i][1][k] = "2학기 " + self.dict_schedule[i][1][k]
+                    cnt += 1
+
         # 급식 꺼내오기
         if os.path.isfile('data/MenuTable.dat'):
             with open('data/MenuTable.dat', 'r', encoding="UTF-8") as fp:
@@ -118,18 +129,31 @@ class Manager:
 
         self.logger.log('[Manager] Data Reloaded.')
 
-    # 날짜(str_date, "YYYY-MM")으로 한달 치 스케줄 얻기
-    def get_schedule_by_date(self, str_date:str) -> list:
+    # 날짜(str_date, "YYYY-MM-DD") 검색으로 스케줄 하나 얻기
+    def get_schedule_daily(self, str_date:str) -> list:
+        lst_result = []
+        lst_keys = self.dict_schedule.keys()
+
+        if str_date in self.dict_schedule.keys():
+            return [str_date, self.dict_schedule['i']]
+        else:
+            return []
+
+    # 월간(str_date, "YYYY-MM") 검색으로 스케줄 얻기
+    def get_schedult_monthly(self, str_date:str) -> list:
         lst_result = []
 
         for i in self.dict_schedule.keys():
             if str_date in i:
+                lst_sub = []
+                
                 for k in self.dict_schedule[i]:
-                    lst_result.append(k)
+                    lst_sub.append(k)
+                
+                lst_result.append([i, lst_sub])
 
-        # ["YYYY-MM-DD", [Schedules]] 형태로 반환
         if len(lst_result) > 0:
-            return [str_date, lst_result]
+            return lst_result
         else:
             return []
 
