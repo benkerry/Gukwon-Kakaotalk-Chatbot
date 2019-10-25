@@ -51,7 +51,7 @@ def process(data_manager, logger, dict_json:dict) -> dict:
     str_output = "해당일 수업 정보가 없습니다."
 
     if len(lst_timetable) > 0:
-        str_output = "{0} 학급의 시간표는 다음과 같습니다.\n\n".format(str_class)
+        str_output = "{0}반의 시간표는 다음과 같습니다.\n\n".format(str_class)
             
         for i in range(len(lst_timetable)):
             if len(lst_timetable[i]) == 0:
