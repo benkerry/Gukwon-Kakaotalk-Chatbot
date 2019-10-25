@@ -38,6 +38,7 @@ def process(data_manager, logger, dict_json:dict) -> dict:
         lst_schedules = data_manager.get_schedule_monthly(lst_token[0] + '-' + lst_token[1])
 
     if len(lst_schedules) > 0:
+        lst_schedules.sort(key=lambda x:x[0])
         str_output = "학사일정 검색 결과는 다음과 같습니다.\n\n"
 
         for i in lst_schedules:
