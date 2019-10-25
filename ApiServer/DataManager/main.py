@@ -86,15 +86,15 @@ class Manager:
             with open('data/ScheduleTable.dat', 'r', encoding="UTF-8") as fp:
                 self.dict_schedule = json.load(fp)
 
-        cnt = 0
-        for i in self.dict_schedule.keys():
-            for k in range(len(self.dict_schedule[i])):
-                if (("중간고사" in self.dict_schedule[i][k]) or ("기말고사" in self.dict_schedule[i][k])):
-                    if not "학기" in self.dict_schedule[i][k]:
-                        if cnt == 0 or cnt == 1:
-                            self.dict_schedule[i][k] = "1학기 " + self.dict_schedule[i][k]
-                        else:
-                            self.dict_schedule[i][k] = "2학기 " + self.dict_schedule[i][k]
+            cnt = 0
+            for i in self.dict_schedule.keys():
+                for k in range(len(self.dict_schedule[i])):
+                    if (("중간고사" in self.dict_schedule[i][k]) or ("기말고사" in self.dict_schedule[i][k])):
+                        if not "학기" in self.dict_schedule[i][k]:
+                            if cnt == 0 or cnt == 1:
+                                self.dict_schedule[i][k] = "1학기 " + self.dict_schedule[i][k]
+                            else:
+                                self.dict_schedule[i][k] = "2학기 " + self.dict_schedule[i][k]
                     cnt += 1
 
         if os.path.isfile('data/MenuTable.dat'):
