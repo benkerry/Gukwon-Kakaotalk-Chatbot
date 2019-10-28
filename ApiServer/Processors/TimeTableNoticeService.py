@@ -30,6 +30,7 @@ def process(data_manager, logger, dict_json:dict) -> dict:
         logger.log(traceback.format_exc())
         
         return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
+    logger.log("[TimeTableNoticeService] Query Inbounded!")
 
     if str_date == "오늘":
         today = datetime.today()

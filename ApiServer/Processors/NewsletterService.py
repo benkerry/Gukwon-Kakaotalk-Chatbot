@@ -3,6 +3,8 @@ from Processors.ResponseGenerator.GenerateOutput import SimpleImage, SimpleText,
 
 def process(data_manager, logger) -> dict:
     lst_data = data_manager.get_newsletter()
+
+    logger.log("[NewsletterService] Query Inbounded!")
     
     if len(lst_data) > 0:
         lst_item = []

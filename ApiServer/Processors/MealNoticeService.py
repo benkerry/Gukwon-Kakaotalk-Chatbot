@@ -20,6 +20,8 @@ def process(data_manager, logger, dict_json:dict) -> dict:
         
         return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
 
+    logger.log("[MealNoticeService] MealService Query Inbounded")
+
     cur_datetime = datetime.now()
 
     is_strdate_today = str_date == "오늘"

@@ -22,6 +22,7 @@ def process(data_manager, logger, dict_json:dict) -> dict:
         logger.log(traceback.format_exc())
         
         return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
+    logger.log("[ScheduleNoticeService] Query Inbounded!")
 
     is_thismonth = str_period == "이번 달"
 

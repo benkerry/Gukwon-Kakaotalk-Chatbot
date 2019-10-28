@@ -4,6 +4,8 @@ from Processors.ResponseGenerator.GenerateOutput import SimpleImage, SimpleText,
 def process(data_manager, logger) -> dict:
     lst_data = data_manager.get_notice()
     
+    logger.log("[NoticeService] Query Inbounded!")
+    
     if len(lst_data) > 0:
         lst_item = []
         

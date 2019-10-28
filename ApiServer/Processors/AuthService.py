@@ -27,6 +27,8 @@ def process(logger, dict_json:dict) -> dict:
             try:
                 connector = Conn()
             except:
+                logger.log('[AuthService] Exception Catched.')
+                logger.log(traceback.format_exc())
                 return pack_outputs([SimpleText.generate_simpletext("서버 오류가 발생하였습니다.")])
 
             connector.cursor.execute("SELECT COUNT(*) AS cnt FROM auth_code WHERE auth_code='{0}'".format(str_authcode))
@@ -38,11 +40,14 @@ def process(logger, dict_json:dict) -> dict:
                 connector.conn.commit()
                 connector.conn.close()
 
+                logger.log("[AuthService] Auth Success!")
                 return pack_outputs([SimpleText.generate_simpletext("인증 성공!")])
             else:
+                logger.log("[AuthService] Auth Fail!")
                 str_error = "인증 번호가 틀렸거나 입력 형식이 잘못되었습니다.\n\n(입력 예시: \"[123456] 인증해줘.\")"
                 return pack_outputs([SimpleText.generate_simpletext(str_error)])
         else:
+            logger.loge("[AuthService] Auth Fai")
             str_error = "인증 번호가 틀렸거나 입력 형식이 잘못되었습니다.\n\n(입력 예시: \"[123456] 인증해줘.\")"
             return pack_outputs([SimpleText.generate_simpletext(str_error)])
     else:
