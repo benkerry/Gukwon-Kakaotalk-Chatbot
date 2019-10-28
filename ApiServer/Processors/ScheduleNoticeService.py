@@ -1,6 +1,5 @@
 import json
 import flask
-import traceback
 
 from datetime import datetime, timedelta
 
@@ -14,14 +13,9 @@ def process(data_manager, logger, dict_json:dict) -> dict:
 
     dict_period = None
 
-    try:
-        str_major_event = dict_json['action']['params']['major_event']
-        str_period = dict_json['action']['params']['sys_date_period']
-    except:
-        logger.log("[SchedultNoticeServicee] Exception Catched")
-        logger.log(traceback.format_exc())
-        
-        return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
+    str_major_event = dict_json['action']['params']['major_event']
+    str_period = dict_json['action']['params']['sys_date_period']
+
     logger.log("[ScheduleNoticeService] Query Inbounded!")
 
     is_thismonth = str_period == "이번 달"

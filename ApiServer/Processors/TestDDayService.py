@@ -1,6 +1,5 @@
 import json
 import flask
-import traceback
 
 from datetime import datetime, timedelta
 
@@ -11,18 +10,13 @@ def process(data_manager, logger, dict_json:dict) -> dict:
     str_testtype = None
     str_semester = None
 
-    try:
-        str_testtype = dict_json['action']['params']['test_type']
+    str_testtype = dict_json['action']['params']['test_type']
         
-        if '1학기' in dict_json['userRequest']['utterance']:
-            str_semester = "1학기"
-        elif '2학기' in dict_json['userRequest']['utterance']:
-            str_semester = "2학기"
-    except:
-        logger.log("[TestDDayService] Exception Catched")
-        logger.log(traceback.format_exc())
-        
-        return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
+    if '1학기' in dict_json['userRequest']['utterance']:
+        str_semester = "1학기"
+    elif '2학기' in dict_json['userRequest']['utterance']:
+        str_semester = "2학기"
+
     logger.log("[TestDDayService] Query Inbounded!")
 
     cur_date = None

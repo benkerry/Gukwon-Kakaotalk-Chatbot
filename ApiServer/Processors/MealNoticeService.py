@@ -1,6 +1,5 @@
 import json
 import flask
-import traceback
 
 from datetime import datetime, timedelta
 
@@ -11,14 +10,8 @@ def process(data_manager, logger, dict_json:dict) -> dict:
     str_date = None
     str_mealtime = None
 
-    try:
-        str_date = dict_json['action']['params']['date']
-        str_mealtime = dict_json['action']['params']['meal_time']
-    except:
-        logger.log("[MealNoticeService] Exception Catched")
-        logger.log(traceback.format_exc())
-        
-        return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
+    str_date = dict_json['action']['params']['date']
+    str_mealtime = dict_json['action']['params']['meal_time']
 
     logger.log("[MealNoticeService] MealService Query Inbounded")
 

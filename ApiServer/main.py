@@ -1,5 +1,4 @@
 import json
-import traceback
 import ServerLogger
 import DataManager.main as DataManager 
 
@@ -22,39 +21,38 @@ app = Flask(__name__)
 
 @app.route("/", methods=["POST"])
 def main():
-    global logger
-    global data_manager
-
-    dict_json = None
-    str_reqtype = None
-
     try:
-      dict_json = request.json
-      str_reqtype = dict_json['userRequest']['block']['name']
+        global logger
+        global data_manager
+
+        dict_json = None
+        str_reqtype = None
+
+        dict_json = request.json
+        str_reqtype = dict_json['userRequest']['block']['name']
+
+        if str_reqtype == "TestDDay_Query":
+            return TestDDay.process(data_manager, logger, dict_json)
+        elif str_reqtype == "MealService_Query":
+            return MealNotice.process(data_manager, logger, dict_json)
+        elif str_reqtype == "TimeTable_Query":
+            return TimeTableNotice.process(data_manager, logger, dict_json)
+        elif str_reqtype == "Notice_Query":
+            return Notice.process(data_manager, logger)
+        elif str_reqtype == "Newsletter_Query":
+            return Newsletter.process(data_manager, logger)
+        elif str_reqtype == "ScheduleTable_Query":
+            return ScheduleNotice.process(data_manager, logger, dict_json)
+        elif str_reqtype == "Authentication_Query":
+            return Auth.process(logger, dict_json) # 2차 개발 목표
+        elif str_reqtype == "Suggestion_Query":
+            return Suggestion.process(logger, dict_json) # 2차 개발 목표
+        else:
+            return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
     except:
-      logger.log("[ApiMain] Exception Catched")
-      logger.log(traceback.format_exc())
-
-      return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
-
-    if str_reqtype == "TestDDay_Query":
-      return TestDDay.process(data_manager, logger, dict_json)
-    elif str_reqtype == "MealService_Query":
-      return MealNotice.process(data_manager, logger, dict_json)
-    elif str_reqtype == "TimeTable_Query":
-      return TimeTableNotice.process(data_manager, logger, dict_json)
-    elif str_reqtype == "Notice_Query":
-      return Notice.process(data_manager, logger)
-    elif str_reqtype == "Newsletter_Query":
-      return Newsletter.process(data_manager, logger)
-    elif str_reqtype == "ScheduleTable_Query":
-      return ScheduleNotice.process(data_manager, logger, dict_json)
-    elif str_reqtype == "Authentication_Query":
-      return Auth.process(logger, dict_json) # 2차 개발 목표
-    elif str_reqtype == "Suggestion_Query":
-      return Suggestion.process(logger, dict_json) # 2차 개발 목표
-    else:
-      return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
+        logger.log("[ApiMain] Error Occured.")
+        logger.log(traceback.format_exc())
+        return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
 
 @app.route("/healthcheck")
 def healthcheck():

@@ -1,6 +1,5 @@
 import json
 import flask
-import traceback
 
 from datetime import datetime, timedelta
 
@@ -12,24 +11,19 @@ def process(data_manager, logger, dict_json:dict) -> dict:
     str_class = None
     time_column = None
 
-    try:
-        lst_params = dict_json['action']['params'].keys()
-        str_date = dict_json['action']['params']['date']
+    lst_params = dict_json['action']['params'].keys()
+    str_date = dict_json['action']['params']['date']
 
-        if "grade-class" in lst_params:
-            str_class = dict_json['action']['params']['grade-class']
-        elif "grade" in lst_params and "class" in lst_params:
-            str_class = dict_json['action']['params']['grade'] + '-' + dict_json['action']['params']['class']
-        else:
-            return pack_outputs([SimpleText.generate_simpletext("학년-반 정보가 누락되었습니다. 포함하여 다시 질문해주세요.")])
+    if "grade-class" in lst_params:
+        str_class = dict_json['action']['params']['grade-class']
+    elif "grade" in lst_params and "class" in lst_params:
+        str_class = dict_json['action']['params']['grade'] + '-' + dict_json['action']['params']['class']
+    else:
+        return pack_outputs([SimpleText.generate_simpletext("학년-반 정보가 누락되었습니다. 포함하여 다시 질문해주세요.")])
         
-        if "timetable_column" in lst_params:
-            time_column = dict_json['action']['params']['timetable_column']
-    except:
-        logger.log("[TimeTableNotice] Exception Catched")
-        logger.log(traceback.format_exc())
-        
-        return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
+    if "timetable_column" in lst_params:
+        time_column = dict_json['action']['params']['timetable_column']
+
     logger.log("[TimeTableNoticeService] Query Inbounded!")
 
     if str_date == "오늘":

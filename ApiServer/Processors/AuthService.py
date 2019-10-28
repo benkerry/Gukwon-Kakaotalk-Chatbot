@@ -1,5 +1,4 @@
 import flask
-import traceback
 
 from Processors.MysqlConn import Conn
 from Processors.ResponseGenerator.OutputsPacker import pack_outputs
@@ -9,25 +8,14 @@ def process(logger, dict_json:dict) -> dict:
     str_userval = None
     str_utterance = None
 
-    try:
-        str_userval = dict_json['userRequest']['user']['id']
-        str_utterance = dict_json['userRequest']['utterance']
-    except:
-        logger.log('[AuthService] Exception Catched.')
-        logger.log(traceback.format_exc())
-        
-        return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
+    str_userval = dict_json['userRequest']['user']['id']
+    str_utterance = dict_json['userRequest']['utterance']
 
     if ('[' in str_utterance) and (']' in str_utterance):
         str_authcode = str_utterance.split('[')[1].split(']')[0]
         
         if len(str_authcode) == 6:
-            try:
-                connector = Conn()
-            except:
-                logger.log('[AuthService] Exception Catched.')
-                logger.log(traceback.format_exc())
-                return pack_outputs([SimpleText.generate_simpletext("서버 오류가 발생하였습니다.")])
+            connector = Conn()
 
             connector.cursor.execute("SELECT COUNT(*) AS cnt FROM auth_code WHERE auth_code='{0}'".format(str_authcode))
             result_cnt = connector.cursor.fetchone()[0]

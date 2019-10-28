@@ -7,6 +7,7 @@ import json
 import traceback
 import threading
 
+import DataManager.ChatbotNoticeParser as ChatbotNoticeParser
 import DataManager.MealServiceParser as MealServiceParser
 import DataManager.NoticeParser as NoticeParser
 import DataManager.ScheduleTableParser as ScheduleTableParser
@@ -46,6 +47,7 @@ class AutoParser:
             TimeTableParser.run(self.logger)
             NoticeParser.run(self.logger)
             NewsletterParser.run(self.logger)
+            ChatbotNoticeParser.run(self.logger)
 
             self.manager.load_data()
 
@@ -82,8 +84,9 @@ class Manager:
 
         self.dict_schedule = None
         self.dict_menu = None
-        self.lst_notice = []
-        self.lst_newsletter = []
+        self.lst_notice = None
+        self.lst_newsletter = None
+        self.lst_chatbotnotice = None
         self.dict_timetable = None
 
     def load_data(self):
@@ -138,6 +141,23 @@ class Manager:
 
                 if (i + 1) % 3 == 0:
                     self.lst_newsletter.append(lst_appender)
+                    lst_appender = []
+
+        if os.path.isfile('data/ChatbotNotice.dat'):
+            self.lst_chatbotnotice = []
+
+            lst_rdr = []
+
+            with open('data/ChatbotNotice.dat', 'r', encoding="UTF-8") as fp:
+                lst_rdr = fp.readlines()
+        
+            lst_appender = []
+
+            for i in range(len(lst_rdr)):
+                lst_appender.append(lst_rdr[i][:-1])
+
+                if (i + 1) % 3 == 0:
+                    self.lst_chatbotnotice.append(lst_appender)
                     lst_appender = []
 
         if os.path.isfile('data/TimeTable.dat'):
@@ -214,3 +234,6 @@ class Manager:
 
     def get_newsletter(self) -> list:
         return self.lst_newsletter
+
+    def get_chatbotnotice(self) -> list:
+        return self.lst_chatbotnotice
