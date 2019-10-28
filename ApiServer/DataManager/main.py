@@ -2,6 +2,7 @@ import os
 import json
 import traceback
 import threading
+import mysql.connector as mysql
 
 import DataManager.ChatbotNoticeParser as ChatbotNoticeParser
 import DataManager.MealServiceParser as MealServiceParser
@@ -84,6 +85,25 @@ class Manager:
         self.lst_newsletter = None
         self.lst_chatbotnotice = None
         self.dict_timetable = None
+
+        self.conn = mysql.connect(
+            host="127.0.0.1",
+            user="root",
+            passwd="test",
+            database="chatbot_manager_web"
+        )
+        self.cursor = self.conn.cursor()
+
+    def mysql_query(self, sql) -> mysql.connector.cursor.MySQLCursor:
+        if str(type(sql)) == "<class 'str'>":
+            self.cursor.execute(sql)
+            self.conn.commit()
+            return self.cursor()
+        else:
+            for i in lst_sql:
+                self.cursor.execute(i)
+            self.conn.commit()
+            return self.cursor
 
     def load_data(self):
         if os.path.isfile('data/ScheduleTable.dat'):

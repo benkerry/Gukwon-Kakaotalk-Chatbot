@@ -1,6 +1,6 @@
 from flask import jsonify
 
-def pack_outputs(lst_outputs:list) -> dict:
+def pack_outputs(output) -> dict:
     dict_result = {
         "version": "2.0",
         "template": {
@@ -9,7 +9,9 @@ def pack_outputs(lst_outputs:list) -> dict:
         }
     }
 
-    for i in lst_outputs:
-        dict_result['template']['outputs'].append(i)
+    if str(type(outputs)) == "<class 'list'>"
+        dict_result['template']['outputs'] = output
+    else:
+        dict_result['template']['outputs'].append(output)
 
     return jsonify(dict_result)

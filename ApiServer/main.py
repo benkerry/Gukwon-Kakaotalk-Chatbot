@@ -44,9 +44,11 @@ def main():
         elif str_reqtype == "ScheduleTable_Query":
             return ScheduleNotice.process(data_manager, logger, dict_json)
         elif str_reqtype == "Authentication_Query":
-            return Auth.process(logger, dict_json) # 2차 개발 목표
+            return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
+            #return Auth.process(data_manager, logger, dict_json) # 2차 개발 목표
         elif str_reqtype == "Suggestion_Query":
-            return Suggestion.process(logger, dict_json) # 2차 개발 목표
+            return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
+            #return Suggestion.process(data_manager, logger, dict_json) # 2차 개발 목표
         else:
             return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
     except:

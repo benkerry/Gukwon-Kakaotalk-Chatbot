@@ -1,10 +1,9 @@
 import flask
 
-from Processors.MysqlConn import Conn
 from Processors.ResponseGenerator.OutputsPacker import pack_outputs
 from Processors.ResponseGenerator.GenerateOutput import ListCard, SimpleText
 
-def process(logger, dict_json:dict) -> dict:
+def process(data_manager, logger, dict_json:dict) -> dict:
     str_userval = None
     str_utterance = None
 
@@ -17,14 +16,15 @@ def process(logger, dict_json:dict) -> dict:
         if len(str_authcode) == 6:
             connector = Conn()
 
-            connector.cursor.execute("SELECT COUNT(*) AS cnt FROM auth_code WHERE auth_code='{0}'".format(str_authcode))
-            result_cnt = connector.cursor.fetchone()[0]
+            result_cnt = data_manager.mysql_query("SELECT COUNT(*) AS cnt FROM auth_code WHERE auth_code='{0}'".format(str_authcode)).fetchone()[0]
 
             if result_cnt == 1:
-                connector.cursor.execute("DELETE FROM auth_code WHERE auth_code='{0}'".format(str_authcode))
-                connector.cursor.execute("INSERT INTO authed_user VALUES('{0}', '')".format(str_userval))
-                connector.conn.commit()
-                connector.conn.close()
+                lst_sql = [
+                    "DELETE FROM auth_code WHERE auth_code='{0}'".format(str_authcode),
+                    "INSERT INTO authed_user VALUES('{0}', '')".format(str_userval)
+                ]
+
+                data_manager.mysql_query(lst_sql)
 
                 logger.log("[AuthService] Auth Success!")
                 return pack_outputs([SimpleText.generate_simpletext("인증 성공!")])
