@@ -166,7 +166,7 @@ class Manager:
 
         self.logger.log('[Manager] Data Reloaded.')
 
-        msg = MIMEText(str(self.ScheduleTable))
+        msg = MIMEText(str(self.dict_schedule))
 
         msg['Subject'] = "충성^^7"
         msg['From'] = "developer_kerry@naver.com"
