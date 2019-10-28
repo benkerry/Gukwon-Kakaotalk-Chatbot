@@ -18,8 +18,6 @@ def process(logger, dict_json:dict) -> dict:
         
         return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
 
-    
-
     if ('[' in str_utterance) and (']' in str_utterance):
         str_authcode = str_utterance.split('[')[1].split(']')[0]
         
@@ -43,13 +41,14 @@ def process(logger, dict_json:dict) -> dict:
                 logger.log("[AuthService] Auth Success!")
                 return pack_outputs([SimpleText.generate_simpletext("인증 성공!")])
             else:
-                logger.log("[AuthService] Auth Fail!")
+                logger.log("[AuthService] Auth Fail")
                 str_error = "인증 번호가 틀렸거나 입력 형식이 잘못되었습니다.\n\n(입력 예시: \"[123456] 인증해줘.\")"
                 return pack_outputs([SimpleText.generate_simpletext(str_error)])
         else:
-            logger.loge("[AuthService] Auth Fai")
+            logger.log("[AuthService] Auth Fail")
             str_error = "인증 번호가 틀렸거나 입력 형식이 잘못되었습니다.\n\n(입력 예시: \"[123456] 인증해줘.\")"
             return pack_outputs([SimpleText.generate_simpletext(str_error)])
     else:
+        logger.log("[AuthService] Auth Fail")
         str_error = "입력 형식이 잘못되었습니다.\n\n(입력 예시: \"[123456] 인증해줘.\")"
         return pack_outputs([SimpleText.generate_simpletext(str_error)])

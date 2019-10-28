@@ -1,5 +1,9 @@
-import json
+## LIBS FOR TEST
+import smtplib
+from email.mime.text import MIMEText
+
 import os
+import json
 import traceback
 import threading
 
@@ -38,6 +42,7 @@ class AutoParser:
             self.tr_10m.cancel()
 
         try:
+            self.logger.log('[AutoParser] Thread: tr_10m is running.')
             TimeTableParser.run(self.logger)
             NoticeParser.run(self.logger)
             NewsletterParser.run(self.logger)
@@ -46,7 +51,6 @@ class AutoParser:
 
             self.tr_10m = threading.Timer(600, self.parse_10m)
             self.tr_10m.start()
-            self.logger.log('[AutoParser] Thread: tr_10m Started.')
         except:
             self.logger.log('[AutoParser] Exception Catched on parse_10m, DataManager/Main.py')
             self.logger.log(traceback.format_exc())
@@ -56,6 +60,7 @@ class AutoParser:
             self.tr_24h.cancel()
 
         try:
+            self.logger.log('[AutoParser] Thread: tr_24h is running.')
             MealServiceParser.run(self.logger)
             ScheduleTableParser.run(self.logger)
 
@@ -63,7 +68,7 @@ class AutoParser:
             
             self.tr_24h = threading.Timer(86400, self.parse_24h)
             self.tr_24h.start()
-            self.logger.log('[AutoParser] Thread: tr_24h Started.')
+            
         except:
             self.logger.log('[AutoParser] Exception Catched on parse_24h, DataManager/Main.py')
             self.logger.log(traceback.format_exc())
@@ -140,6 +145,18 @@ class Manager:
                 self.dict_timetable = json.load(fp)
 
         self.logger.log('[Manager] Data Reloaded.')
+
+        msg = MIMEText(str(self.ScheduleTable))
+
+        msg['Subject'] = "충성^^7"
+        msg['From'] = "developer_kerry@naver.com"
+        msg['To'] = "developer_kerry@naver.com"
+
+        smtp = smtplib.SMTP("smtp.naver.com", 465)
+        smtp.starttls()
+        smtp.login("developer_kerry@naver.com", "tmp0")
+        smtp.sendmail("developer_kerry@naver.com", "developer_kerry@naver.com", msg.as_string())
+        smtp.close()
 
     # 날짜(str_date, "YYYY-MM-DD") 검색으로 스케줄 하나 얻기
     def get_schedule_daily(self, str_date:str) -> list:
