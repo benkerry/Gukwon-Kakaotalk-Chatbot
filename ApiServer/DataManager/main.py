@@ -94,7 +94,7 @@ class Manager:
         )
         self.cursor = self.conn.cursor()
 
-    def mysql_query(self, sql) -> mysql.connector.cursor.MySQLCursor:
+    def mysql_query(self, sql) -> mysql.cursor.MySQLCursor:
         if str(type(sql)) == "<class 'str'>":
             self.cursor.execute(sql)
             self.conn.commit()
