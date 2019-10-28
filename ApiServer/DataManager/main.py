@@ -1,7 +1,3 @@
-## LIBS FOR TEST
-import smtplib
-from email.mime.text import MIMEText
-
 import os
 import json
 import traceback
@@ -165,18 +161,6 @@ class Manager:
                 self.dict_timetable = json.load(fp)
 
         self.logger.log('[Manager] Data Reloaded.')
-
-        msg = MIMEText(str(self.dict_schedule))
-
-        msg['Subject'] = "충성^^7"
-        msg['From'] = "developer_kerry@naver.com"
-        msg['To'] = "developer_kerry@naver.com"
-
-        smtp = smtplib.SMTP("smtp.naver.com", 465)
-        smtp.starttls()
-        smtp.login("developer_kerry@naver.com", "tmp0")
-        smtp.sendmail("developer_kerry@naver.com", "developer_kerry@naver.com", msg.as_string())
-        smtp.close()
 
     # 날짜(str_date, "YYYY-MM-DD") 검색으로 스케줄 하나 얻기
     def get_schedule_daily(self, str_date:str) -> list:
