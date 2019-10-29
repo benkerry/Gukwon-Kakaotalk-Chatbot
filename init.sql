@@ -1,5 +1,5 @@
-CREATE DATABASE  chatbot_manager_web;
-USE chatbot_manager_web;
+CREATE DATABASE  chatbot_manager;
+USE chatbot_manager;
 
 CREATE TABLE auth_code(
     auth_code TEXT NOT NULL
