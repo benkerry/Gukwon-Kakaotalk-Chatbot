@@ -84,7 +84,8 @@ class Manager:
         self.lst_notice = None
         self.lst_newsletter = None
         self.lst_chatbotnotice = None
-        self.dict_timetable = None
+        self.dict_timetable_st = None
+        self.dict_timetable_tc = None
 
         self.conn = mysql.connect(
             host="127.0.0.1",
@@ -100,7 +101,7 @@ class Manager:
             self.conn.commit()
             return self.cursor()
         else:
-            for i in lst_sql:
+            for i in sql:
                 self.cursor.execute(i)
             self.conn.commit()
             return self.cursor
@@ -176,9 +177,13 @@ class Manager:
                     self.lst_chatbotnotice.append(lst_appender)
                     lst_appender = []
 
-        if os.path.isfile('data/TimeTable.dat'):
-            with open('data/TimeTable.dat', 'r', encoding="UTF-8") as fp:
-                self.dict_timetable = json.load(fp)
+        if os.path.isfile('data/StudentTimeTable.dat'):
+            with open('data/StudentTimeTable.dat', 'r', encoding="UTF-8") as fp:
+                self.dict_timetable_st = json.load(fp)
+
+        if os.path.isfile('data/TeacherTimeTable.dat'):
+            with open('data/TeacherTimeTable.dat', 'r', encoding="UTF-8") as fp:
+                self.dict_timetable_tc = json.load(fp)
 
         self.logger.log('[Manager] Data Reloaded.')
 
@@ -219,9 +224,15 @@ class Manager:
         else:
             return []
     
-    def get_timetable(self, str_date:str, grade_class:str) -> list:
-        if str_date in self.dict_timetable.keys() and grade_class in self.dict_timetable[str_date].keys():
-            return self.dict_timetable[str_date][grade_class]
+    def get_timetable_st(self, str_date:str, grade_class:str) -> list:
+        if str_date in self.dict_timetable_st.keys() and grade_class in self.dict_timetable_st[str_date].keys():
+            return self.dict_timetable_st[str_date][grade_class]
+        else:
+            return []
+
+    def get_timetable_tc(self, str_date:str, str_tname:str) -> list:
+        if str_date in self.dict_timetable_tc.keys() and str_tname in self.dict_timetable_tc[str_date].keys():
+            return self.dict_timetable_tc[str_date][str_tname]
         else:
             return []
 
