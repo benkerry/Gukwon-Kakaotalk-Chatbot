@@ -1,12 +1,17 @@
-def pack_outputs(lst_outputs:list) -> dict:
-    dict_result = {}
+from flask import jsonify
 
-    dict_result['version'] = 1.0
+def pack_outputs(output) -> dict:
+    dict_result = {
+        "version": "2.0",
+        "template": {
+            "outputs": [
+            ]
+        }
+    }
 
-    dict_result['template'] = {}
-    dict_result['template']['outputs'] = []
+    if str(type(outputs)) == "<class 'list'>"
+        dict_result['template']['outputs'] = output
+    else:
+        dict_result['template']['outputs'].append(output)
 
-    for i in lst_outputs:
-        dict_result['template']['outputs'].append(i)
-
-    return dict_result
+    return jsonify(dict_result)

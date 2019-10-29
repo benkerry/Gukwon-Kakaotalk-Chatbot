@@ -23,3 +23,4 @@
 >- openpyxl
 >- Flask
 >- psutil
+>- python-dateutil

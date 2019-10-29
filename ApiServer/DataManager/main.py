@@ -1,12 +1,15 @@
-import json
 import os
+import json
 import traceback
 import threading
+import mysql.connector as mysql
 
+import DataManager.ChatbotNoticeParser as ChatbotNoticeParser
 import DataManager.MealServiceParser as MealServiceParser
 import DataManager.NoticeParser as NoticeParser
 import DataManager.ScheduleTableParser as ScheduleTableParser
 import DataManager.TimeTableParser as TimeTableParser
+import DataManager.NewsletterParser as NewsletterParser
 
 class AutoParser:
     def __init__(self, manager, logger):
@@ -37,14 +40,16 @@ class AutoParser:
             self.tr_10m.cancel()
 
         try:
+            self.logger.log('[AutoParser] Thread: tr_10m is running.')
             TimeTableParser.run(self.logger)
             NoticeParser.run(self.logger)
+            NewsletterParser.run(self.logger)
+            ChatbotNoticeParser.run(self.logger)
 
             self.manager.load_data()
 
             self.tr_10m = threading.Timer(600, self.parse_10m)
             self.tr_10m.start()
-            self.logger.log('[AutoParser] Thread: tr_10m Started.')
         except:
             self.logger.log('[AutoParser] Exception Catched on parse_10m, DataManager/Main.py')
             self.logger.log(traceback.format_exc())
@@ -54,6 +59,7 @@ class AutoParser:
             self.tr_24h.cancel()
 
         try:
+            self.logger.log('[AutoParser] Thread: tr_24h is running.')
             MealServiceParser.run(self.logger)
             ScheduleTableParser.run(self.logger)
 
@@ -61,7 +67,7 @@ class AutoParser:
             
             self.tr_24h = threading.Timer(86400, self.parse_24h)
             self.tr_24h.start()
-            self.logger.log('[AutoParser] Thread: tr_24h Started.')
+            
         except:
             self.logger.log('[AutoParser] Exception Catched on parse_24h, DataManager/Main.py')
             self.logger.log(traceback.format_exc())
@@ -73,37 +79,59 @@ class Manager:
 
         self.logger = logger
 
-        self.dict_schedule = {}
-        self.dict_menu = {}
-        self.lst_notice = []
-        self.dict_timetable = {}
+        self.dict_schedule = None
+        self.dict_menu = None
+        self.lst_notice = None
+        self.lst_newsletter = None
+        self.lst_chatbotnotice = None
+        self.dict_timetable_st = None
+        self.dict_timetable_tc = None
+
+        self.conn = mysql.connect(
+            host="127.0.0.1",
+            user="root",
+            passwd="test",
+            database="chatbot_manager_web"
+        )
+        self.cursor = self.conn.cursor()
+
+    def mysql_query(self, sql) -> mysql.cursor.MySQLCursor:
+        if str(type(sql)) == "<class 'str'>":
+            self.cursor.execute(sql)
+            self.conn.commit()
+            return self.cursor()
+        else:
+            for i in sql:
+                self.cursor.execute(i)
+            self.conn.commit()
+            return self.cursor
 
     def load_data(self):
         if os.path.isfile('data/ScheduleTable.dat'):
             with open('data/ScheduleTable.dat', 'r', encoding="UTF-8") as fp:
                 self.dict_schedule = json.load(fp)
 
-        cnt = 0
-        for i in self.dict_schedule.keys():
-            for k in len(self.dict_schedule[i][1]):
-                if (("중간고사" in self.dict_schedule[i][1][k]) or ("기말고사" in self.dict_schedule[i][1][k])):
-                    if not "학기" in self.dict_schedule[i][1][k]:
-                        if cnt == 0 or cnt == 1:
-                            self.dict_schedule[i][1][k] = "1학기 " + self.dict_schedule[i][1][k]
-                        else:
-                            self.dict_schedule[i][1][k] = "2학기 " + self.dict_schedule[i][1][k]
+            cnt = 0
+            for i in self.dict_schedule.keys():
+                for k in range(len(self.dict_schedule[i])):
+                    if (("중간고사" in self.dict_schedule[i][k]) or ("기말고사" in self.dict_schedule[i][k])):
+                        if not "학기" in self.dict_schedule[i][k]:
+                            if cnt == 0 or cnt == 1:
+                                self.dict_schedule[i][k] = "1학기 " + self.dict_schedule[i][k]
+                            else:
+                                self.dict_schedule[i][k] = "2학기 " + self.dict_schedule[i][k]
                     cnt += 1
 
         if os.path.isfile('data/MenuTable.dat'):
             with open('data/MenuTable.dat', 'r', encoding="UTF-8") as fp:
                 self.dict_menu = json.load(fp)
         
-        if os.path.isfile('date/Notice.dat'):
+        if os.path.isfile('data/Notice.dat'):
             self.lst_notice = []
 
             lst_rdr = []
 
-            with open('date/Notice.dat', 'r', encoding="UTF-8") as fp:
+            with open('data/Notice.dat', 'r', encoding="UTF-8") as fp:
                 lst_rdr = fp.readlines()
         
             lst_appender = []
@@ -111,13 +139,51 @@ class Manager:
             for i in range(len(lst_rdr)):
                 lst_appender.append(lst_rdr[i])
 
-                if i % 3 == 2:
+                if (i + 1) % 3 == 0:
                     self.lst_notice.append(lst_appender)
-                    lst_appender.clear()
+                    lst_appender = []
 
-        if os.path.isfile('data/TimeTable.dat'):
-            with open('data/TimeTable.dat', 'r', encoding="UTF-8") as fp:
-                self.dict_timetable = json.load(fp)
+        if os.path.isfile('data/Newsletter.dat'):
+            self.lst_newsletter = []
+
+            lst_rdr = []
+
+            with open('data/Newsletter.dat', 'r', encoding="UTF-8") as fp:
+                lst_rdr = fp.readlines()
+        
+            lst_appender = []
+
+            for i in range(len(lst_rdr)):
+                lst_appender.append(lst_rdr[i][:-1])
+
+                if (i + 1) % 3 == 0:
+                    self.lst_newsletter.append(lst_appender)
+                    lst_appender = []
+
+        if os.path.isfile('data/ChatbotNotice.dat'):
+            self.lst_chatbotnotice = []
+
+            lst_rdr = []
+
+            with open('data/ChatbotNotice.dat', 'r', encoding="UTF-8") as fp:
+                lst_rdr = fp.readlines()
+        
+            lst_appender = []
+
+            for i in range(len(lst_rdr)):
+                lst_appender.append(lst_rdr[i][:-1])
+
+                if (i + 1) % 3 == 0:
+                    self.lst_chatbotnotice.append(lst_appender)
+                    lst_appender = []
+
+        if os.path.isfile('data/StudentTimeTable.dat'):
+            with open('data/StudentTimeTable.dat', 'r', encoding="UTF-8") as fp:
+                self.dict_timetable_st = json.load(fp)
+
+        if os.path.isfile('data/TeacherTimeTable.dat'):
+            with open('data/TeacherTimeTable.dat', 'r', encoding="UTF-8") as fp:
+                self.dict_timetable_tc = json.load(fp)
 
         self.logger.log('[Manager] Data Reloaded.')
 
@@ -129,17 +195,12 @@ class Manager:
             return []
 
     # 월간(str_date, "YYYY-MM") 검색으로 스케줄 얻기
-    def get_schedult_monthly(self, str_date:str) -> list:
+    def get_schedule_monthly(self, str_date:str) -> list:
         lst_result = []
 
         for i in self.dict_schedule.keys():
             if str_date in i:
-                lst_sub = []
-                
-                for k in self.dict_schedule[i]:
-                    lst_sub.append(k)
-                
-                lst_result.append([i, lst_sub])
+                lst_result.append([i, self.dict_schedule[i]])
 
         if len(lst_result) > 0:
             return lst_result
@@ -163,9 +224,15 @@ class Manager:
         else:
             return []
     
-    def get_timetable(self, str_date:str, grade_class:str) -> list:
-        if str_date in self.dict_timetable.keys() and grade_class in self.dict_timetable[str_date].keys():
-            return self.dict_timetable[str_date][grade_class]
+    def get_timetable_st(self, str_date:str, grade_class:str) -> list:
+        if str_date in self.dict_timetable_st.keys() and grade_class in self.dict_timetable_st[str_date].keys():
+            return self.dict_timetable_st[str_date][grade_class]
+        else:
+            return []
+
+    def get_timetable_tc(self, str_date:str, str_tname:str) -> list:
+        if str_date in self.dict_timetable_tc.keys() and str_tname in self.dict_timetable_tc[str_date].keys():
+            return self.dict_timetable_tc[str_date][str_tname]
         else:
             return []
 
@@ -179,3 +246,9 @@ class Manager:
 
     def get_notice(self) -> list:
         return self.lst_notice
+
+    def get_newsletter(self) -> list:
+        return self.lst_newsletter
+
+    def get_chatbotnotice(self) -> list:
+        return self.lst_chatbotnotice

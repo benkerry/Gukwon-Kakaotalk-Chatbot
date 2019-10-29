@@ -6,6 +6,7 @@ import Processors.AuthService as Auth
 import Processors.NoticeService as Notice
 import Processors.HealthCheck as HealthCheck
 import Processors.TestDDayService as TestDDay
+import Processors.NewsletterService as Newsletter
 import Processors.SuggestionService as Suggestion
 import Processors.MealNoticeService as MealNotice
 import Processors.ScheduleNoticeService as ScheduleNotice
@@ -13,53 +14,52 @@ import Processors.TimeTableNoticeService as TimeTableNotice
 
 from flask import Flask, request
 
+from Processors.ResponseGenerator.GenerateOutput import SimpleText
+from Processors.ResponseGenerator.OutputsPacker import pack_outputs
+
 app = Flask(__name__)
 
-# 로그는 여기서
-@app.route("/")
+@app.route("/", methods=["POST"])
+def main():
+    try:
+        global logger
+        global data_manager
+
+        dict_json = None
+        str_reqtype = None
+
+        dict_json = request.json
+        str_reqtype = dict_json['userRequest']['block']['name']
+
+        if str_reqtype == "TestDDay_Query":
+            return TestDDay.process(data_manager, logger, dict_json)
+        elif str_reqtype == "MealService_Query":
+            return MealNotice.process(data_manager, logger, dict_json)
+        elif str_reqtype == "TimeTable_Query":
+            return TimeTableNotice.process(data_manager, logger, dict_json)
+        elif str_reqtype == "Notice_Query":
+            return Notice.process(data_manager, logger)
+        elif str_reqtype == "Newsletter_Query":
+            return Newsletter.process(data_manager, logger)
+        elif str_reqtype == "ScheduleTable_Query":
+            return ScheduleNotice.process(data_manager, logger, dict_json)
+        elif str_reqtype == "Authentication_Query":
+            return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
+            #return Auth.process(data_manager, logger, dict_json) # 2차 개발 목표
+        elif str_reqtype == "Suggestion_Query":
+            return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
+            #return Suggestion.process(data_manager, logger, dict_json) # 2차 개발 목표
+        else:
+            return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
+    except:
+        logger.log("[ApiMain] Error Occured.")
+        logger.log(traceback.format_exc())
+        return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
+
+@app.route("/healthcheck")
 def healthcheck():
     global logger
     return HealthCheck.process(logger)
-
-@app.route("/notice-service", methods=["POST"])
-def notice_service():
-    global logger
-    global data_manager
-    return Notice.process(data_manager, logger)
-
-@app.route("/meal-notice-service", methods=["POST"])
-def meal_notice_service():
-    global logger
-    global data_manager
-    return MealNotice.process(data_manager, request, logger)
-
-@app.route("/test-dday-service", methods=["POST"])
-def test_dday_service():
-    global logger
-    global data_manager
-    return TestDDay.process(data_manager, request, logger)
-
-@app.route("/timetable-notice-service", methods=["POST"])
-def timetable_notice_service():
-    global logger
-    global data_manager
-    return TimeTableNotice.process(data_manager, request, logger)
-
-@app.route("/schedule-notice-service", methods=["POST"])
-def schedule_notice_service():
-    global logger
-    global data_manager
-    return ScheduleNotice.process(data_manager, request, logger)
-
-@app.route("/auth-service", methods=["POST"])
-def auth_service():
-    global logger
-    return Auth.process(request, logger)
-
-@app.route("/suggestion-service", methods=["POST"])
-def suggestion_service():
-    global logger
-    return Suggestion.process(request, logger)
 
 app.config['JSON_AS_ASCII'] = False
 
