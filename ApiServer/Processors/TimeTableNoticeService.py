@@ -66,9 +66,9 @@ def process_teacher_timetable(data_manager, dict_json:dict) -> dict:
         str_output = ""
         for i in range(len(lst_timetable[0])):
             if len(lst_timetable[i][k]) == 2:
-                    str_output += "{0}교시: {1}반 - {2} 수업\n".format(i+1, lst_timetable[i][k][0], lst_timetable[i][k][1])
-                else:
-                    str_output += "{0}교시: 없음\n".format(i+1)
+                str_output += "{0}교시: {1}반 - {2} 수업\n".format(i+1, lst_timetable[i][k][0], lst_timetable[i][k][1])
+            else:
+                str_output += "{0}교시: 없음\n".format(i+1)
 
         lst_output.append(SimpleText.generate_simpletext(str_output))
     elif len_lst_timetable <= 3:

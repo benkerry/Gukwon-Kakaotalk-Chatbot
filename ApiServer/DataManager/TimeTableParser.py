@@ -5,7 +5,7 @@ import traceback
 from dateutil.rrule import rrule, DAILY
 from datetime import datetime, timedelta
 
-def run():
+def run(logger):
     dict_json = {}
     dict_response = {}
 
@@ -144,7 +144,7 @@ def run():
     with open("data/TeacherTimeTable.dat", "w", encoding="UTF-8") as fp:
         json.dump(dict_teachertimetable, fp, ensure_ascii=False, indent=4)
 
-    #logger.log("Timetable Parsing Completed.")
+    logger.log("Timetable Parsing Completed.")
 
 if __name__ == "__main__":
     run()
