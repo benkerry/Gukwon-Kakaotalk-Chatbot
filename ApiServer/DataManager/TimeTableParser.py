@@ -15,8 +15,8 @@ def run(logger):
     dict_response['next_week'] = requests.get("http://112.186.146.81:4080/5813_31154_2_1")
     dict_response['next_week'].encoding = 'utf-8'
 
-    dict_json['this_week'] = json.loads(dict_response['this_week'].text.split('\n')[0])
-    dict_json['next_week'] = json.loads(dict_response['next_week'].text.split('\n')[0])
+    dict_json['this_week'] = json.loads(('{' + dict_response['this_week'].text.split('{')[1]).split('\n')[0])
+    dict_json['next_week'] = json.loads(('{' + dict_response['next_week'].text.split('{')[1]).split('\n')[0])
 
     datetime_cur = datetime.now()
     
@@ -50,7 +50,7 @@ def run(logger):
                             continue
 
                         dict_result[str_key['datetime']][str_key['grade-class']].append(
-                            dict_json['this_week']['성명'][teacher_index], dict_json['this_week']['긴과목명'][subject_index]])
+                            [dict_json['this_week']['성명'][teacher_index], dict_json['this_week']['긴과목명'][subject_index]])
                 except:
                     pass
         
@@ -136,6 +136,6 @@ def run(logger):
         json.dump(dict_result, fp, ensure_ascii=False, indent=4)
 
     with open("data/TeacherTimeTable.dat", "w", encoding="UTF-8") as fp:
-        json.dump(dict_teachertimetable, fp, ensure_ascii=False, indext=4)
+        json.dump(dict_teachertimetable, fp, ensure_ascii=False, indent=4)
 
     logger.log("Timetable Parsing Completed.")
