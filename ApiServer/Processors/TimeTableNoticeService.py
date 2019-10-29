@@ -65,7 +65,10 @@ def process_teacher_timetable(data_manager, dict_json:dict) -> dict:
 
         str_output = ""
         for i in range(len(lst_timetable[0])):
-            str_output += "{0}교시: {1}반 - {2} 수업\n".format(i+1, lst_timetable[0][i][0], lst_timetable[0][i][1])
+            if len(lst_timetable[i][k]) == 2:
+                    str_output += "{0}교시: {1}반 - {2} 수업\n".format(i+1, lst_timetable[i][k][0], lst_timetable[i][k][1])
+                else:
+                    str_output += "{0}교시: 없음\n".format(i+1)
 
         lst_output.append(SimpleText.generate_simpletext(str_output))
     elif len_lst_timetable <= 3:
@@ -73,7 +76,10 @@ def process_teacher_timetable(data_manager, dict_json:dict) -> dict:
             str_output = "{0}을 수업하시는 {1} 선생님의 {2}일 시간표는 다음과 같습니다.\n\n".format(lst_timetable[i][0][1], str_teachername, str_date)
             
             for k in range(len(lst_timetable[i])):
-                str_output += "{0}교시: {1}반 - {2} 수업\n".format(i+1, lst_timetable[i][k][0], lst_timetable[i][k][1])
+                if len(lst_timetable[i][k]) == 2:
+                    str_output += "{0}교시: {1}반 - {2} 수업\n".format(i+1, lst_timetable[i][k][0], lst_timetable[i][k][1])
+                else:
+                    str_output += "{0}교시: 없음\n".format(i+1)
             
             lst_output.append(SimpleText.generate_simpletext(str_output))
     else:
@@ -82,7 +88,10 @@ def process_teacher_timetable(data_manager, dict_json:dict) -> dict:
             str_output += "{0}을 수업하시는 {1} 선생님의 {2}일 시간표는 다음과 같습니다.\n\n".format(lst_timetable[i][0][1], str_teachername, str_date)
             
             for k in range(len(lst_timetable[i])):
-                str_output += "{0}교시: {1}반 - {2} 수업\n".format(i+1, lst_timetable[i][k][0], lst_timetable[i][k][1])
+                if len(lst_timetable[i][k]) == 2:
+                    str_output += "{0}교시: {1}반 - {2} 수업\n".format(i+1, lst_timetable[i][k][0], lst_timetable[i][k][1])
+                else:
+                    str_output += "{0}교시: 없음\n".format(i+1)
             
             str_output += "_____\n\n\n"
 
