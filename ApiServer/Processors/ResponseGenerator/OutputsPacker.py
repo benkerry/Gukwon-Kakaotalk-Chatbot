@@ -9,7 +9,7 @@ def pack_outputs(output) -> dict:
         }
     }
 
-    if str(type(outputs)) == "<class 'list'>":
+    if str(type(output)) == "<class 'list'>":
         dict_result['template']['outputs'] = output
     else:
         dict_result['template']['outputs'].append(output)

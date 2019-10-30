@@ -41,7 +41,7 @@ def run(logger):
                 str_key['grade-class'] = str(grade) + '-' + str(_class)
                 dict_result[str_key['datetime']][str_key['grade-class']] = []
                 try:
-                    for i in range(1, len(dict_json['this_week'][''][grade][_class][week_index])):
+                    for i in range(1, len(dict_json['this_week']['학급시간표'][grade][_class][week_index])):
                         teacher_index = (dict_json['this_week']['학급시간표'][grade][_class][week_index][i] // 100)
                         subject_index = (dict_json['this_week']['학급시간표'][grade][_class][week_index][i] % 100)
 
@@ -56,26 +56,29 @@ def run(logger):
         
         dict_teachertimetable[str_key['datetime']] = {}
 
-        for teacher in range(1, len(dict_json['this_week']['교사시간표'][0])):
+        for teacher in range(1, len(dict_json['this_week']['교사시간표'])):
             str_tname = dict_json['this_week']['성명'][teacher]
             lst_buf = []
 
-            if dict_teachertimetable[str_key['datetime']][str_tname] == None:
+            if not str_tname in dict_teachertimetable[str_key['datetime']]:
                 dict_teachertimetable[str_key['datetime']][str_tname] = []
 
-            for week_idx in range(1, len(dict_json['this_week']['교사시간표'][0][teacher])):
-                for time in range(1, len(dict_json['this_week']['교사시간표'][0][teacher][week_idx])):
-                    if dict_json['this_week']['교사시간표'][0][teacher][week_idx][time] == 0:
+            for week_idx in range(1, len(dict_json['this_week']['교사시간표'][teacher])):
+                for time in range(1, len(dict_json['this_week']['교사시간표'][teacher][week_idx])):
+                    if dict_json['this_week']['교사시간표'][teacher][week_idx][time] == 0:
                         lst_buf.append([])
                     else:
-                        str_class = str(dict_json['this_week']['교사시간표'][0][teacher][week_idx][time] % 100)
-                        
-                        if str_class[1] == '0':
-                            str_class[1] = '-'
+                        str_class = str(dict_json['this_week']['교사시간표'][teacher][week_idx][time] // 100)
+
+                        if str_class == "0":
+                            lst_buf.append([])
+                            continue
+                        elif str_class[1] == '0':
+                            str_class = str_class[0] + '-' + str_class[2]
                         else:
                             str_class = str_class[0] + '-' + str_class[1:3]
 
-                        subject_idx = dict_json['this_week']['교사시간표'][0][teacher][week_idx][time] // 100
+                        subject_idx = dict_json['this_week']['교사시간표'][teacher][week_idx][time] % 100
                         str_subject = dict_json['this_week']['긴과목명'][subject_idx]
 
                         lst_buf.append([str_class, str_subject])
@@ -106,26 +109,29 @@ def run(logger):
 
         dict_teachertimetable[str_key['datetime']] = {}
 
-        for teacher in range(1, len(dict_json['next_week']['교사시간표'][0])):
+        for teacher in range(1, len(dict_json['next_week']['교사시간표'])):
             str_tname = dict_json['next_week']['성명'][teacher]
             lst_buf = []
 
-            if dict_teachertimetable[str_key['datetime']][str_tname] == None:
+            if not str_tname in dict_teachertimetable[str_key['datetime']]:
                 dict_teachertimetable[str_key['datetime']][str_tname] = []
 
-            for week_idx in range(1, len(dict_json['next_week']['교사시간표'][0][teacher])):
-                for time in range(1, len(dict_json['next_week']['교사시간표'][0][teacher][week_idx])):
-                    if dict_json['next_week']['교사시간표'][0][teacher][week_idx][time] == 0:
+            for week_idx in range(1, len(dict_json['next_week']['교사시간표'][teacher])):
+                for time in range(1, len(dict_json['next_week']['교사시간표'][teacher][week_idx])):
+                    if dict_json['next_week']['교사시간표'][teacher][week_idx][time] == 0:
                         lst_buf.append([])
                     else:
-                        str_class = str(dict_json['next_week']['교사시간표'][0][teacher][week_idx][time] % 100)
-                        
-                        if str_class[1] == '0':
-                            str_class[1] = '-'
+                        str_class = str(dict_json['next_week']['교사시간표'][teacher][week_idx][time] // 100)
+
+                        if str_class == "0":
+                            lst_buf.append([])
+                            continue
+                        elif str_class[1] == '0':
+                            str_class = str_class[0] + '-' + str_class[2]
                         else:
                             str_class = str_class[0] + '-' + str_class[1:3]
 
-                        subject_idx = dict_json['next_week']['교사시간표'][0][teacher][week_idx][time] // 100
+                        subject_idx = dict_json['next_week']['교사시간표'][teacher][week_idx][time] % 100
                         str_subject = dict_json['next_week']['긴과목명'][subject_idx]
 
                         lst_buf.append([str_class, str_subject])
@@ -139,3 +145,6 @@ def run(logger):
         json.dump(dict_teachertimetable, fp, ensure_ascii=False, indent=4)
 
     logger.log("Timetable Parsing Completed.")
+
+if __name__ == "__main__":
+    run()

@@ -91,7 +91,7 @@ class Manager:
             host="127.0.0.1",
             user="root",
             passwd="test",
-            database="chatbot_manager_web"
+            database="chatbot_manager"
         )
         self.cursor = self.conn.cursor()
 

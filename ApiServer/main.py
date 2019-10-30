@@ -1,4 +1,6 @@
 import json
+import smtplib
+import traceback
 import ServerLogger
 import DataManager.main as DataManager 
 
@@ -13,6 +15,7 @@ import Processors.ScheduleNoticeService as ScheduleNotice
 import Processors.TimeTableNoticeService as TimeTableNotice
 
 from flask import Flask, request
+from email.mime.text import MIMEText
 
 from Processors.ResponseGenerator.GenerateOutput import SimpleText
 from Processors.ResponseGenerator.OutputsPacker import pack_outputs
@@ -52,8 +55,29 @@ def main():
         else:
             return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
     except:
+        str_traceback = traceback.format_exc()
+
         logger.log("[ApiMain] Error Occured.")
-        logger.log(traceback.format_exc())
+        logger.log(str_traceback)
+
+        src_email = "developer_kerry@naver.com"
+        des_email = "developer_kerry@naver.com"
+        pwd = "tmp"
+
+        smtp_name = "smtp.naver.com"
+        smtp_port = 587
+
+        msg = MIMEText(str_traceback)
+        msg['Subject'] = "Error Report"
+        msg['From'] = src_email
+        msg['To'] = des_email
+
+        smtp = smtplib.SMTP(smtp_name, smtp_port)
+        smtp.starttls()
+        smtp.login(src_email, pwd)
+        smtp.sendmail(src_email, des_email, msg.as_string())
+        smtp.close()
+
         return pack_outputs([SimpleText.generate_simpletext("잘못된 요청입니다.")])
 
 @app.route("/healthcheck")
