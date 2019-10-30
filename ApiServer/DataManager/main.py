@@ -91,8 +91,7 @@ class Manager:
             host="127.0.0.1",
             user="root",
             passwd="test",
-            database="chatbot_manager",
-            auth_plugin="mysql_native_password"
+            database="chatbot_manager"
         )
         self.cursor = self.conn.cursor()
 
