@@ -46,7 +46,7 @@ def process(data_manager, logger, dict_json:dict) -> dict:
         elif now_time >= 1315 and now_time < 1830:
             str_mealtime = "석식"
         else:
-            return pack_outputs([SimpleText.generate_simpletext("오늘 배식은 종료되었어요.")])
+            return pack_outputs(SimpleText.generate_simpletext("오늘 배식은 종료되었어요."))
 
         str_date = "20" + cur_datetime.strftime("%y-%m-%d")
     elif is_strdate_today: # 오늘 (조식, 중식, 석식) 알려줘 or (조식, 중식, 석식) 알려줘
@@ -59,10 +59,10 @@ def process(data_manager, logger, dict_json:dict) -> dict:
     str_output = None
 
     if len(lst_meal) == 0:
-        str_output = "해당일의 급식 정보가 없어요."
+        str_output = "해당일의 {0} 정보가 없어요.".format(str_mealtime)
     else:
         str_output = "{0}일 {1} 메뉴는 다음과 같아요.\n\n".format(str_date, str_mealtime)
         for i in lst_meal:
             str_output += "- {0}\n".format(i)
 
-    return pack_outputs([SimpleText.generate_simpletext(str_output)])
+    return pack_outputs(SimpleText.generate_simpletext(str_output))

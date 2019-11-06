@@ -44,6 +44,6 @@ def process(data_manager, logger, dict_json:dict) -> dict:
 
             str_output += "\n"
 
-        return pack_outputs([SimpleText.generate_simpletext(str_output)])
+        return pack_outputs(SimpleText.generate_simpletext(str_output))
     else:
-        return pack_outputs([SimpleText.generate_simpletext("해당 기간에 등록된 학사일정이 없어요.")])
+        return pack_outputs(SimpleText.generate_simpletext("해당 기간에 등록된 학사일정이 없어요."))

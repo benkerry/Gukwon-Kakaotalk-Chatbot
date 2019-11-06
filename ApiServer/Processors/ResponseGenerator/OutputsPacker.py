@@ -13,5 +13,5 @@ def pack_outputs(output) -> dict:
         dict_result['template']['outputs'] = output
     else:
         dict_result['template']['outputs'].append(output)
-
+        
     return jsonify(dict_result)

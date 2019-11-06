@@ -60,7 +60,7 @@ def process(data_manager, logger, dict_json:dict) -> dict:
             break
 
     if str_testname == None:
-        return pack_outputs([SimpleText.generate_simpletext("아직 시험 일정이 없어요.")])
+        return pack_outputs(SimpleText.generate_simpletext("아직 시험 일정이 없어요."))
     else:
         left_days = (schedule_day - datetime.today()).days
 
@@ -68,4 +68,4 @@ def process(data_manager, logger, dict_json:dict) -> dict:
             str_output = "{0}: {1}일에 시행되며, {2}일 남았습니다.".format(str_testname, str_testdate, left_days + 1)
         else:
             str_output = "{0}: {1}일에 시행되었습니다.".format(str_testname, str_testdate)
-        return pack_outputs([SimpleText.generate_simpletext(str_output)])
+        return pack_outputs(SimpleText.generate_simpletext(str_output))

@@ -41,10 +41,10 @@ class AutoParser:
 
         try:
             self.logger.log('[AutoParser] Thread: tr_10m is running.')
-            TimeTableParser.run(self.logger)
-            NoticeParser.run(self.logger)
-            NewsletterParser.run(self.logger)
-            ChatbotNoticeParser.run(self.logger)
+            TimeTableParser.run()
+            NoticeParser.run()
+            NewsletterParser.run()
+            ChatbotNoticeParser.run()
 
             self.manager.load_data()
 
@@ -60,8 +60,8 @@ class AutoParser:
 
         try:
             self.logger.log('[AutoParser] Thread: tr_24h is running.')
-            MealServiceParser.run(self.logger)
-            ScheduleTableParser.run(self.logger)
+            MealServiceParser.run()
+            ScheduleTableParser.run()
 
             self.manager.load_data()
             
@@ -88,23 +88,44 @@ class Manager:
         self.dict_timetable_tc = None
 
         self.conn = mysql.connect(
-            host="127.0.0.1",
+            host="temp",
             user="root",
-            passwd="test",
-            database="chatbot_manager"
+            passwd="temp",
+            database="chatbot",
+            use_unicode=True,
+            charset='utf8'
         )
-        self.cursor = self.conn.cursor()
+        self.cursor = self.conn.cursor(buffered=True)
 
-    def mysql_query(self, sql) -> mysql.cursor.MySQLCursor:
-        if str(type(sql)) == "<class 'str'>":
-            self.cursor.execute(sql)
-            self.conn.commit()
-            return self.cursor()
+        self.load_data()
+        self.refresh_mysql_connection()
+
+    def mysql_query(self, sql, tuple_params:tuple = None) -> mysql.cursor.MySQLCursor:
+        if tuple_params == None:
+            if str(type(sql)) == "<class 'str'>":
+                self.cursor.execute(sql)
+                self.conn.commit()
+            else:
+                for i in sql:
+                    self.cursor.execute(i)
+                self.conn.commit()
         else:
-            for i in sql:
-                self.cursor.execute(i)
-            self.conn.commit()
-            return self.cursor
+            if str(type(sql)) == "<class 'str'>":
+                self.cursor.execute(sql, tuple_params)
+                self.conn.commit()
+            elif len(sql) == len(tuple_params):
+                for i in range(len(sql)):
+                    self.cursor.execute(sql[i], tuple_params[i])
+                self.conn.commit()
+            
+        self.logger.log("MySQL Queried!")
+        return self.cursor
+
+    def refresh_mysql_connection(self):
+        self.mysql_query("SHOW TABLES")
+        self.logger.log("MySQL Connection Refreshed!")
+        self.mysql_refresher = threading.Timer(28000, self.refresh_mysql_connection)
+        self.mysql_refresher.start()
 
     def load_data(self):
         if os.path.isfile('data/ScheduleTable.dat'):

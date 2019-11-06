@@ -4,7 +4,7 @@ from dateutil.rrule import rrule, DAILY, MONTHLY
 from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 
-def run(logger):
+def run():
     cur_datetime = datetime(2000 + int(datetime.today().strftime("%y")), 1, 1)
     nextyear_datetime = datetime(int(cur_datetime.strftime('%Y')) + 1, 4, 1)
 
@@ -59,5 +59,3 @@ def run(logger):
 
     with open('data/ScheduleTable.dat', 'w', encoding="UTF-8") as fp:
         json.dump(dict_result, fp, ensure_ascii=False, indent=4)
-
-    logger.log("Schedule Parsing Complete.")

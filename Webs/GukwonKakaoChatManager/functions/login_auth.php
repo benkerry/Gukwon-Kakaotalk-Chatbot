@@ -13,8 +13,9 @@
             session_start();
 
             $is_authed = true;
-            $_SESSION['id'] = $_POST['id'];
+            $_SESSION['id'] = htmlspecialchars($_POST['id']);
             $_SESSION['pwd_hash'] = $result['pwd'];
+            $_SESSION['nickname'] = htmlspecialchars($result['nickname']);
         }
     }
 

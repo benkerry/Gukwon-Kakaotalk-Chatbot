@@ -1,0 +1,36 @@
+html{
+    width:100%;
+}
+
+body{
+    margin-left:30px;
+}
+
+.top_nav{
+    background-color:#E7FFFA;
+    padding-top:15px;
+    padding-left:30px;
+    padding-bottom:30px;
+}
+
+.top_nav a{
+    color:black;
+    text-decoration:none;
+}
+
+.top_nav a:hover{
+    color:#922A00;
+    text-decoration:none;
+}
+
+.top_nav .logout{
+    float:right;
+    padding-right:30px;
+}
+
+.description{
+    width:80%;
+    margin-left:auto;
+    padding-top:30px;
+    margin-right:auto;
+}

@@ -1,0 +1,38 @@
+.suggestion{
+    word-break:break-all;
+}
+
+.write_comment{
+    width:100%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.write_comment textarea{
+    width:100%;
+    min-height:150px;
+    resize:none;
+}
+
+.write_comment input{
+    width:100%;
+}
+
+.comments .comment{
+    padding-bottom:10px;
+    border-bottom:1px solid gray;
+}
+
+.comments .comment a{
+    color:red;
+    text-decoration:none;
+}
+
+.comments .comment a:hover{
+    color:orange;
+    text-decoration:underline;
+}
+
+.comments .comment span{
+    float:right;
+}

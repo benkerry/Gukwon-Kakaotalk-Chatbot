@@ -2,13 +2,15 @@
     <head>
         <meta charset='utf-8'>
         <title>건의사항 관리</title>
+        <link rel="stylesheet" href="/style/master.css">
+        <link rel="stylesheet" href="/style/suggestionList.css">
         <?php
             include($_SERVER['DOCUMENT_ROOT']."/functions/session.php");
             include($_SERVER['DOCUMENT_ROOT']."/functions/dbconn.php");
 
-            $result['staged'] = mysqli_query($conn, "SELECT * FROM suggestion WHERE closed = 0");
-            $result['open'] = mysqli_query($conn, "SELECT * FROM suggestion WHERE closed = 1");
-            $result['closed'] = mysqli_query($conn, "SELECT * FROM suggestion WHERE closed = 2");
+            $result['staged'] = mysqli_query($conn, "SELECT * FROM suggestion WHERE status = 0");
+            $result['open'] = mysqli_query($conn, "SELECT * FROM suggestion WHERE status = 1");
+            $result['closed'] = mysqli_query($conn, "SELECT * FROM suggestion WHERE status = 2");
         ?>
         <script>
             function setStaged(){
@@ -33,17 +35,17 @@
     <body>
         <?php echo file_get_contents($_SERVER['DOCUMENT_ROOT']."/templates/top_nav.html"); ?>
         <div class='description'>
-            <input type="radio" name="rdo" id='rdoStaged' onclick='setStaged()' checked> 발행 대기중인 제안&nbsp;&nbsp;
-            <input type="radio" name="rdo" id='rdoOpen' onclick='setOpen()'> 열린 제안&nbsp;&nbsp;
-            <input type="radio" name="rdo" id='rdoClosed' onclick='setClosed()'> 닫힌 제안
+            <input type="radio" name="rdo" id='rdoStaged' class='rdoBtn' onclick='setStaged()' checked> 발행 대기중인 제안&nbsp;&nbsp;
+            <input type="radio" name="rdo" id='rdoOpen' class='rdoBtn' onclick='setOpen()'> 열린 제안&nbsp;&nbsp;
+            <input type="radio" name="rdo" id='rdoClosed' class='rdoBtn' onclick='setClosed()'> 닫힌 제안
             <div id='divStaged' style='display:;'>
-                <!-- !Pushed Issues -->
+                <!-- Pushed Issues -->
                 <table>
                     <thead>
                         <tr>
-                            <th>번호</th>
-                            <th>내용 미리보기</th>
-                            <th>등록일</th>
+                            <th class='index'>번호</th>
+                            <th class='preview'>내용 미리보기</th>
+                            <th class='datetime'>등록일</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,7 +62,7 @@
 
                                 echo "<tr>";
                                 echo "<td>".$row['idx']."</td>";
-                                echo "<td><a href='SuggestionViewer.php?idx=".$row['idx']."'>".$title."[".$row['num_signs']."]</a></td>";
+                                echo "<td class='preview'><a href='SuggestionViewer.php?idx=".$row['idx']."'>".$title."[".$row['num_signs']."]</a></td>";
                                 echo "<td>".$row['open_datetime']."</td>";
                                 echo "</tr>";
                             }
@@ -73,9 +75,9 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>번호</th>
-                            <th>내용 미리보기</th>
-                            <th>등록일</th>
+                            <th class='index'>번호</th>
+                            <th class='preview'>내용 미리보기</th>
+                            <th class='datetime'>등록일</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -92,7 +94,7 @@
 
                                 echo "<tr>";
                                 echo "<td>".$row['idx']."</td>";
-                                echo "<td><a href='SuggestionViewer.php?idx=".$row['idx']."'>".$title."[".$row['num_signs']."]</a></td>";
+                                echo "<td class='preview'><a href='SuggestionViewer.php?idx=".$row['idx']."'>".$title."[".$row['num_signs']."]</a></td>";
                                 echo "<td>".$row['open_datetime']."</td>";
                                 echo "</tr>";
                             }
@@ -105,9 +107,9 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>번호</th>
-                            <th>내용 미리보기</th>
-                            <th>등록일</th>
+                            <th class='index'>번호</th>
+                            <th class='preview'>내용 미리보기</th>
+                            <th class='datetime'>등록일</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -122,7 +124,7 @@
 
                                 echo "<tr>";
                                 echo "<td>".$row['idx']."</td>";
-                                echo "<td><a href='SuggestionViewer.php?idx=".$row['idx']."'>".$title."[".$row['num_signs']."]</a></td>";
+                                echo "<td class='preview'><a href='SuggestionViewer.php?idx=".$row['idx']."'>".$title."[".$row['num_signs']."]</a></td>";
                                 echo "<td>".$row['open_datetime']."</td>";
                                 echo "</tr>";
                             }
