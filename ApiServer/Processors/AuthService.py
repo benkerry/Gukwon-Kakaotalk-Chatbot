@@ -24,7 +24,7 @@ def process(data_manager, db_manager, logger, dict_json:dict) -> dict:
 
                 logger.log("[AuthService] Auth Success!")
                 return pack_outputs(SimpleText.generate_simpletext("인증 성공!"))
-            elif result == 0:
+            elif result_cnt == 0:
                 logger.log("[AuthService] Auth Fail")
                 lst_output = []
                 lst_output.append(SimpleText.generate_simpletext("인증 번호가 틀렸거나 입력 형식이 잘못되었습니다."))

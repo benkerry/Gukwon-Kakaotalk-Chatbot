@@ -64,7 +64,9 @@ def process(db_manager, logger, dict_json:dict) -> dict:
                 str_sql = "SELECT status FROM suggestion WHERE idx = '{0}'".format(str_sug_idx)
                 cursor = db_manager.mysql_query(str_sql)
                 
-                if not cursor.fetchone()[0] == 1:
+                if cursor.rowcount == 0:
+                    return pack_outputs(SimpleText.generate_simpletext("존재하지 않는 건의입니다."))
+                elif cursor.fetchone()[0] != 1:
                     return pack_outputs(SimpleText.generate_simpletext("닫힌 건의입니다."))
 
                 str_sql = "SELECT signed_suggestion FROM authed_user WHERE user_val='{0}'".format(str_userval)

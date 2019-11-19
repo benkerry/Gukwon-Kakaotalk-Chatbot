@@ -89,7 +89,7 @@ def main():
         tr.start()
         lst_thread.append(tr)
 
-        return pack_outputs(SimpleText.generate_simpletext("서버 오류가 발생하였습니다.\n\n버그 리포트가 개발자에게 전송되었습니다. 불편을 드려 죄송합니다.\n\n버그와 관련한 세부 정보를 developer_kerry@kakao.com으로 보내주시면 문제 개선에 큰 도움이 됩니다."))
+        return pack_outputs(SimpleText.generate_simpletext("서버 오류가 발생하였습니다.\n\n버그 리포트가 개발자에게 전송되었습니다. 불편을 드려 죄송합니다.\n\n버그와 관련한 세부 정보를 developer_kerry@kakao.com으로 보내주시면 문제 개선에 큰 도움이 됩니다. 시간 괜찮으시다면 버그 리포트 전송 부탁드립니다."))
 
 app.config['JSON_AS_ASCII'] = False
 

@@ -37,7 +37,7 @@ class Mailer:
         for i in lst_passed:
             self.send(
                 str_title = "#{0}번 건의가 통과되었습니다!".format(i[0]),
-                str_description = i[1] + '\n\n\n' + '[링크]', ### 링크 추가할 것
+                str_description = i[1] + '\n\n\n' + 'https://web.gukwonchatbot.ml/SuggestionViewer/SuggestionViewer.php?idx={0}'.format(i[0]),
                 lst_to = lst_destination
             )
 
