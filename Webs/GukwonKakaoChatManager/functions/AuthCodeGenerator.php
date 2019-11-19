@@ -143,6 +143,7 @@
             ob_clean();
             flush();
             readfile($filepath);
+            unlink($filepath);
         }
     }
 ?>
