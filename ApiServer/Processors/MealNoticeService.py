@@ -25,6 +25,10 @@ def process(data_manager, logger, dict_json:dict) -> dict:
         dict_tmp = json.loads(str_date)
         
         str_date = dict_tmp['date']
+
+        if str_date == None:
+            return(pack_outputs(SimpleText.generate_simpletext("존재하지 않는 날짜입니다.")))
+
         lst_date_elements = str_date.split('-')
 
         req_datetime = datetime(int(lst_date_elements[0]), int(lst_date_elements[1]), int(lst_date_elements[2]))

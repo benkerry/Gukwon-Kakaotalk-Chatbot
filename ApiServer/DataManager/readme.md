@@ -62,7 +62,7 @@
       > 찾는 데이터가 없는 경우 빈 리스트 반환
 
       def get_timetable_tc(str_date:str, str_tname:str) -> list
-      : YYYY-MM-DD Format의 str_date와 'O*O'(ex. '박*진') 형태의 str_tname을 넘겨주면 해당일 해당 교사의 사간표를 반환합니다.
+      : YYYY-MM-DD Format의 str_date와 'O*O'(ex. '박형*') 형태의 str_tname을 넘겨주면 해당일 해당 교사의 사간표를 반환합니다.
       > return format - [[반1, 과목명1], [반2, 과목명2], ...]
       > 찾는 데이터가 없는 경우 빈 리스트 반환
 
