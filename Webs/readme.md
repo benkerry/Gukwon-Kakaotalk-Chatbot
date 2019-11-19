@@ -17,7 +17,6 @@
 >- 건의 열람하기
 >- 답글 
 
-
 ## default.html
 > https 연결 상태가 아닌 경우, 프로토콜을 https로 전환합니다. file_get_contents 하여 사용합니다.
 
