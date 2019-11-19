@@ -17,6 +17,30 @@
             $result['recycle'] = mysqli_query($conn, "SELECT idx, description, num_signs, open_datetime FROM suggestion WHERE status = 3");
         ?>
         <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                checkChange();
+            }, false);
+
+            function checkChange(){
+                var staged = document.getElementById("rdoStaged");
+                var open = document.getElementById("rdoOpen");
+                var closed = document.getElementById("rdoClosed");
+                var recycle = document.getElementById("rdoRecycle");
+
+                if(staged.checked){
+                    setStaged();
+                }
+                else if(open.checked){
+                    setOpen();
+                }
+                else if(closed.checked){
+                    setClosed();
+                }
+                else{
+                    setRecycle();
+                }
+            }
+
             function setStaged(){
                 document.getElementById('divStaged').style.display = "";
                 document.getElementById('divOpen').style.display = 'none';
@@ -66,10 +90,10 @@
     <body>
         <?php echo file_get_contents($_SERVER['DOCUMENT_ROOT']."/GukwonKakaoChatManager/templates/top_nav.html"); ?>
         <div class='description'>
-            <input type="radio" name="rdo" id='rdoStaged' class='rdoBtn' onclick='setStaged()' checked> 발행 대기중인 제안&nbsp;&nbsp;
-            <input type="radio" name="rdo" id='rdoOpen' class='rdoBtn' onclick='setOpen()'> 열린 제안&nbsp;&nbsp;
-            <input type="radio" name="rdo" id='rdoClosed' class='rdoBtn' onclick='setClosed()'> 닫힌 제안&nbsp;&nbsp;
-            <input type="radio" name="rdo" id='rdoRecycle' class='rdoBtn' onclick='setRecycle()'> 제안 휴지통
+            <input type="radio" name="rdo" id='rdoStaged' class='rdoBtn' onchange='checkChange();' checked> 발행 대기중인 제안&nbsp;&nbsp;
+            <input type="radio" name="rdo" id='rdoOpen' class='rdoBtn' onchange='checkChange()'> 열린 제안&nbsp;&nbsp;
+            <input type="radio" name="rdo" id='rdoClosed' class='rdoBtn' onchange='checkChange()'> 닫힌 제안&nbsp;&nbsp;
+            <input type="radio" name="rdo" id='rdoRecycle' class='rdoBtn' onchange='checkChange()'> 제안 휴지통
             <div id='divStaged' style='display:;'>
                 <!-- Pushed Issues -->
                 <h3>현재 승인을 기다리는 제안을 열람중입니다.</h3>
@@ -87,7 +111,7 @@
 
                             while(($row = mysqli_fetch_assoc($result['staged']))){        
                                 if(strlen($row['description']) >= 30){
-                                    $title = substr($row['description'], 0, 24)."......";
+                                    $title = iconv_substr($row['description'], 0, 24, "utf-8");
                                 }
                                 else{
                                     $title = $row['description'];

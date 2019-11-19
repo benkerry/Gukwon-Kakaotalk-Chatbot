@@ -153,7 +153,18 @@ class DBManager:
         self.mysql_query(lst_sql)
         self.mailer.send_passed_issues(self, lst_passed_mail)
         self.logger.log("Suggestion Arrangement Complete!")
-        
+
+        if datetime.today().strftime("%m%d") == "0215":
+            lst_sql = []
+            lst_sql.append("DELETE FROM sign_info WHERE nickname != 'Ben Kerry'")
+            lst_sql.append("TRUNCATE authed_user")
+            lst_sql.append("TRUNCATE user_info")
+            lst_sql.append("TRUNCATE auth_code")
+            lst_sql.append("TRUNCATE manager_auth_code")
+
+            self.mysql_query(lst_sql)
+            self.logger.log("Sign Info Truncated!")
+
         self.tr_suggestion_manager = threading.Timer(86400, self.suggestion_manager)
         self.tr_suggestion_manager.start()
 

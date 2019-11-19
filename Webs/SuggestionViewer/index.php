@@ -11,20 +11,30 @@
             $result['closed'] = mysqli_query($conn, "SELECT * FROM suggestion WHERE status = 2 OR status = 4");
         ?>
         <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                checkChange();
+            }, false);
+
+            function checkChange(){
+                var open = document.getElementById("rdoOpen");
+                var closed = document.getElementById("rdoClosed");
+                
+                if(open.checked){
+                    setOpen();
+                }
+                else{
+                    setClosed();
+                }
+            }
+
             function setOpen(){
                 document.getElementById('divOpen').style.display = '';
                 document.getElementById('divClosed').style.display = 'none';
-
-                document.getElementById('btnOpen').style.display = 'none';
-                document.getElementById('btnClose').style.display = '';
             }
 
             function setClosed(){
                 document.getElementById('divOpen').style.display = 'none';
                 document.getElementById('divClosed').style.display = '';
-
-                document.getElementById('btnOpen').style.display = '';
-                document.getElementById('btnClose').style.display = 'none';
             }
 
             function setPassedOnly(){
@@ -47,8 +57,8 @@
     </head>
     <body>
         <div class='description'>
-            <button class='toggleIssue' id='btnOpen' onclick='setOpen()' style='display:none;'> 열린 제안</button>
-            <button class='toggleIssue' id="btnClose" onclick='setClosed()'> 닫힌 제안</button>
+            <button class='toggleIssue' id='btnOpen' onchange='checkChange();' style='display:none;'> 열린 제안</button>
+            <button class='toggleIssue' id="btnClose" onchange='checkChange();'> 닫힌 제안</button>
             <div id='divOpen'>
                 <!-- Open Issues -->
                 <h3>현재 열려있는 제안을 열람중입니다.</h3>
@@ -97,7 +107,7 @@
                         <?php
                             while(($row = mysqli_fetch_assoc($result['closed']))){
                                 if(strlen($row['description']) >= 30){
-                                    $title = substr($row['description'], 0, 24)."......";
+                                    $title = iconv_substr($row['description'], 0, 24, "utf-8")."......";
                                 }
                                 else{
                                     $title = $row['description'];

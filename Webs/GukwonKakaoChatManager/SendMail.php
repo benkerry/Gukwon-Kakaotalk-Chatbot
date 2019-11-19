@@ -10,16 +10,7 @@
         <?php echo file_get_contents($_SERVER['DOCUMENT_ROOT']."/default.html"); ?>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                var rdobtn = document.getElementById("standard");
-
-                if(rdobtn.checked){
-                    document.getElementById("mode").value = "send2developer";
-                    document.getElementById("submit").value = "개발자에게 메일 보내기";
-                }
-                else{
-                    document.getElementById("mode").value = "send2allmanagers";
-                    document.getElementById("submit").value = "전체 관리자에게 메일 보내기";
-                }
+                setMode();
             }, false);
 
             function setMode(){

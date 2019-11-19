@@ -12,7 +12,7 @@
                 <input type="password" name='pwd' placeholder='패스워드'><br>
                 <input type="submit" class="btn" value='로그인'>
             </form>
-            <button class="btn" onclick="location.href='signin.php';">관리자 등록</button>
+            <button class="btn" onclick="location.href='signin.php';">관리자 회원가입</button>
         </div>
     </body>
 </html>

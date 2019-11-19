@@ -29,17 +29,20 @@
             </div>
             <br>
             <div class="comments">
+                <div class="comments">
                 <?php
                     $raw_result = mysqli_query($conn, "SELECT * FROM suggestion_comment WHERE sug_idx = $idx");
                     
                     while(($row = mysqli_fetch_assoc($raw_result))){
                         echo "<div class='comment'>";
-                        echo "[".$row['commit_datetime']."]\n\n\n".$row['description'];
+                        echo $row['description']."<br><br>";
+                        echo "<span>by ".$row['nickname']."<br>[".$row['commit_datetime']."]</span>";
                         echo "<br>";
-                        echo "</div>";
+                        echo "</div><br>";
                     }
                 ?>
                 <br>
+            </div>
             </div>
             <button onclick="location.href='index.php';">뒤로가기</button>
         </div>

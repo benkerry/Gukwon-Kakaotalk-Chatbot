@@ -54,6 +54,21 @@
         border-bottom:1px solid gray;
         word-break:break-all;
     }
+
+    .comments .comment{
+        padding-left:15px;
+        padding-bottom:40px;
+        border-bottom:1px solid gray;
+    }
+    
+    .comments .comment a{
+        color:red;
+        text-decoration:none;
+    }
+
+    .comments .comment span{
+        float:right;
+    }
 }
 
 @media(min-width:768px){
@@ -111,6 +126,21 @@
         padding-bottom:20px;
         border-bottom:1px solid gray;
         word-break:break-all;
+    }
+
+    .comments .comment{
+        padding-left:15px;
+        padding-bottom:40px;
+        border-bottom:1px solid gray;
+    }
+    
+    .comments .comment a{
+        color:red;
+        text-decoration:none;
+    }
+
+    .comments .comment span{
+        float:right;
     }
 }
 
@@ -174,5 +204,20 @@
         padding-bottom:20px;
         border-bottom:1px solid gray;
         word-break:break-all;
+    }
+
+    .comments .comment{
+        padding-left:15px;
+        padding-bottom:40px;
+        border-bottom:1px solid gray;
+    }
+    
+    .comments .comment a{
+        color:red;
+        text-decoration:none;
+    }
+
+    .comments .comment span{
+        float:right;
     }
 }
