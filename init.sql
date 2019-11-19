@@ -1,9 +1,15 @@
 CREATE DATABASE chatbot DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE chatbot_manager;
+USE chatbot;
 
 CREATE TABLE auth_code(
     auth_code TEXT NOT NULL,
-    root INT NOT NULL
+    staged INT NOT NULL
+);
+
+CREATE TABLE manager_auth_code(
+    auth_code TEXT NOT NULL,
+    root INT NOT NULL,
+    staged INT NOT NULL
 );
 
 CREATE TABLE authed_user(
@@ -21,7 +27,8 @@ CREATE TABLE sign_info(
     id VARCHAR(30) PRIMARY KEY NOT NULL,
     pwd TEXT NOT NULL,
     root INT NOT NULL,
-    nickname TEXT NOT NULL
+    nickname TEXT NOT NULL,
+    email TEXT NOT NULL
 );
 
 CREATE TABLE suggestion(
@@ -30,7 +37,9 @@ CREATE TABLE suggestion(
     description TEXT NOT NULL,
     status INT NOT NULL,
     num_signs INT NOT NULL,
-    open_datetime TEXT NOT NULL
+    open_datetime TEXT NOT NULL,
+    handler_nickname TEXT,
+    deleted_datetime TEXT
 );
 
 CREATE TABLE suggestion_comment(

@@ -1,10 +1,10 @@
 <?php
-    include($_SERVER['DOCUMENT_ROOT']."/functions/dbconn.php");
+    include("dbconn.php");
 
-    $_POST['id'] = htmlspecialchars($_POST['id']);
-    $_POST['pwd'] = htmlspecialchars($_POST['pwd']);
+    $id = mysqli_real_escape_string($conn, htmlspecialchars($_POST['id']));
+    $pwd = mysqli_real_escape_string($conn, htmlspecialchars($_POST['pwd']));
 
-    $sql = "SELECT * FROM sign_info WHERE id = '".$_POST['id']."'";
+    $sql = "SELECT * FROM sign_info WHERE id = '$id'";
     $result = mysqli_fetch_assoc(mysqli_query($conn, $sql));
     $is_authed = false;
 
@@ -13,14 +13,22 @@
             session_start();
 
             $is_authed = true;
-            $_SESSION['id'] = htmlspecialchars($_POST['id']);
+            $_SESSION['id'] = $result['id'];
             $_SESSION['pwd_hash'] = $result['pwd'];
-            $_SESSION['nickname'] = htmlspecialchars($result['nickname']);
+            $_SESSION['nickname'] = $result['nickname'];
         }
     }
 
+    session_start();
+
     if(!$is_authed){
         echo "<script>alert('로그인 정보가 틀립니다.');location.href=\"../index.php\";</script>";
+    }
+    else if(isset($_SESSION['request_addr'])){
+        $addr = $_SESSION['reqeust_addr'];
+        unset($_SESSION['request_addr']);
+
+        header("Location:$addr");
     }
     else{
         header("Location:../GenerateAuthCode.php");

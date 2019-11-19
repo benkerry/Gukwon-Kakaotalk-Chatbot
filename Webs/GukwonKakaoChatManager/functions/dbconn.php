@@ -1,4 +1,5 @@
 <?php
-    $conn = mysqli_connect('127.0.0.1', 'root', 'test');
-    mysqli_select_db($conn, 'chatbot');
+    include($_SERVER['DOCUMENT_ROOT']."/config.php");
+    $conn = mysqli_connect($db_addr, $db_username, $db_pwd);
+    mysqli_select_db($conn, $db_name);
 ?>

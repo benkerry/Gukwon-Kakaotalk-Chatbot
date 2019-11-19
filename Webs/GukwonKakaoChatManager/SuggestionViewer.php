@@ -1,55 +1,74 @@
+<?php
+    include($_SERVER['DOCUMENT_ROOT']."/GukwonKakaoChatManager/functions/session.php");
+    include($_SERVER['DOCUMENT_ROOT']."/GukwonKakaoChatManager/functions/dbconn.php");
+?>
 <html>
     <head>
         <meta charset='utf-8'>
         <title>건의 열람</title>
-        <link rel="stylesheet" href="/style/master.css">
-        <link rel="stylesheet" href="/style/suggestionViewer.css">
+        <link rel="stylesheet" href="./style/master.css">
+        <link rel="stylesheet" href="./style/suggestionViewer.css">
         <?php
-            include($_SERVER['DOCUMENT_ROOT']."/functions/session.php");
-            include($_SERVER['DOCUMENT_ROOT']."/functions/dbconn.php");
+            echo file_get_contents($_SERVER['DOCUMENT_ROOT']."/default.html"); 
 
-            $raw_result = mysqli_query($conn, "SELECT * FROM suggestion WHERE idx = ".$_GET['idx']);
-            $result['suggestion'] = mysqli_fetch_assoc($raw_result);
+            $idx = mysqli_real_escape_string($conn, htmlspecialchars($_GET['idx']));
+            $result = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM suggestion WHERE idx=$idx"));
+            $num_authed = (int)(mysqli_fetch_array(mysqli_query($conn, "SELECT COUNT(*) FROM authed_user"))[0] * 0.15);
 
-            echo "<title>#".$_GET['idx']."번 건의사항</title>";
+            echo "<title>#".$idx."번 건의사항[".$result['num_signs']." / $num_authed]</title>";
         ?>
     </head>
     <body>
-        <?php echo file_get_contents($_SERVER['DOCUMENT_ROOT']."/templates/top_nav.html"); ?>
+        <?php echo file_get_contents($_SERVER['DOCUMENT_ROOT']."/GukwonKakaoChatManager/templates/top_nav.html"); ?>
         <div class='description'>
             <div class='suggestion'>
                 <?php
-                    echo "<h4>등록일: ".$result['suggestion']['open_datetime']."</h4>";
+                    echo "<h4>등록일: ".$result['open_datetime']."</h4>";
+                    if($result['status'] == 3){
+                        echo "<h4>삭제일: ".$result['deleted_datetime']."</h4>";
+                    }
+                    
+                    if(!empty($result['handler_nickname'])){
+                        echo "<h4>최근 제안 상태를 바꾼 관리자: ".$result['handler_nickname']."</h4>";
+                    }
 
-                    $sql = "SELECT COUNT(*) FROM authed_user WHERE user_val = '".$result['suggestion']['user_val']."'";
+                    $sql = "SELECT COUNT(*) FROM authed_user WHERE user_val = '".$result['user_val']."'";
 
                     if(((int)(mysqli_fetch_array(mysqli_query($conn, $sql))[0])) > 0){
-                        echo "<button action='functions/deprive.php?user_val=".$result['suggestion']['user_val']."'>건의 권한 박탈하기</button>";
+                        echo "<button action='./functions/deprive.php?user_val=".$result['user_val']."'>건의 권한 박탈하기</button>";
                     }
                     else{
                         echo "<strong>건의 권한이 박탈된 사용자가 남긴 건의입니다.</strong>";
                     }
                     echo "<br><br>";
 
-                    if((int)$result['suggestion']['status'] == 1){
-                        echo "<button onclick='location.href=\"functions/ToggleIssueStatus.php?handle=Close&idx=".$_GET['idx']."\";'>건의 닫기</button>";
+                    if($result['status'] == 1){
+                        echo "<button onclick='location.href=\"./functions/ChangeIssueStatus.php?handle=Close&idx=$idx\";'>건의 닫기</button>&nbsp;";
                     }
-                    else{
-                        echo "<button onclick='location.href=\"functions/ToggleIssueStatus.php?handle=Open&idx=".$_GET['idx']."\";'>건의 열기</button>";
+                    else if($result['status'] != 4){
+                        echo "<button onclick='location.href=\"./functions/ChangeIssueStatus.php?handle=Open&idx=$idx\";'>건의 열기</button>&nbsp;";
+                    }
+
+                    if($result['status'] == 0 || $result['status'] == 2){
+                        echo "<button onclick='location.href=\"./functions/ChangeIssueStatus.php?handle=Delete&idx=$idx\";'>삭제</button>";
+                    }
+                    else if($result['status'] == 3){
+                        echo "<button onclick='location.href=\"./functions/ChangeIssueStatus.php?handle=Restore&idx=$idx\";'>복원</button>";
                     }
                     echo "<br><br>";
-
-                    echo $result['suggestion']['description'];
+                    echo "<div class='sug_description'>";
+                    echo $result['description'];
+                    echo "</div>";
                 ?>
             </div>
             <br>
-            <button onclick="location.href='../SuggestionList.php';">뒤로가기</button><br>
+            <button id="back" onclick="location.href='SuggestionList.php';">뒤로가기</button><br>
             <br>
             <div class="write_comment">
-                <form action="/functions/suggestion_comment.php" method="GET">
+                <form action="./functions/suggestion_comment.php" method="GET">
                     <input type="hidden" name="handle" value="0">
                     <?php 
-                        echo "<input type=\"hidden\" name=\"sug_idx\" value=\"".$_GET['idx']."\">";
+                        echo "<input type=\"hidden\" name=\"sug_idx\" value=\"$idx\">";
                     ?>
                     <textarea name="description" placeholder="코멘트 남기기"></textarea><br>
                     <input type="submit">
@@ -57,18 +76,19 @@
             </div>
             <div class="comments">
                 <?php
-                    $raw_result = mysqli_query($conn, "SELECT * FROM suggestion_comment WHERE sug_idx = ".$_GET['idx']);
+                    $raw_result = mysqli_query($conn, "SELECT * FROM suggestion_comment WHERE sug_idx = $idx");
                     
                     while(($row = mysqli_fetch_assoc($raw_result))){
                         echo "<div class='comment'>";
                         echo $row['description']."<br><br>";
-                        echo "<span>by ".$row['nickname']."<br>[".$row['commit_datetime']."]<a href='functions/suggestion_comment.php?handle=1&idx=".$row['idx']."'><strong>[삭제]</strong></a></span>";
+                        echo "<span>by ".$row['nickname']."<br>[".$row['commit_datetime']."]<a href='./functions/suggestion_comment.php?handle=1&idx=".$row['idx']."'><strong>[삭제]</strong></a></span>";
                         echo "<br>";
                         echo "</div><br>";
                     }
                 ?>
                 <br>
             </div>
+            <?php echo file_get_contents($_SERVER['DOCUMENT_ROOT']."/GukwonKakaoChatManager/templates/bug_report.html"); ?>
         </div>
     </body>
 </html>

@@ -2,7 +2,8 @@
     <head>
         <meta charset="utf-8"/>
         <title>챗봇 관리자 등록</title>
-        <link rel="stylesheet" href="/style/signin.css">
+        <link rel="stylesheet" href="./style/signin.css">
+        <?php echo file_get_contents($_SERVER['DOCUMENT_ROOT']."/default.html"); ?>
         <script>
             function SetErrorMessage(msg){
                 var chk_result = document.getElementById("pwd_chk_result");
@@ -52,6 +53,9 @@
                 else if(document.getElementById("nickname").value.length == 0){
                     SetErrorMessage("닉네임을 정해주세요.");
                 }
+                else if(document.getElementById("email").value.length < 5){
+                    SetErrorMessage("이메일을 적어주세요.");
+                }
                 else{
                     Pass();
                 }
@@ -60,13 +64,15 @@
     </head>
     <body>
         <div class="login_form">
-            <form action="functions/signin.php" method="POST">
+            <strong>아이디, 비밀번호, 닉네임, 이메일에 &#039;&lt;&#039;, &#039;&gt;&#039;, 작은따옴표(&#039;), 큰따옴표(&quot;), 앰퍼샌드(&amp;)는 사용하실 수 없습니다.</strong>
+            <form action="./functions/signin.php" method="POST">
                 <input type="text" id="id" name="id" placeholder="아이디" onchange="IsInfoValid();"><br>
                 <input type="password" id="pwd" name="pwd" placeholder="패스워드" onchange="IsInfoValid();"><br>
                 <input type="password" id="pwd_chk" name="pwd_chk" placeholder="패스워드 확인" onchange="IsInfoValid();"><br>
-                <input type="text" name="auth_code" placeholder="가입 인증번호"><br>
+                <input type="text" id="auth_code" name="auth_code" placeholder="가입 인증번호"><br>
                 <br>
                 <input type="text" id="nickname" name="nickname" placeholder="닉네임" onchange="IsInfoValid();"><br>
+                <input type="email" id="email" name="email" placeholder="이메일" onchange="IsInfoValid();"><br>
                 <input type="submit" id="submit" class="btn" value="가입" style="display:none;">
             </form>
             <strong><span id="pwd_chk_result"></span></strong>

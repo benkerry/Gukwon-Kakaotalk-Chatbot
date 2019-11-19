@@ -2,6 +2,7 @@
     html{
         width:100%;
         background-color:#E7FFFA;
+        font-family:"Malgun Gothic";
     }
 
     .description{
@@ -25,10 +26,6 @@
         margin-right:auto;
         margin-top:40px;
         text-align:center;
-    }
-
-    .description table th{
-        border:1px solid red;
     }
 
     .description table thead .idx{
@@ -63,6 +60,7 @@
     html{
         width:100%;
         background-color:#E7FFFA;
+        font-family:"Malgun Gothic";
     }
 
     .description{
@@ -86,10 +84,6 @@
         margin-right:auto;
         margin-top:40px;
         text-align:center;
-    }
-
-    .description table th{
-        border:1px solid red;
     }
 
     .description table thead .idx{
@@ -124,6 +118,7 @@
     html{
         width:100%;
         background-color:#E7FFFA;
+        font-family:"Malgun Gothic";
     }
 
     .description{
@@ -164,6 +159,7 @@
     .description table thead .datetime{
         width:100px;
     }
+
 
     .description table tbody .previewDescription{
         text-align: left;

@@ -37,8 +37,6 @@ def process(data_manager, logger, dict_json:dict) -> dict:
         lst_test = data_manager.get_schedule_by_name(str_testtype)      
     elif str_testtype == "영어듣기능력평가":
         lst_test = data_manager.get_schedule_by_name("영어듣기")
-        print("shit")
-        print(lst_test)
     elif str_testtype == "대학수학능력시험":
         lst_test = data_manager.get_schedule_by_name("수능")
     else:
@@ -48,6 +46,8 @@ def process(data_manager, logger, dict_json:dict) -> dict:
     str_testdate = None
     schedule_day = None
     left_days = None
+
+    lst_test.sort(key=lambda x:x[0])
 
     for i in lst_test:
         lst_token = i[0].split('-')

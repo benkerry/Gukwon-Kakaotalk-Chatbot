@@ -137,7 +137,7 @@ def process_teacher_timetable(data_manager, dict_json:dict, str_teachername:str,
 
     return pack_outputs(lst_output)
 
-def process(data_manager, logger, dict_json:dict) -> dict:
+def process(data_manager, db_manager, logger, dict_json:dict) -> dict:
     lst_params = dict_json['action']['params'].keys()
 
     if "grade-class" in lst_params:
@@ -153,7 +153,7 @@ def process(data_manager, logger, dict_json:dict) -> dict:
         return process_teacher_timetable(data_manager, dict_json, dict_json['action']['params']['teacher_name'], use_sql=False)
     else:
         str_sql = "SELECT * FROM user_info WHERE user_val='{0}'".format(dict_json['userRequest']['user']['id'])
-        cursor = data_manager.mysql_query(str_sql)
+        cursor = db_manager.mysql_query(str_sql)
         rowcount = cursor.rowcount
 
         if rowcount == 0:

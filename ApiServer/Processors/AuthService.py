@@ -1,7 +1,7 @@
 from Processors.ResponseGenerator.GenerateOutput import SimpleText
 from Processors.ResponseGenerator.OutputsPacker import pack_outputs
 
-def process(data_manager, logger, dict_json:dict) -> dict:
+def process(data_manager, db_manager, logger, dict_json:dict) -> dict:
     str_userval = None
     str_utterance = None
 
@@ -12,7 +12,7 @@ def process(data_manager, logger, dict_json:dict) -> dict:
         str_authcode = str_utterance.split('[')[1].split(']')[0].upper()
         
         if len(str_authcode) == 6:
-            result_cnt = data_manager.mysql_query("SELECT COUNT(*) AS cnt FROM auth_code WHERE auth_code={0}".format(str_authcode)).fetchone()[0]
+            result_cnt = db_manager.mysql_query("SELECT COUNT(*) AS cnt FROM auth_code WHERE auth_code='{0}'".format(str_authcode)).fetchone()[0]
 
             if result_cnt == 1:
                 lst_sql = [
@@ -20,7 +20,7 @@ def process(data_manager, logger, dict_json:dict) -> dict:
                     "INSERT INTO authed_user VALUES('{0}', '')".format(str_userval)
                 ]
 
-                data_manager.mysql_query(lst_sql)
+                db_manager.mysql_query(lst_sql)
 
                 logger.log("[AuthService] Auth Success!")
                 return pack_outputs(SimpleText.generate_simpletext("인증 성공!"))

@@ -1,5 +1,6 @@
 html{
     width:100%;
+    font-family:"Malgun Gothic";
 }
 
 body{
@@ -23,7 +24,7 @@ body{
     text-decoration:none;
 }
 
-.top_nav .logout{
+.top_nav .right{
     float:right;
     padding-right:30px;
 }
@@ -33,4 +34,8 @@ body{
     margin-left:auto;
     padding-top:30px;
     margin-right:auto;
+}
+
+.bug_report{
+    margin-top:30%;
 }

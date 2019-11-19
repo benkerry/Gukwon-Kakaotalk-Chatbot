@@ -4,6 +4,8 @@ import traceback
 import threading
 import mysql.connector as mysql
 
+from datetime import datetime
+
 import DataManager.ChatbotNoticeParser as ChatbotNoticeParser
 import DataManager.MealServiceParser as MealServiceParser
 import DataManager.NoticeParser as NoticeParser
@@ -67,38 +69,100 @@ class AutoParser:
             
             self.tr_24h = threading.Timer(86400, self.parse_24h)
             self.tr_24h.start()
-            
         except:
             self.logger.log('[AutoParser] Exception Catched on parse_24h, DataManager/Main.py')
             self.logger.log(traceback.format_exc())
 
-class Manager:
-    def __init__(self, logger):
-        if os.path.isdir('data') == False:
-            os.mkdir('data')
-
+class DBManager:
+    def __init__(self, logger, mailer, str_db_addr, str_db_username, str_db_pwd, str_db_name):
         self.logger = logger
-
-        self.dict_schedule = None
-        self.dict_menu = None
-        self.lst_notice = None
-        self.lst_newsletter = None
-        self.lst_chatbotnotice = None
-        self.dict_timetable_st = None
-        self.dict_timetable_tc = None
+        self.mailer = mailer
 
         self.conn = mysql.connect(
-            host="temp",
-            user="root",
-            passwd="temp",
-            database="chatbot",
+            host=str_db_addr,
+            user=str_db_username,
+            passwd=str_db_pwd,
+            database=str_db_name,
             use_unicode=True,
             charset='utf8'
         )
         self.cursor = self.conn.cursor(buffered=True)
-
-        self.load_data()
+        
+        self.suggestion_manager()
         self.refresh_mysql_connection()
+
+    def suggestion_manager(self):
+        cursor = self.mysql_query("SELECT status, idx, num_signs, open_datetime, description FROM suggestion")
+        num_authed_users = self.mysql_query("SELECT COUNT(*) FROM authed_user").fetchone()[0]
+        boundary = int(num_authed_users * 0.15)
+
+        lst_passed = []
+        lst_closed = []
+        lst_delete = []
+
+        lst_passed_mail = []
+
+        for i in cursor:
+            if i[0] == 1:
+                if i[2] > boundary:
+                    lst_passed.append(i[1])
+                    lst_passed_mail.append([i[1], i[4]])
+                else:
+                    lst_datetime_token = i[3].split("-")
+                    today_datetime = datetime.today() 
+                    open_datetime = datetime(lst_datetime_token[0], lst_datetime_token[1], lst_datetime_token[2])
+
+                    passed_days = (today_datetime - open_datetime).day
+
+                    if passed_days > 28:
+                        lst_closed.append(i[1])
+            elif i[0] == 3:
+                lst_datetime_token = i[3].split("-")
+                today_datetime = datetime.today() 
+                open_datetime = datetime(lst_datetime_token[0], lst_datetime_token[1], lst_datetime_token[2])
+
+                passed_days = (today_datetime - open_datetime).day
+
+                if passed_days > 28:
+                    lst_delete.append(i[1])
+
+        lst_sql = []
+
+        str_sql = "UPDATE suggestion SET status = 4 WHERE"
+
+        for i in lst_passed:
+            str_sql += " idx = {0} OR".format(i)
+
+        if num_authed_users > 50 and len(lst_passed) > 0:
+            lst_sql.append(str_sql[:-3])
+
+        str_sql = "UPDATE suggestion SET status = 2 WHERE"
+        for i in lst_closed:
+            str_sql += " idx = {0} OR".format(i)
+
+        if len(lst_closed) > 0:
+            lst_sql.append(str_sql[:-3])
+
+        str_sql = "DELETE FROM suggestion WHERE"
+        for i in lst_delete:
+            str_sql += " idx = {0} OR".format(i)
+
+        if len(lst_delete) > 0:
+            lst_sql.append(str_sql[:-3])
+
+        self.mysql_query(lst_sql)
+        self.mailer.send_passed_issues(self, lst_passed_mail)
+        self.logger.log("Suggestion Arrangement Complete!")
+        
+        self.tr_suggestion_manager = threading.Timer(86400, self.suggestion_manager)
+        self.tr_suggestion_manager.start()
+
+    def refresh_mysql_connection(self):
+        self.mysql_query("SHOW TABLES")
+        self.logger.log("MySQL Connection Refreshed!")
+
+        self.mysql_refresher = threading.Timer(28000, self.refresh_mysql_connection)
+        self.mysql_refresher.start()
 
     def mysql_query(self, sql, tuple_params:tuple = None) -> mysql.cursor.MySQLCursor:
         if tuple_params == None:
@@ -121,11 +185,23 @@ class Manager:
         self.logger.log("MySQL Queried!")
         return self.cursor
 
-    def refresh_mysql_connection(self):
-        self.mysql_query("SHOW TABLES")
-        self.logger.log("MySQL Connection Refreshed!")
-        self.mysql_refresher = threading.Timer(28000, self.refresh_mysql_connection)
-        self.mysql_refresher.start()
+class Manager:
+    def __init__(self, logger):
+        if os.path.isdir('data') == False:
+            os.mkdir('data')
+
+        self.logger = logger
+        self.tr_3h = None
+
+        self.dict_schedule = None
+        self.dict_menu = None
+        self.lst_notice = None
+        self.lst_newsletter = None
+        self.lst_chatbotnotice = None
+        self.dict_timetable_st = None
+        self.dict_timetable_tc = None
+
+        self.load_data()
 
     def load_data(self):
         if os.path.isfile('data/ScheduleTable.dat'):

@@ -1,9 +1,9 @@
 from Processors.ResponseGenerator.OutputsPacker import pack_outputs
 from Processors.ResponseGenerator.GenerateOutput import ListCard, SimpleText
 
-def process(data_manager, logger) -> dict:
+def process(db_manager, logger) -> dict:
     str_sql = "SELECT idx, description, status, num_signs FROM suggestion WHERE status > 0 ORDER BY idx ASC"
-    cursor = data_manager.mysql_query(str_sql)
+    cursor = db_manager.mysql_query(str_sql)
 
     lst_open = []
     lst_close = []
@@ -12,7 +12,7 @@ def process(data_manager, logger) -> dict:
         lst_appender.append('#{0}번 건의(동의: {1}개)'.format(i[0], i[3]))
         lst_appender.append(i[1][:30])
         lst_appender.append("https://cataas.com/cat")
-        lst_appender.append("localhost/SuggestionViewer.php?idx={0}".format(i[0]))
+        lst_appender.append("https://web.gukwonchatbot.ml/SuggestionViewer/SuggestionViewer.php?idx={0}".format(i[0]))
         
         if i[2] == 1:
             lst_open.append(lst_appender) 
@@ -38,8 +38,7 @@ def process(data_manager, logger) -> dict:
         lst_output.append(SimpleText.generate_simpletext("닫힌 건의가 없습니다."))
 
     str_output = "전체 건의 리스트는 다음 링크에서 확인하실 수 있습니다.\n\n"
-    str_output += "열린 건의: ~~~~\n"
-    str_output += "닫힌 건의: ~~~~\n\n"
+    str_output += ">> https://web.gukwonchatbot.ml/SuggestionViewer/index.php\n"
     str_output += "# 건의 방법\n"
     str_output += "발화 예시: (국밥 사주세요.)라고 건의해줘!\n"
     str_output += "#건의 추천 방법\n"

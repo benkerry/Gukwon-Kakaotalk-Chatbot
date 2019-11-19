@@ -2,12 +2,13 @@
     <head>
         <meta charset='utf-8'>
         <title>건의사항 관리</title>
-        <link rel="stylesheet" href="/style/master.css">
+        <link rel="stylesheet" href="./style/master.css">
         <?php
-            include($_SERVER['DOCUMENT_ROOT']."/functions/dbconn.php");
+            echo file_get_contents($_SERVER['DOCUMENT_ROOT']."/default.html");
+            include($_SERVER['DOCUMENT_ROOT']."/SuggestionViewer/functions/dbconn.php");
 
             $result['open'] = mysqli_query($conn, "SELECT * FROM suggestion WHERE status = 1");
-            $result['closed'] = mysqli_query($conn, "SELECT * FROM suggestion WHERE status = 2");
+            $result['closed'] = mysqli_query($conn, "SELECT * FROM suggestion WHERE status = 2 OR status = 4");
         ?>
         <script>
             function setOpen(){
@@ -25,6 +26,23 @@
                 document.getElementById('btnOpen').style.display = '';
                 document.getElementById('btnClose').style.display = 'none';
             }
+
+            function setPassedOnly(){
+                var sections = document.getElementsByClassName("non-passed");
+
+                if(document.getElementById('chkPassedOnly').checked){
+                    for(var i = 0; i < sections.length; i++){
+                        var item = sections.item(i);
+                        item.style.display = "none";
+                    }
+                }
+                else{
+                    for(var i = 0; i < sections.length; i++){
+                        var item = sections.item(i);
+                        item.style.display = "";
+                    }
+                }
+            }
         </script>
     </head>
     <body>
@@ -33,6 +51,7 @@
             <button class='toggleIssue' id="btnClose" onclick='setClosed()'> 닫힌 제안</button>
             <div id='divOpen'>
                 <!-- Open Issues -->
+                <h3>현재 열려있는 제안을 열람중입니다.</h3>
                 <table>
                     <thead>
                         <tr>
@@ -64,6 +83,8 @@
             </div>
             <div id='divClosed' style='display:none;'>
                 <!-- Closed Issues -->
+                <h3>현재 닫힌 제안을 열람중입니다.</h3>
+                <input type="checkbox" id="chkPassedOnly" onchange="setPassedOnly();"> 통과된 건의만 보기
                 <table>
                     <thead>
                         <tr>
@@ -82,11 +103,20 @@
                                     $title = $row['description'];
                                 }
 
-                                echo "<tr>";
-                                echo "<td>".$row['idx']."</td>";
-                                echo "<td class='previewDescription'><a href='SuggestionViewer.php?idx=".$row['idx']."'>".$title."[".$row['num_signs']."]</a></td>";
-                                echo "<td>".$row['open_datetime']."</td>";
-                                echo "</tr>";
+                                if($row['status'] == 2){
+                                    echo "<tr class='non-passed'>";
+                                    echo "<td>".$row['idx']."</td>";
+                                    echo "<td class='preview'><a href='SuggestionViewer.php?idx=".$row['idx']."'>".$title."[".$row['num_signs']."]</a></td>";
+                                    echo "<td>".$row['open_datetime']."</td>";
+                                    echo "</tr>";
+                                }
+                                else{
+                                    echo "<tr><strong>";
+                                    echo "<td>".$row['idx']."</td>";
+                                    echo "<td class='preview'><a href='SuggestionViewer.php?idx=".$row['idx']."'>".$title."[".$row['num_signs']."]</a></td>";
+                                    echo "<td>".$row['open_datetime']."</td>";
+                                    echo "</strong></tr>";
+                                }
                             }
                         ?>
                     </tbody>

@@ -14,7 +14,7 @@
 }
 
 .description table thead th{
-    border-bottom:1px solid gray;
+    border-bottom:1px solid black;
 }
 
 .description table thead .index{
@@ -31,4 +31,18 @@
 
 .description table tbody .preview{
     text-align:left;
+}
+
+.description table tbody td a{
+    color:#01034B;
+    text-decoration:none;
+}
+
+.description table tbody td a:hover{
+    color:#D33D0D;
+    text-decoration:underline;
+}
+
+.description table tbody td{
+    border-bottom:1px solid gray;
 }

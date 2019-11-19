@@ -2,6 +2,17 @@
     word-break:break-all;
 }
 
+.suggestion .sug_description{
+    padding-top:30px;
+    padding-bottom:50px;
+    padding-left:15px;
+    border-top:1px solid gray;
+}
+
+#back{
+    float:right;
+}
+
 .write_comment{
     width:100%;
     margin-left:auto;
@@ -19,7 +30,8 @@
 }
 
 .comments .comment{
-    padding-bottom:10px;
+    padding-left:15px;
+    padding-bottom:40px;
     border-bottom:1px solid gray;
 }
 
