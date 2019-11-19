@@ -103,7 +103,14 @@ mailer = Mailer(
 lst_thread = []
 
 logger = ServerLogger.Logger()
-db_manager = DataManager.DBManager(logger, mailer, config.str_db_addr, config.str_db_username, config.str_db_pwd, config.str_db_name)
+db_manager = DataManager.DBManager(
+    logger=logger,
+    mailer=mailer, 
+    str_db_addr=config.str_db_addr, 
+    str_db_username=config.str_db_username, 
+    str_db_pwd=config.str_db_pwd,
+    str_db_name=config.str_db_name
+    )
 data_manager = DataManager.Manager(logger)
 auto_parser = DataManager.AutoParser(data_manager, logger)
 
