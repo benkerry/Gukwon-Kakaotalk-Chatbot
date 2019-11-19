@@ -3,7 +3,6 @@
 ## main.py
    이 파일을 실행하면 서버가 시작됩니다.
   
-  
 ## ServerLogger.py
 ### class Logger : 서버 로그를 남깁니다. 이 클래스의 인스턴스는 하나만 생성해야 합니다.
       def log(message)  

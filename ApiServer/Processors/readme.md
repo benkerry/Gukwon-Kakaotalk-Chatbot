@@ -35,4 +35,4 @@
       def process()
       : 시간표 요청을 처리하고 처리 결과 응답 메시지를 생성해 반환합니다.
 
-- Processors/ResponseGenerator : 카카오톡 응답 메시지를 Format에 맞춰 생성하는 패키지입니다.
+# Processors/ResponseGenerator : 카카오톡 응답 메시지를 Format에 맞춰 생성하는 패키지입니다.

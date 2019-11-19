@@ -284,19 +284,17 @@ class Manager:
 
         self.logger.log('[Manager] Data Reloaded.')
 
-    # 날짜(str_date, "YYYY-MM-DD") 검색으로 스케줄 하나 얻기
     def get_schedule_daily(self, str_date:str) -> list:
         if str_date in self.dict_schedule.keys():
             return [str_date, self.dict_schedule[str_date]]
         else:
             return []
 
-    # 월간(str_date, "YYYY-MM") 검색으로 스케줄 얻기
-    def get_schedule_monthly(self, str_date:str) -> list:
+    def get_schedule_monthly(self, str_month:str) -> list:
         lst_result = []
 
         for i in self.dict_schedule.keys():
-            if str_date in i:
+            if str_month in i:
                 lst_result.append([i, self.dict_schedule[i]])
 
         if len(lst_result) > 0:
