@@ -23,7 +23,21 @@ def process(data_manager, logger, dict_json:dict) -> dict:
     lst_schedules = []
 
     if str_major_event != "0":
-        lst_schedules = data_manager.get_schedule_by_name(str_major_event)
+        if str_major_event == "봉인해제":
+            today = datetime.today()
+            thrid = datetime(today.year + 1, 1, 1)
+            second = datetime(today.year + 2, 1, 1)
+            freshman = datetime(today.year + 3, 1, 1)
+
+            str_output = "여러분들의 봉인해제는\n\n"
+            str_output += "3학년 기준 {0}\n".format((thrid - today).days)
+            str_output += "2학년 기준 {0}\n".format((second - today).days)
+            str_output += "1학년 기준 {0}\n\n".format((freshman - today).days)
+            str_output += "남았습니다."
+
+            return pack_outputs(SimpleText.generate_simpletext(str_output))
+        else:
+            lst_schedules = data_manager.get_schedule_by_name(str_major_event)
     elif is_thismonth:
         str_period = datetime.today().strftime("%y-%m")
         lst_schedules = data_manager.get_schedule_monthly(str_period)
