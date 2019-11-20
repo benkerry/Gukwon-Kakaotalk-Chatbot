@@ -9,7 +9,7 @@
     $is_authed = false;
 
     if(isset($result['id'])){
-        if(password_verify($_POST['pwd'], $result['pwd'])){
+        if(password_verify($pwd, $result['pwd'])){
             session_start();
 
             $is_authed = true;
