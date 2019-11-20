@@ -64,7 +64,6 @@
     </head>
     <body>
         <div class="login_form">
-            <strong>아이디, 비밀번호, 닉네임, 이메일에 &#039;&lt;&#039;, &#039;&gt;&#039;, 작은따옴표(&#039;), 큰따옴표(&quot;), 앰퍼샌드(&amp;)는 사용하실 수 없습니다.</strong>
             <form action="./functions/signin.php" method="POST">
                 <input type="text" id="id" name="id" placeholder="아이디" onchange="IsInfoValid();"><br>
                 <input type="password" id="pwd" name="pwd" placeholder="패스워드" onchange="IsInfoValid();"><br>

@@ -38,7 +38,7 @@
                             while(($row = mysqli_fetch_assoc($result))){        
                                 echo "<tr>";
                                 echo "<td>".$row['nickname']."</td>";
-                                echo "<td><a href='./functions/DeleteManager.php?id=".$row['id']."'>권한 박탈</a></td>";
+                                echo "<td><a href='./functions/DeleteManager_chk.php?nickname=".$row['nickname']."&id=".$row['id']."'>권한 박탈</a></td>";
                                 echo "</tr>";
                             }
                         }

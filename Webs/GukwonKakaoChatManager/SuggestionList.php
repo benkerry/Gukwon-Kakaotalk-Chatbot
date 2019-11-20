@@ -144,7 +144,7 @@
 
                             while(($row = mysqli_fetch_assoc($result['open']))){        
                                 if(strlen($row['description']) >= 30){
-                                    $title = substr($row['description'], 0, 24)."......";
+                                    $title = iconv_substr($row['description'], 0, 24, "utf-8")."......";
                                 }
                                 else{
                                     $title = $row['description'];
@@ -176,7 +176,7 @@
                         <?php
                             while(($row = mysqli_fetch_assoc($result['closed']))){
                                 if(strlen($row['description']) >= 30){
-                                    $title = substr($row['description'], 0, 24)."......";
+                                    $title = iconv_substr($row['description'], 0, 24, "utf-8")."......";
                                 }
                                 else{
                                     $title = $row['description'];
@@ -218,7 +218,7 @@
 
                             while(($row = mysqli_fetch_assoc($result['recycle']))){        
                                 if(strlen($row['description']) >= 30){
-                                    $title = substr($row['description'], 0, 24)."......";
+                                    $title = iconv_substr($row['description'], 0, 24, "utf-8")."......";
                                 }
                                 else{
                                     $title = $row['description'];

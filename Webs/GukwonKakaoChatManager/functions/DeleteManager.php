@@ -10,8 +10,11 @@
         echo "<script>alert('권한이 없습니다.');history.back();</script>";
     }
     else{
-        $sql = "DELETE FROM sign_info WHERE id = '$id'";
+        $id = mysqli_real_escape_string($conn, $_GET['id']);
+        $nickname  = mysqli_real_escape_string($conn, $_GET['nickname']);
+        
+        $sql = "DELETE FROM sign_info WHERE id = '$id' and nickname = '$nickname'";
         mysqli_query($conn, $sql);
-        echo "<script>alert('삭제 완료!');location.href='../ManagerManager.php';</script>";
+        echo "<script>alert('삭제 완료!');location.href='../ManagerManage.php';</script>";
     }
 ?>

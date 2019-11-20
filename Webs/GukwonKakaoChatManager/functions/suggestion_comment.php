@@ -24,7 +24,7 @@
     }
     else if($handle == 1){
         $idx = mysqli_real_escape_string($conn, $_GET['idx']);
-        $sql = "DELETE FROM suggestion_comment WHERE idx = $idx";
+        $sql = "DELETE FROM suggestion_comment WHERE idx = $idx and nickname='".$_SESSION['nickname']."'";
         mysqli_query($conn, $sql);
         
         echo "<script>history.back();</script>";
