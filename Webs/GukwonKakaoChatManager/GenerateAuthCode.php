@@ -38,7 +38,7 @@
                 <input type="number" name="count" id="numericBox" placeholder="발급 개수(단위: 반)">&nbsp;
                 <input type="submit" value="발급">
             </form>
-            &nbsp;<button onclick="location.href='./functions/TruncateAuthcodes.php'">인증번호 전체 초기화</button><br>
+            <button onclick="location.href='./functions/TruncateAuthcodes.php'">인증번호 전체 초기화</button><br>
             <br>
             &nbsp;일반 모드에서는 WorkSheet당 인증번호 30개씩, 입력값 만큼의 WorkSheet가 만들어집니다.<br>
             &nbsp;관리자 인증번호 발급 모드에서는 한 WorkSheet에 입력값 만큼의 인증번호가 발급됩니다.<br>
