@@ -2,7 +2,7 @@
     include("session.php");
 
     if(isset($_POST['req_type'])){
-        if(password_verify($_POST['password'], $_SESSION['pwd_hash'])){
+        if(password_verify(htmlspecialchars($_POST['password']), $_SESSION['pwd_hash'])){
             $id = mysqli_real_escape_string($conn, htmlspecialchars($_SESSION['id']));
             
             if($_POST['req_type'] == "change_email"){
