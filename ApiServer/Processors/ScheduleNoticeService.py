@@ -30,9 +30,9 @@ def process(data_manager, logger, dict_json:dict) -> dict:
             freshman = datetime(today.year + 3, 1, 1)
 
             str_output = "여러분들의 봉인해제는\n\n"
-            str_output += "3학년 기준 {0}\n".format((thrid - today).days)
-            str_output += "2학년 기준 {0}\n".format((second - today).days)
-            str_output += "1학년 기준 {0}\n\n".format((freshman - today).days)
+            str_output += "3학년 기준 {0}일\n".format((thrid - today).days)
+            str_output += "2학년 기준 {0}일\n".format((second - today).days)
+            str_output += "1학년 기준 {0}일 ".format((freshman - today).days)
             str_output += "남았습니다."
 
             return pack_outputs(SimpleText.generate_simpletext(str_output))

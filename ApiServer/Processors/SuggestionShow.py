@@ -38,9 +38,9 @@ def process(db_manager, logger) -> dict:
         lst_output.append(SimpleText.generate_simpletext("닫힌 건의가 없습니다."))
 
     str_output = "전체 건의 리스트는 다음 링크에서 확인하실 수 있습니다.\n\n"
-    str_output += ">> https://web.gukwonchatbot.ml/SuggestionViewer/index.php\n"
+    str_output += ">> https://web.gukwonchatbot.ml/SuggestionViewer/index.php\n\n"
     str_output += "# 건의 방법\n"
-    str_output += "발화 예시: (국밥 사주세요.)라고 건의해줘!\n"
+    str_output += "발화 예시: (국밥 사주세요.)라고 건의해줘!\n\n"
     str_output += "#건의 추천 방법\n"
     str_output += "발화 예시: #31번 건의에 동의합니다.\n\n"
     str_output += "건의 열람은 누구나 가능하지만 건의 등록, 건의 추천은 구성원 인증이 완료된 사용자만 가능합니다."

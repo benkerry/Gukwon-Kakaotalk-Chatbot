@@ -36,7 +36,7 @@
                 <br>
                 <input type="checkbox" name="chk_truncate"> 기존에 발급된 인증번호는 삭제<br>
                 <input type="number" name="count" id="numericBox" placeholder="발급 개수(단위: 반)">&nbsp;
-                <input type="submit" value="발급"><br>
+                <input type="submit" value="발급">&nbsp;<button onclick="location.href='./functions/TruncateAuthcodes.php'">인증번호 전체 초기화</button><br>
             </form>
             <br>
             &nbsp;일반 모드에서는 WorkSheet당 인증번호 30개씩, 입력값 만큼의 WorkSheet가 만들어집니다.<br>

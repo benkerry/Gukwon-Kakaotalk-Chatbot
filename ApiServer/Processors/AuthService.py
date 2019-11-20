@@ -12,6 +12,9 @@ def process(data_manager, db_manager, logger, dict_json:dict) -> dict:
         str_authcode = str_utterance.split('[')[1].split(']')[0].upper()
         
         if len(str_authcode) == 6:
+            if db_manager.mysql_query("SELECT COUNT(*) FROM authed_user WHERE user_val='{0}'".format(str_userval)).fetchone()[0] == 1:
+                return pack_outputs(SimpleText.generate_simpletext("이미 인증된 사용자입니다."))
+                
             result_cnt = db_manager.mysql_query("SELECT COUNT(*) AS cnt FROM auth_code WHERE auth_code='{0}'".format(str_authcode)).fetchone()[0]
 
             if result_cnt == 1:
