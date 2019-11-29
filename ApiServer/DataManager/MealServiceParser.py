@@ -31,6 +31,8 @@ def run():
     else:
          year_n_month += 100
 
+    year_n_month -= (year_n_month % 100)
+
     response = requests.get("http://school.cbe.go.kr/gukwon-h/M01061201/list?ymd={0}".format(year_n_month + 1))
     soup = BeautifulSoup(response.text, 'html.parser')
 

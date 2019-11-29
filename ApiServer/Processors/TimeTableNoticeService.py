@@ -6,7 +6,6 @@ from datetime import datetime, timedelta
 from Processors.ResponseGenerator.GenerateOutput import SimpleText
 from Processors.ResponseGenerator.OutputsPacker import pack_outputs
 
-# False 0 -> Default, True -> using sql data
 def process_student_timetable(data_manager, dict_json:dict, str_class:str, use_sql:bool) -> dict:
     time_column = None
     str_date = dict_json['action']['params']['date']
