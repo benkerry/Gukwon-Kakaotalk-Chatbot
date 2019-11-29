@@ -35,7 +35,7 @@ def process(data_manager, logger, dict_json:dict) -> dict:
 
         is_strdate_today = (cur_datetime - req_datetime).days == 0    
 
-    if is_strdate_today and is_strmealtime_justmeal: # 급식 알려줘 or 오늘 급식 알려줘
+    if is_strdate_today and is_strmealtime_justmeal:
         str_time = cur_datetime.strftime("%H%M")
 
         while str_time[0] == '0':
@@ -53,10 +53,10 @@ def process(data_manager, logger, dict_json:dict) -> dict:
             return pack_outputs(SimpleText.generate_simpletext("오늘 배식은 종료되었어요."))
 
         str_date = "20" + cur_datetime.strftime("%y-%m-%d")
-    elif is_strdate_today: # 오늘 (조식, 중식, 석식) 알려줘 or (조식, 중식, 석식) 알려줘
+    elif is_strdate_today:
         if not is_date_setted:
             str_date = "20" + cur_datetime.strftime("%y-%m-%d")
-    elif is_strmealtime_justmeal: # 언제언제 급식 알려줘
+    elif is_strmealtime_justmeal:
         str_mealtime = "중식"
 
     lst_meal = data_manager.get_meal(str_date, str_mealtime)
