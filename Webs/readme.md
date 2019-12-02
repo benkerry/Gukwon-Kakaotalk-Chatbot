@@ -18,13 +18,13 @@
 >- 답글 
 
 ## default.html
-> https 연결 상태가 아닌 경우, 프로토콜을 https로 전환합니다. file_get_contents 하여 사용합니다.
+>- https 연결 상태가 아닌 경우, 프로토콜을 https로 전환합니다. file_get_contents 하여 사용합니다.
 
 ## index.html
-> Webs로 접속 시 곧 SuggestionViewer로 Redirect합니다.
+>- Webs로 접속 시 곧 SuggestionViewer로 Redirect합니다.
 
 ## config.php
-> 이하 변수들을 설정해주시길 바랍니다.
+>- 이하 변수들을 설정해주시길 바랍니다.
       $mail_id: 네이버 아이디  
       $mail_pwd: 네이버 메일 앱 패스워드  
       $db_addr: MySQL Addr  
