@@ -25,9 +25,10 @@
 
 ## config.php
 > 이하 변수들을 설정해주시길 바랍니다.
-> $mail_id: 네이버 아이디
-> $mail_pwd: 네이버 메일 앱 패스워드
-> $db_addr: MySQL Addr
-> $db_username: MySQL Username
-> $db_pwd: MySQL Password
-> $db_name: MySQL Database name
+      $mail_id: 네이버 아이디  
+      $mail_pwd: 네이버 메일 앱 패스워드  
+      $db_addr: MySQL Addr  
+      $db_username: MySQL Username  
+      $db_pwd: MySQL Password  
+      $db_name: MySQL Database name  
+  
