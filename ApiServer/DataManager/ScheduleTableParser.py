@@ -58,4 +58,4 @@ def run():
                     dict_result[str_key].append(j.text[3:-6])
 
     with open('data/ScheduleTable.dat', 'w', encoding="UTF-8") as fp:
-        json.dump(dict_result, fp, ensure_ascii=False, sort_keys=True, indent=4)
+        json.dump(dict_result, fp, ensure_ascii=False, indent=4)

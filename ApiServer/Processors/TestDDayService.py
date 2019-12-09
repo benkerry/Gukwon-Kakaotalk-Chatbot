@@ -36,7 +36,14 @@ def process(data_manager, logger, dict_json:dict) -> dict:
     elif "고사" in str_testtype:
         lst_test = data_manager.get_schedule_by_name(str_testtype)      
     elif str_testtype == "영어듣기능력평가":
-        lst_test = data_manager.get_schedule_by_name("영어듣기")
+        if "1학년" in dict_json['userRequest']['utterance']:
+            lst_test = data_manager.get_schedule_by_name("1학년 영어듣기")
+        elif "2학년" in dict_json['userRequest']['utterance']:
+            lst_test = data_manager.get_schedule_by_name("2학년 영어듣기")
+        elif "3학년" in dict_json['userRequest']['utterance']:
+            lst_test = data_manager.get_schedule_by_name("3학년 영어듣기")
+        else:
+            lst_test = data_manager.get_schedule_by_name("영어듣기")
     elif str_testtype == "대학수학능력시험":
         lst_test = data_manager.get_schedule_by_name("수능")
     else:
@@ -54,7 +61,7 @@ def process(data_manager, logger, dict_json:dict) -> dict:
         schedule_day = datetime(int(lst_token[0]), int(lst_token[1]), int(lst_token[2]))
         left_days = (schedule_day - cur_date).days
 
-        if left_days > 0:
+        if left_days >= 0:
             str_testdate = i[0]
             str_testname = i[1][0]
             break
