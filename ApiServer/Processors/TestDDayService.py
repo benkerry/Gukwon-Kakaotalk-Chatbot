@@ -70,7 +70,7 @@ def process(data_manager, logger, dict_json:dict) -> dict:
         return pack_outputs(SimpleText.generate_simpletext("아직 시험 일정이 없어요."))
     else:
         if left_days > 0:
-            str_output = "{0}: {1}일에 시행되며, {2}일 남았습니다.".format(str_testname, str_testdate, left_days + 1)
+            str_output = "{0}: {1}일에 시행되며, {2}일 남았습니다.".format(str_testname, str_testdate, left_days)
         else:
             str_output = "{0}: {1}일에 시행되었습니다.".format(str_testname, str_testdate)
         return pack_outputs(SimpleText.generate_simpletext(str_output))
