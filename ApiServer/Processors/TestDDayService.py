@@ -59,7 +59,7 @@ def process(data_manager, logger, dict_json:dict) -> dict:
     for i in lst_test:
         lst_token = i[0].split('-')
         schedule_day = datetime(int(lst_token[0]), int(lst_token[1]), int(lst_token[2]))
-        left_days = (schedule_day - cur_date).days
+        left_days = (schedule_day - cur_date).days + 1
 
         if left_days >= 0:
             str_testdate = i[0]
