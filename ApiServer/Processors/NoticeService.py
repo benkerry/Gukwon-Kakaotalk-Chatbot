@@ -15,6 +15,8 @@ def process(data_manager, logger) -> dict:
         
         lst_output.append(ListCard.generate_listcard("국원고 공지사항(최근 한달)", "https://source.unsplash.com/random/800x600", lst_item[:5]))
 
+    print(lst_chatbotnotice)
+
     if len(lst_chatbotnotice) > 0:
         lst_item = []
         for i in lst_chatbotnotice:
