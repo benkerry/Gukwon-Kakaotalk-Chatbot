@@ -98,7 +98,7 @@ mailer = Mailer(
     str_password = config.str_password,
     str_smtp_name = config.str_smtp_name,
     smtp_port = config.tls_port,
-    developer_mail = config.developer_mail
+    developer_mail = config.str_developer_mail
 )
 
 lst_thread = []
