@@ -13,15 +13,15 @@
 
         $mailer = new PHPMailer();
         $mailer->isSMTP();
-        $mailer->SMTPSecure = "ssl";
+        $mailer->SMTPSecure = "tls";
         $mailer->SMTPAuth = true;
-        $mailer->Host = "smtp.naver.com";
-        $mailer->Port = 465;
-        $mailer->Username = $mail_id;
+        $mailer->Host = $smtp_server;
+        $mailer->Port = $tls_port;
+        $mailer->Username = $mail;
         $mailer->Password = $mail_pwd;
         $mailer->CharSet = "UTF-8";
-        $mailer->From = "$mail_id@naver.com";
-        $mailer->FromName = $_SESSION['nickname'];
+        $mailer->From = "developerkerry@naver.com";
+        $mailer->FromName = htmlspecialchars($_SESSION['nickname']);
         $mailer->Subject = "[Chatbot Manager] $title";
         $mailer->AltBody = "";
         $mailer->msgHTML($description);

@@ -6,6 +6,7 @@
       str_email: Email
       str_password: Mail Application Password
       str_smtp_name: SMTP Server Name
+      tls_port: SMTP Server's TLS Port Number
 
       str_db_addr: MySQL Database Addr
       str_db_username: MySQL Database Username

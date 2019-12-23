@@ -96,8 +96,8 @@ app.config['JSON_AS_ASCII'] = False
 mailer = Mailer(
     str_email = config.str_email,
     str_password = config.str_password,
-    str_smtp_name = "smtp.naver.com",
-    smtp_port = 587
+    str_smtp_name = config.str_smtp_name,
+    smtp_port = config.tls_port
 )
 
 lst_thread = []
