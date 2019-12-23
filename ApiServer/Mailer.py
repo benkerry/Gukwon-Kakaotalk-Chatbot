@@ -2,11 +2,12 @@ import smtplib
 from email.mime.text import MIMEText
 
 class Mailer:
-    def __init__(self, str_email:str, str_password:str, str_smtp_name:str, smtp_port:int):
+    def __init__(self, str_email:str, str_password:str, str_smtp_name:str, smtp_port:int, developer_mail:str):
         self.str_email = str_email
         self.str_password = str_password
         self.str_smtp_name = str_smtp_name
         self.smtp_port = smtp_port
+        self.developer_mail = developer_mail
 
     def send(self, str_title:str, str_description:str, lst_to:list):
         msg = MIMEText(str_description)

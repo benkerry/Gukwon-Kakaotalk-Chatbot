@@ -27,7 +27,7 @@
         $mailer->msgHTML($description);
 
         if($_POST['mode'] == "send2developer"){
-            $mailer->addAddress("developer_kerry@kakao.com");
+            $mailer->addAddress($developer_mail);
             if($mailer->send()){
                 echo "<script>alert('전송 완료!');history.back();</script>";
             }
