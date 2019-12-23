@@ -35,7 +35,7 @@
                     $sql = "SELECT COUNT(*) FROM authed_user WHERE user_val = '".$result['user_val']."'";
 
                     if(((int)(mysqli_fetch_array(mysqli_query($conn, $sql))[0])) > 0){
-                        echo "<button action='./functions/deprive.php?user_val=".$result['user_val']."'>건의 권한 박탈하기</button>";
+                        echo "<button onclick='location.href=\"./functions/deprive.php?user_val=".$result['user_val']."\";'>건의 권한 박탈하기</button>";
                     }
                     else{
                         echo "<strong>건의 권한이 박탈된 사용자가 남긴 건의입니다.</strong>";
