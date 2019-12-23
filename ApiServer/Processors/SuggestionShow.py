@@ -25,6 +25,7 @@ def process(db_manager, logger) -> dict:
         lst_carditem_open = []
         for i in lst_open:
             lst_carditem_open.append(ListCard.generate_listcard_item(i[0], i[1], i[2], i[3]))
+        lst_carditem_open.reverse()
         lst_output.append(ListCard.generate_listcard("열린 건의", "https://source.unsplash.com/random/800x600", lst_carditem_open[:5]))
     else:
         lst_output.append(SimpleText.generate_simpletext("열린 건의가 없습니다."))
@@ -33,6 +34,7 @@ def process(db_manager, logger) -> dict:
         lst_carditem_close = []
         for i in lst_close:
             lst_carditem_close.append(ListCard.generate_listcard_item(i[0], i[1], i[2], i[3]))
+        lst_carditem_close.reverse()
         lst_output.append(ListCard.generate_listcard("닫힌 건의", "https://source.unsplash.com/random/800x600", lst_carditem_close[:5]))
     else:
         lst_output.append(SimpleText.generate_simpletext("닫힌 건의가 없습니다."))
