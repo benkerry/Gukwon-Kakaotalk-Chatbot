@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&display=swap');
+
+@media(min-width:0px){
+    html{
+        width:100%;
+        background-color:#E7FFFA;
+        font-family: 'Nanum Gothic', sans-serif;
+    }
+
+    .description{
+        width:100%;
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    .toggleIssue{
+        width:100%;
+    }
+
+    .description button{
+        height:75px;
+        font-size:45px;
+    }
+
+    .description table{
+        width:100%;
+        margin-left:auto;
+        margin-right:auto;
+        margin-top:40px;
+        text-align:center;
+    }
+
+    .description table thead .idx{
+        width:70px;
+    }
+
+    .description table thead .preview{
+        min-width:200px;
+    }
+
+    .description table thead .datetime{
+        width:100px;
+    }
+
+    .description table tbody .previewDescription{
+        text-align: left;
+    }
+
+    .description table td{
+        border-bottom:1px solid gray;
+    }
+
+    .suggestion{
+        width:100%;
+        padding-bottom:150px;
+        border-bottom:1px solid gray;
+        word-break:break-all;
+    }
+
+    .comments .comment{
+        padding-left:15px;
+        padding-bottom:40px;
+        border-bottom:1px solid gray;
+    }
+    
+    .comments .comment a{
+        color:red;
+        text-decoration:none;
+    }
+
+    .comments .comment span{
+        float:right;
+    }
+}
+
+@media(min-width:768px){
+    html{
+        width:100%;
+        background-color:#E7FFFA;
+        font-family: 'Nanum Gothic', sans-serif;
+    }
+
+    .description{
+        width:80%;
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    .toggleIssue{
+        width:100%;
+    }
+
+    .description button{
+        height:40px;
+        font-size:25px;
+    }
+
+    .description table{
+        width:100%;
+        margin-left:auto;
+        margin-right:auto;
+        margin-top:40px;
+        text-align:center;
+    }
+
+    .description table thead .idx{
+        width:75px;
+    }
+
+    .description table thead .preview{
+        min-width:400px;
+    }
+
+    .description table thead .datetime{
+        width:150px;
+    }
+
+    .description table tbody .previewDescription{
+        text-align: left;
+    }
+
+    .description table td{
+        border-bottom:1px solid gray;
+    }
+
+    .suggestion{
+        width:100%;
+        padding-bottom:150px;
+        border-bottom:1px solid gray;
+        word-break:break-all;
+    }
+
+    .comments .comment{
+        padding-left:15px;
+        padding-bottom:40px;
+        border-bottom:1px solid gray;
+    }
+    
+    .comments .comment a{
+        color:red;
+        text-decoration:none;
+    }
+
+    .comments .comment span{
+        float:right;
+    }
+}
+
+@media(min-width:850px){
+    html{
+        width:100%;
+        background-color:#E7FFFA;
+        font-family: 'Nanum Gothic', sans-serif;
+    }
+
+    .description{
+        width:80%;
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    .toggleIssue{
+        width:100%;
+    }
+
+    .description button{
+        height:40px;
+        font-size:25px;
+    }
+
+    .description table{
+        width:100%;
+        margin-left:auto;
+        margin-right:auto;
+        margin-top:40px;
+        text-align:center;
+    }
+
+    .description table th{
+        border-bottom:1px solid black;
+    }
+
+    .description table thead .idx{
+        width:75px;
+    }
+
+    .description table thead .preview{
+        min-width:500px;
+    }
+
+    .description table thead .datetime{
+        width:100px;
+    }
+
+
+    .description table tbody .previewDescription{
+        text-align: left;
+    }
+
+    .description table td{
+        border-bottom:1px solid gray;
+    }
+
+    .suggestion{
+        width:100%;
+        padding-bottom:150px;
+        border-bottom:1px solid gray;
+        word-break:break-all;
+    }
+
+    .comments .comment{
+        padding-left:15px;
+        padding-bottom:40px;
+        border-bottom:1px solid gray;
+    }
+    
+    .comments .comment a{
+        color:red;
+        text-decoration:none;
+    }
+
+    .comments .comment span{
+        float:right;
+    }
+}

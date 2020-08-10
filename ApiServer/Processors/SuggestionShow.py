@@ -12,7 +12,7 @@ def process(db_manager, logger) -> dict:
         lst_appender.append('#{0}번 건의(동의: {1}개)'.format(i[0], i[3]))
         lst_appender.append(i[1][:30])
         lst_appender.append("https://cataas.com/cat")
-        lst_appender.append("https://web.gukwonchatbot.ml/SuggestionViewer/SuggestionViewer.php?idx={0}".format(i[0]))
+        lst_appender.append("https://gukwonchatbot.tk/SuggestionViewer/SuggestionViewer.php?idx={0}".format(i[0]))
         
         if i[2] == 1:
             lst_open.append(lst_appender) 
@@ -40,7 +40,7 @@ def process(db_manager, logger) -> dict:
         lst_output.append(SimpleText.generate_simpletext("닫힌 건의가 없습니다."))
 
     str_output = "전체 건의 리스트는 다음 링크에서 확인하실 수 있습니다.\n\n"
-    str_output += ">> https://web.gukwonchatbot.ml/SuggestionViewer/index.php\n\n"
+    str_output += ">> https://gukwonchatbot.tk/SuggestionViewer/index.php\n\n"
     str_output += "# 건의 방법\n"
     str_output += "발화 예시: (국밥 사주세요.)라고 건의해줘!\n\n"
     str_output += "#건의 추천 방법\n"

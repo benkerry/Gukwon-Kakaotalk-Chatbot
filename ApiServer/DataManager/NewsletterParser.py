@@ -24,6 +24,8 @@ def run():
             diff_days = (now_datetime - datetime(int('20' + lst_datetime[0]), int(lst_datetime[1]), int(lst_datetime[2]))).days
 
             if diff_days <= 30:
+                if k.select_one('td.tch-ann2') != None:
+                    continue
                 last_tag = k.select_one('td.tch-tit a')
                 lst_element[0] = last_tag.text
                 lst_element[2] = last_tag['href']

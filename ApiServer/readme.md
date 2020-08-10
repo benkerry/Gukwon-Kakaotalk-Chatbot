@@ -13,6 +13,8 @@
       str_db_username: MySQL Database Username
       str_db_pwd: MySQL Database Password
       str_db_name: MySQL Database Name
+
+      loaction: 웹 서비스 메인의 주소
   
 ## main.py
    이 파일을 실행하면 서버가 시작됩니다.
